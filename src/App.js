@@ -1,26 +1,39 @@
 import React from 'react';
 import logo from './logo.svg';
 import './App.css';
+import Navbar from './Components/Navbar';
+import {BrowserRouter as Router,withRouter,Switch,Route,Link} from "react-router-dom";
+import SignIn from './Components/SignIn';
+import SignUp from './Components/SignUp';
+import MainPage from './Components/MainPage';
 
-function App() {
+class App extends React.Component {
+ 
+  render(){
+    const router =(
+      <Router>
+        <Navbar/>
+      <Link to='/'></Link>
+      <Switch>
+        <Route exact path="/">   
+        </Route>
+        <Route path='/signin'>
+          <SignIn />
+        </Route>
+        <Route path='/signup'>
+          <SignUp />
+        </Route>
+      </Switch>
+      </Router>
+
+    )
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+     <Navbar/>
+     <SignIn/>
+     <SignUp/>
     </div>
   );
 }
-
+}
 export default App;
