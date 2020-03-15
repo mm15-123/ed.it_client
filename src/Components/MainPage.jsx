@@ -4,7 +4,7 @@ import Navbar from './Navbar';
 const MainPage=()=>{
 
     return (
-        <Navbar />
+        <div></div>
     )
 }
 export default MainPage

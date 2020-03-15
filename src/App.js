@@ -6,6 +6,7 @@ import {BrowserRouter as Router,withRouter,Switch,Route,Link} from "react-router
 import SignIn from './Components/SignIn';
 import SignUp from './Components/SignUp';
 import MainPage from './Components/MainPage';
+import UploadContent from './Components/UploadContent';
 
 class App extends React.Component {
  
@@ -30,7 +31,10 @@ class App extends React.Component {
   return (
     <div className="App">
      <Navbar/>
-     <SignUp/>
+     {
+       //<SignUp/>
+     <UploadContent/>
+     }
     </div>
   );
 }

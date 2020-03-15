@@ -91,6 +91,7 @@ const MenuProps = {
 
 const SignUp = () => {
     const classes = useStyles();
+    const [UserName, setUserName] = useState('')
     const [Name, setName] = useState('')
     const [Password, setPassword] = useState('')
     const [Email, setEmail] = useState('')
@@ -118,6 +119,7 @@ const SignUp = () => {
 
     const CreatUser = () => {
         const user = {
+            'UserName': UserName,
             'Name': Name,
             'Password': Password,
             'Email': Email,
@@ -125,15 +127,22 @@ const SignUp = () => {
             'BDate': BDate,
             'SchoolType': SchoolType,
             'AboutMe': AboutMe,
-            'UrlPic': UrlPic,
+            'UrlPicture': UrlPic,
         }
-        if(Name!='' && Password!=='' && Email!=='' && TeacherType!=='' && BDate!=='' && SchoolType!=='' && AboutMe!=='' && UrlPic!=='') 
+        if(UserName!=='' && Name!=='' && Password!=='' && Email!=='' && TeacherType!=='' && BDate!=='' && SchoolType!=='' && AboutMe!=='' && UrlPic!=='') 
         {
             alert('good')
             //PostUser()
     }
     else alert('fiil all the field pls')
         console.log(user)
+    }
+
+    const UploadPict=()=>{
+        //console.log(UrlPic)
+        const fd = new FormData()
+        fd.append('image',UrlPic,UrlPic.name)
+        console.log(fd)
     }
     return (
         <Container component="main" maxWidth="xs">
@@ -147,6 +156,19 @@ const SignUp = () => {
         </Typography>
                 <form className={classes.form} noValidate onSubmit={prevent}>
                     <Grid container spacing={2}>
+                    <Grid item xs={12}>
+                            <TextField
+                                autoComplete="UserName"
+                                name="UserName"
+                                variant="outlined"
+                                required
+                                fullWidth
+                                id="UserName"
+                                label="UserName"
+                                autoFocus
+                                onChange={(e) => setUserName(e.target.value)}
+                            />
+                        </Grid>
                         <Grid item xs={12}>
                             <TextField
                                 autoComplete="Name"
@@ -242,13 +264,19 @@ const SignUp = () => {
                             <label style={{ fontWeight: 'bold', fontSize: '1.3rem' }}>upload picture</label>
                             <Input
                                 variant="outlined"
+                                accept="image/*"
                                 type='file'
                                 required
                                 fullWidth
                                 id="pic"
                                 autoComplete="pic"
-                                onChange={(e) => setUrlPic(e.target.value)}
+                                onChange={(e) => setUrlPic(e.target.files[0])}
                             />
+                            <button onClick={UploadPict}>upload</button>
+                        </Grid>
+                        <Grid>
+                            <img
+                            src={UrlPic} alt="image"/>
                         </Grid>
                         <Grid item xs={12} >
 
