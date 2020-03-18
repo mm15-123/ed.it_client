@@ -141,9 +141,10 @@ const SignUp = () => {
     const UploadPict=()=>{
         //console.log(UrlPic)
         const fd = new FormData()
-        fd.append('image',UrlPic,UrlPic.name)
-        console.log(fd)
+        fd.append('image',UrlPic)
+        console.log(fd ,UrlPic, UrlPic.name)
     }
+
     return (
         <Container component="main" maxWidth="xs">
             <CssBaseline />

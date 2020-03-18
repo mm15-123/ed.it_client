@@ -21,6 +21,7 @@ import Container from '@material-ui/core/Container';
 import { Input } from '@material-ui/core';
 import Chip from '@material-ui/core/Chip';
 
+
 function getStyles(name, personName, theme) {
     return {
         fontWeight:
@@ -91,19 +92,49 @@ const UploadContent = () => {
     const [ChoosenTagsList, setChoosenTagsList] = useState([])
 
     const PushToTagsList = (e) => {
-        if (ChoosenTagsList.length == 4) return;
+        if (ChoosenTagsList.length == 3) return;
         setChosenTag(e.target.value)
         const tagslist = ChoosenTagsList
         tagslist.push(ChosenTag)
         setChoosenTagsList(tagslist)
-        console.log(ChoosenTagsList)
+        //console.log(ChoosenTagsList)
     }
 
-    const UploadPpt = () => {
-        console.log(PathFile)
+    const UploadPpt = (e) => {
+        const fd = new FormData()
+        fd.append('content', e.target.files[0])
+        setPathFile(fd)
+
+        /*for (var key of FD.entries()) {
+            console.log(key[0] + ', ' + key[1]);
+        }
+
+        const files = e.target.files;
+        let reader = new FileReader();
+        reader.readAsDataURL(files[0])
+        reader.onload = (e) => {
+            //console.log(e.target.result)
+        }*/
     }
-    const prevent =(e)=>{
-        e.preventDefault()
+    const prevent = (e) => {
+        e.preventDefault();
+        var today = new Date();
+        var dd = String(today.getDate()).padStart(2, '0');
+        var mm = String(today.getMonth() + 1).padStart(2, '0'); //January is 0!
+        var yyyy = today.getFullYear();
+
+        today = mm + '/' + dd + '/' + yyyy;
+
+        const Content = {
+            'ContentID': uuid.v4(),
+            'ContentName': ContentName,
+            'Description': Description,
+            'PathFile': PathFile,
+            'UploadDate':today
+        }
+        console.log(Content)
+        const tags = { ...ChoosenTagsList }
+        console.log(tags)
     }
 
     return (
@@ -118,7 +149,7 @@ const UploadContent = () => {
                         Upload Content
         </Typography>
                     <form className={classes.form} noValidate
-                    onSubmit={prevent}
+                        onSubmit={prevent}
                     >
                         <Grid container spacing={2}>
                             <Grid item xs={12}>
@@ -147,11 +178,26 @@ const UploadContent = () => {
                                     onChange={(e) => setDescription(e.target.value)}
                                 />
                             </Grid>
+                            {/*<Grid item xs={12}>
+                                <label style={{ fontWeight: 'bold', fontSize: '1.1rem' }}>Choose Subject</label>
+                                <Select
+                                    labelId="Tags"
+                                    id="Tags"
+                                    fullWidth
+                                    value={ChosenTag}
+                                    required
+                                    onChange={PushToTagsList}
+                                >
+                                    {
+                                        Tags.map((tag, index) => <MenuItem key={index} value={tag}>{tag}</MenuItem>)
+                                    }
+                                </Select>
+                                </Grid>*/}
                             <Grid item xs={12} sm={6}>
                                 <label style={{ fontWeight: 'bold', fontSize: '1.1rem' }}>Choose tags</label>
                                 <Select
-                                    labelId="SchoolType"
-                                    id="SchoolType"
+                                    labelId="Tags"
+                                    id="Tags"
                                     fullWidth
                                     value={ChosenTag}
                                     required
@@ -165,12 +211,12 @@ const UploadContent = () => {
                             <Grid item xs={12} sm={3}>
                                 <label style={{ fontWeight: 'bold', fontSize: '1.1rem' }}>tags</label>
                                 <h3
-                                    labelId="SchoolType"
-                                    id="SchoolType"
+                                    labelId="ChoosenTagsList"
+                                    id="ChoosenTagsList"
                                     fullWidth
                                     value={ChosenTag}
                                     required
-                                    onChange={PushToTagsList}
+
                                 >
                                     {
                                         ChoosenTagsList.map((tag, index) => <MenuItem key={index} value={tag}>{tag}</MenuItem>)
@@ -181,18 +227,27 @@ const UploadContent = () => {
                                 <label style={{ fontWeight: 'bold', fontSize: '1.3rem' }}>upload File</label>
                                 <Input
                                     variant="outlined"
-                                    //accept="*.ppt"
+                                    //accept="*.pptx"
                                     type='file'
                                     required
                                     fullWidth
                                     id="ppt"
                                     autoComplete="ppt"
-                                    onChange={(e) => setPathFile(e.target.files[0])}
+                                    onChange={UploadPpt}
                                 />
                             </Grid>
-                            <Grid item xs={12} sm={4}>
+                            {/*<Grid item xs={12} sm={4}>
                                 <button onClick={UploadPpt}>upload</button>
-                            </Grid>
+                            </Grid>*/}
+                            <Button
+                                type="submit"
+                                fullWidth
+                                variant="contained"
+                                color="primary"
+                                className={classes.submit}
+                            >
+                                Upload
+          </Button>
                         </Grid>
                     </form>
                 </div>
