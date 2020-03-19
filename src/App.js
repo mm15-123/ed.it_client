@@ -6,6 +6,8 @@ import { BrowserRouter as Router, withRouter, Switch, Route, Link } from "react-
 import SignIn from './Components/SignIn';
 import SignUp from './Components/SignUp';
 import UploadContent from './Components/UploadContent';
+import  Content  from './Components/Content';
+
 
 class App extends React.Component {
 
@@ -33,7 +35,8 @@ class App extends React.Component {
         {
           //<SignIn/>
           //<SignUp/>
-          <UploadContent />
+          //<UploadContent />
+          <Content ContentName='Content name' Description='Description'/>
         }
       </div>
     );
