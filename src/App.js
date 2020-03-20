@@ -6,9 +6,13 @@ import { BrowserRouter as Router, withRouter, Switch, Route, Link } from "react-
 import SignIn from './Components/SignIn';
 import SignUp from './Components/SignUp';
 import UploadContent from './Components/UploadContent';
-import  Content  from './Components/Content';
+import Content from './Components/Content';
+import styled from 'styled-components';
 
-
+const AppWrapper = styled.div`
+display:flex;
+justify-content:center;
+`
 class App extends React.Component {
 
   render() {
@@ -29,6 +33,8 @@ class App extends React.Component {
       </Router>
 
     )
+
+
     return (
       <div className="App">
         <Navbar />
@@ -36,7 +42,10 @@ class App extends React.Component {
           //<SignIn/>
           //<SignUp/>
           //<UploadContent />
-          <Content ContentName='Content name' Description='Description'/>
+          <AppWrapper>
+            <Content/>
+          </AppWrapper>
+
         }
       </div>
     );
