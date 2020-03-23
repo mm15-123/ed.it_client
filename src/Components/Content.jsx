@@ -21,6 +21,7 @@ const Content = (props) => {
     const [pages, setpages] = useState(['page 1', 'page 2', 'page 3 ', 'page 4'])
 
     useEffect(()=>console.log(props),[])
+    
     return (
         <Wrapper className={Container}>
             <Slider
