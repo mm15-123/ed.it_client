@@ -8,7 +8,7 @@ import FormControl from '@material-ui/core/FormControl';
 import InputLabel from '@material-ui/core/InputLabel';
 import ListItemText from '@material-ui/core/ListItemText';
 import Checkbox from '@material-ui/core/Checkbox';
-import Link from '@material-ui/core/Link';
+//import Link from '@material-ui/core/Link';
 import Grid from '@material-ui/core/Grid';
 import Box from '@material-ui/core/Box';
 import Select from '@material-ui/core/Select';
@@ -19,7 +19,7 @@ import { makeStyles, useTheme } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
 import { Input } from '@material-ui/core';
 import Chip from '@material-ui/core/Chip';
-import { BrowserRouter as Router, withRouter, Switch, Route } from "react-router-dom";
+import { Link } from "react-router-dom";
 
 function Copyright() {
     return (
@@ -109,7 +109,7 @@ const SignUp = () => {
         const tags = [...ChosenTags]
         tags.push(tag)
         setChosenTags(tags)
-        console.log('tags',Tags)
+        console.log('tags', Tags)
     }
 
     const theme = useTheme();
@@ -129,20 +129,19 @@ const SignUp = () => {
             'AboutMe': AboutMe,
             'UrlPicture': UrlPic,
         }
-        if(UserName!=='' && Name!=='' && Password!=='' && Email!=='' && TeacherType!=='' && BDate!=='' && SchoolType!=='' && AboutMe!=='' && UrlPic!=='') 
-        {
+        if (UserName !== '' && Name !== '' && Password !== '' && Email !== '' && TeacherType !== '' && BDate !== '' && SchoolType !== '' && AboutMe !== '' && UrlPic !== '') {
             alert('good')
             //PostUser()
-    }
-    else alert('fiil all the field pls')
+        }
+        else alert('fiil all the field pls')
         console.log(user)
     }
 
-    const UploadPict=()=>{
+    const UploadPict = () => {
         //console.log(UrlPic)
         const fd = new FormData()
-        fd.append('image',UrlPic)
-        console.log(fd ,UrlPic, UrlPic.name)
+        fd.append('image', UrlPic)
+        console.log(fd, UrlPic, UrlPic.name)
     }
 
     return (
@@ -157,7 +156,7 @@ const SignUp = () => {
         </Typography>
                 <form className={classes.form} noValidate onSubmit={prevent}>
                     <Grid container spacing={2}>
-                    <Grid item xs={12}>
+                        <Grid item xs={12}>
                             <TextField
                                 autoComplete="UserName"
                                 name="UserName"
@@ -277,7 +276,7 @@ const SignUp = () => {
                         </Grid>
                         <Grid>
                             <img
-                            src={UrlPic} alt="image"/>
+                                src={UrlPic} alt="image" />
                         </Grid>
                         <Grid item xs={12} >
 
@@ -323,7 +322,7 @@ const SignUp = () => {
                                     MenuProps={MenuProps}
                                 >
                                     {Tags.tagsList.map((tag, index) => (
-                                        <MenuItem key={index} value={tag}  style={getStyles(tag, Tags.tagsList, theme)}>
+                                        <MenuItem key={index} value={tag} style={getStyles(tag, Tags.tagsList, theme)}>
                                             {tag}
                                         </MenuItem>
                                     ))}
@@ -344,9 +343,11 @@ const SignUp = () => {
           </Button>
                     <Grid container justify="flex-end">
                         <Grid item>
-                            <Link href="#" variant="body2">
+                            <Link to='/SignIn'
+                            //variant="body2"
+                            >
                                 Already have an account? Sign in
-              </Link>
+                            </Link>
                         </Grid>
                     </Grid>
                 </form>

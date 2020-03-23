@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { Container } from '@material-ui/core';
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
@@ -19,10 +19,10 @@ margin-top:20%;
 
 const Content = (props) => {
     const [pages, setpages] = useState(['page 1', 'page 2', 'page 3 ', 'page 4'])
+
+    useEffect(()=>console.log(props),[])
     return (
         <Wrapper className={Container}>
-            {/*<h1>{props.ContentName}</h1>
-            <h1>{props.Description}</h1>*/}
             <Slider
                 spedd={500}
                 slidesToShow={1}
@@ -34,7 +34,6 @@ const Content = (props) => {
                     pages.map((page, index) => <Page key={index}>{page}</Page>)
                 }
             </Slider>
-
         </Wrapper>
     )
 }
