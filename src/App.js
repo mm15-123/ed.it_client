@@ -14,8 +14,42 @@ display:flex;
 justify-content:center;
 `
 class App extends React.Component {
+  state={
+    selectedFile:null
+  }
+
+   fileSelectedHandler=event=>{
+     this.setState({
+       selectedFile:event.target.files[0]
+     })
+    // console.log(event.target.files[0]);
+}
+
+fileUpload=()=>{
+  const apiUrl='http://localhost:55263/api/UploadContent/1'
+  
+  const formData = new FormData();
+  formData.append('content1',this.state.selectedFile,this.state.selectedFile.name)
+  fetch('http://localhost:55263/api/UploadContent/1', {
+    method: 'post',
+    contentType: false,
+    processData: false,
+    mode:'no-cors',
+    body: formData
+  })
+  .then((response) => response.json())
+  .then((result) => {
+    console.log('Success:', result);
+  })
+  .catch((error) => {
+    console.error('Error:', error);
+  });
+
+}
+
 
   render() {
+    
     const router = (
       <Router>
         <Navbar />
@@ -39,11 +73,14 @@ class App extends React.Component {
       <div className="App">
         <Navbar />
         {
-          //<SignIn/>
-          //<SignUp/>
-          //<UploadContent />
           <AppWrapper>
-            <Content/>
+
+            {/* <SignIn />
+            <SignUp />
+            <UploadContent /> */}
+            {/* <Content /> */}
+            <input type="file" onChange={this.fileSelectedHandler}></input>
+            <button onClick={this.fileUpload}>upload</button>
           </AppWrapper>
 
         }

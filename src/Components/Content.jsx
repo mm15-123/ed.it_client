@@ -17,10 +17,13 @@ font-size:50px;
 margin-top:20%;
 `;
 
+
 const Content = (props) => {
     const [pages, setpages] = useState(['page 1', 'page 2', 'page 3 ', 'page 4'])
     return (
+
         <Wrapper className={Container}>
+
             {/*<h1>{props.ContentName}</h1>
             <h1>{props.Description}</h1>*/}
             <Slider
@@ -34,6 +37,8 @@ const Content = (props) => {
                     pages.map((page, index) => <Page key={index}>{page}</Page>)
                 }
             </Slider>
+
+
 
         </Wrapper>
     )
