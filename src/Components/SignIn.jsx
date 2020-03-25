@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import Avatar from '@material-ui/core/Avatar';
 import Button from '@material-ui/core/Button';
 import CssBaseline from '@material-ui/core/CssBaseline';
@@ -47,12 +47,43 @@ const useStyles = makeStyles(theme => ({
   },
 }));
 
+
+
  const SignIn=()=> {
   const classes = useStyles();
+  const [UserName, setUserName] = useState('')
+  const [Password, setPassword] = useState('')
+  
 
   const prevent=(e)=>{
       e.preventDefault()
   }
+
+  const ConfirmUser=()=>{
+    // const apiUrl = `api/User/GetUserDetails/${UserName}/${Password}`
+    const apiUrl = `http://localhost:55263/api/User/GetUserDetails`
+
+    const user = {
+      'UserName': UserName,
+      'Password': Password,
+  }
+    fetch(apiUrl, {
+        method: 'POST',
+        body: JSON.stringify(user) ,
+        headers: new Headers({
+            'Content-Type': 'application/json; charset=UTF-8',
+          })
+    
+        })
+        .then(res => {
+          console.log('res=', res);
+          console.log('res.status', res.status);
+          console.log('res.ok', res.ok);
+          return res.json()
+        })
+  
+  }
+
 
   return (
     <Container component="main" maxWidth="xs">
@@ -75,6 +106,7 @@ const useStyles = makeStyles(theme => ({
             name="email"
             autoComplete="email"
             autoFocus
+            onChange={(e) => setUserName(e.target.value)}
           />
           <TextField
             variant="outlined"
@@ -86,6 +118,7 @@ const useStyles = makeStyles(theme => ({
             type="password"
             id="password"
             autoComplete="current-password"
+            onChange={(e) => setPassword(e.target.value)}
           />
           <FormControlLabel
             control={<Checkbox value="remember" color="primary" />}
@@ -97,6 +130,7 @@ const useStyles = makeStyles(theme => ({
             variant="contained"
             color="primary"
             className={classes.submit}
+            onClick={ConfirmUser}
           >
             Sign In
           </Button>

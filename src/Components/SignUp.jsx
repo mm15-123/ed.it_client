@@ -100,6 +100,7 @@ const SignUp = () => {
     const [SchoolType, setSchoolType] = useState('')
     const [AboutMe, setAboutMe] = useState('')
     const [UrlPic, setUrlPic] = useState('')
+    const [FormDataPic,setFormDataPic]= useState('')
     const [Tags, setTags] = useState({
         tagsList: ['שלום', 'שואה', 'מלחמת העצמאות']
     })
@@ -127,21 +128,46 @@ const SignUp = () => {
             'BDate': BDate,
             'SchoolType': SchoolType,
             'AboutMe': AboutMe,
-            'UrlPicture': UrlPic,
+            'UrlPicture': UrlPic
         }
-        if (UserName !== '' && Name !== '' && Password !== '' && Email !== '' && TeacherType !== '' && BDate !== '' && SchoolType !== '' && AboutMe !== '' && UrlPic !== '') {
+        if (UserName !== '' && Name !== '' && Password !== '' && Email !== '' && TeacherType !== '' && BDate !== '' && SchoolType !== '' && AboutMe !== '') {
             alert('good')
-            //PostUser()
+            console.log(FormDataPic,"hey")
+            PostUser(user,FormDataPic)
         }
-        else alert('fiil all the field pls')
+        else {
+            alert('fiil all the field pls')
+            PostUser(user)
+        }
         console.log(user)
     }
 
     const UploadPict = () => {
         //console.log(UrlPic)
         const fd = new FormData()
-        fd.append('image', UrlPic)
+        fd.append('image', UrlPic,UrlPic.name)
         console.log(fd, UrlPic, UrlPic.name)
+        setFormDataPic(fd)
+
+    }
+
+    const PostUser = (data,fd) => {
+        const apiUrl = 'http://localhost:55263/api/User/CreateUser'
+        fetch(apiUrl, {
+            method: 'post',
+            body: JSON.stringify(data) ,//
+            headers: new Headers({
+                'Content-Type': 'application/json; charset=UTF-8',
+              })
+        
+        })
+            .then((response) => response.json())
+            .then((result) => {
+                console.log('Success:', result);
+            })
+            .catch((error) => {
+                console.error('Error:', error);
+            });
     }
 
     return (
