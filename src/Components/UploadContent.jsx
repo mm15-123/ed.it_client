@@ -92,10 +92,11 @@ const UploadContent = () => {
     const [ChoosenTagsList, setChoosenTagsList] = useState([])
 
     const PushToTagsList = (e) => {
-        if (ChoosenTagsList.length == 3) return;
+        if (ChoosenTagsList.length == 3) return;//אם 3 אז בסדר
         setChosenTag(e.target.value)
         const tagslist = ChoosenTagsList
-        tagslist.push(ChosenTag)
+        let chosen=e.target.value
+        tagslist.push(chosen)
         setChoosenTagsList(tagslist)
         //console.log(ChoosenTagsList)
     }
