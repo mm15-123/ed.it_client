@@ -20,6 +20,7 @@ import Container from '@material-ui/core/Container';
 import { Input } from '@material-ui/core';
 import Chip from '@material-ui/core/Chip';
 import { Link } from "react-router-dom";
+import uuid from 'uuid'; 
 
 function Copyright() {
     return (
@@ -100,17 +101,21 @@ const SignUp = () => {
     const [SchoolType, setSchoolType] = useState('')
     const [AboutMe, setAboutMe] = useState('')
     const [UrlPic, setUrlPic] = useState('')
-    const [FormDataPic,setFormDataPic]= useState('')
+    const [FormDataPic, setFormDataPic] = useState('')
     const [Tags, setTags] = useState({
         tagsList: ['שלום', 'שואה', 'מלחמת העצמאות']
     })
+    const [ChosenTag, setChosenTag] = useState('')
     const [ChosenTags, setChosenTags] = useState([])
 
-    const chooseTags = (tag) => {
-        const tags = [...ChosenTags]
-        tags.push(tag)
+    const chooseTags = (e) => {
+        if(ChosenTags.length===3) return;
+        const tags = ChosenTags
+        setChosenTag(e.target.value)
+        const chosen = e.target.value
+        tags.push(chosen)
         setChosenTags(tags)
-        console.log('tags', Tags)
+        console.log('tags', ChosenTags)
     }
 
     const theme = useTheme();
@@ -120,6 +125,7 @@ const SignUp = () => {
 
     const CreatUser = () => {
         const user = {
+            'UserID': uuid.v4(),
             'UserName': UserName,
             'Name': Name,
             'Password': Password,
@@ -129,16 +135,17 @@ const SignUp = () => {
             'SchoolType': SchoolType,
             'AboutMe': AboutMe,
             'UrlPicture': UrlPic.name,
-            'FormDataPic':FormDataPic
+            'FormDataPic': FormDataPic,
+            'TagsUser':ChosenTags
         }
         if (UserName !== '' && Name !== '' && Password !== '' && Email !== '' && TeacherType !== '' && BDate !== '' && SchoolType !== '' && AboutMe !== '') {
             alert('good')
-            console.log(FormDataPic,"hey")
-            PostUser(user,FormDataPic)
+            console.log(FormDataPic, "hey")
+           PostUser(user, FormDataPic)
         }
         else {
             alert('fiil all the field pls')
-            PostUser(user,FormDataPic)
+            PostUser(user, FormDataPic)
         }
         console.log(user)
     }
@@ -146,39 +153,39 @@ const SignUp = () => {
     const UploadPict = () => {
         //console.log(UrlPic)
         const fd = new FormData()
-        fd.append('image', UrlPic,UrlPic.name)
+        fd.append('image', UrlPic, UrlPic.name)
         console.log(fd, UrlPic, UrlPic.name)
         setFormDataPic(fd)
 
     }
 
-    const PostUser = (data,fd) => {
+    const PostUser = (data, fd) => {
 
         const formData = new FormData();
-        formData.append('content1', UrlPic,UrlPic.name)
+        formData.append('content1', UrlPic, UrlPic.name)
         const apiUrl = 'http://localhost:55263/api/User/CreateUser'
         const apiUrl2 = `http://localhost:55263/api/AddPic/${UserName}` ///${UserName}
-        
+
         fetch(apiUrl, {
             method: 'post',
-            body:  JSON.stringify(data),
+            body: JSON.stringify(data),
             headers: new Headers({
                 'Content-Type': 'application/json; charset=UTF-8',
-              })
-        
+            })
+
         })
             .then((result) => {
                 console.log('Success:', result);
                 fetch(apiUrl2, {
                     method: 'post',
-                    body: fd, 
+                    body: fd,
                     contentType: false,
                     processData: false,
                     mode: 'no-cors',
                     headers: new Headers({
                         'Content-Type': 'application/json; charset=UTF-8',
-                      })
-                
+                    })
+
                 })
             })
 
@@ -189,7 +196,7 @@ const SignUp = () => {
             .catch((error) => {
                 console.error('Error:', error);
             });
-          
+
     }
 
     return (
@@ -322,52 +329,20 @@ const SignUp = () => {
                             />
                             <button onClick={UploadPict}>upload</button>
                         </Grid>
-                        <Grid>
+                        <Grid item xs={12}>
                             <img
                                 src={UrlPic} alt="image" />
                         </Grid>
-                        <Grid item xs={12} >
-
-                            {/*<FormControl className={classes.formControl}>
-                                <InputLabel id="demo-mutiple-checkbox-label">Tag</InputLabel>
-                                <Select
-                                    labelId="demo-mutiple-checkbox-label"
-                                    id="demo-mutiple-checkbox"
-                                    multiple
-                                    value={Tags.tagsList}
-                                    input={<Input />}
-                                    //renderValue={selected => selected.join(', ')}
-                                    MenuProps={MenuProps}
-                                    //onChange={(e) => setTags(e.target.value)}
-                                >
-                                    {Tags.tagsList.map((tag, index) => (
-                                        <MenuItem key={index} value={tag}>
-                                            <Checkbox
-                                            //checked={Tags.tagsList.indexOf(tag) > -1} 
-                                            />
-                                            <ListItemText primary={tag} />
-                                        </MenuItem>
-                                    ))}
-                                </Select>
-                                    </FormControl>*/}
-
+                        <Grid item xs={12} sm={6} >
                             <FormControl className={classes.formControl}>
                                 <InputLabel id="demo-mutiple-chip-label">Tags</InputLabel>
                                 <Select
                                     labelId="demo-mutiple-chip-label"
                                     id="demo-mutiple-chip"
-                                    multiple
-                                    value={Tags.tagsList}
+
+                                    value={ChosenTag}
                                     onChange={chooseTags}
-                                    input={<Input id="select-multiple-chip" />}
-                                    renderValue={selected => (
-                                        <div className={classes.chips}>
-                                            {selected.map(value => (
-                                                <Chip key={value} label={value} className={classes.chip} />
-                                            ))}
-                                        </div>
-                                    )}
-                                    MenuProps={MenuProps}
+
                                 >
                                     {Tags.tagsList.map((tag, index) => (
                                         <MenuItem key={index} value={tag} style={getStyles(tag, Tags.tagsList, theme)}>
@@ -376,7 +351,21 @@ const SignUp = () => {
                                     ))}
                                 </Select>
                             </FormControl>
+                        </Grid>
+                        <Grid item xs={12} sm={6}>
+                            <label style={{ fontWeight: 'bold', fontSize: '1.1rem' }}>tags</label>
+                            <h3
+                                labelId="ChoosenTags"
+                                id="ChoosenTags"
+                                fullWidth
+                                value={ChosenTag}
+                                required
 
+                            >
+                                {
+                                    ChosenTags.map((tag, index) => <MenuItem key={index} value={tag}>{tag}</MenuItem>)
+                                }
+                            </h3>
                         </Grid>
                     </Grid>
                     <Button

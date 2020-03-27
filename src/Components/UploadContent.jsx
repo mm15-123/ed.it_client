@@ -94,9 +94,8 @@ const UploadContent = () => {
     const PushToTagsList = (e) => {
         if (ChoosenTagsList.length == 3) return;//אם 3 אז בסדר
         setChosenTag(e.target.value)
-        const chosen=e.target.value
+        const chosen = e.target.value
         const tagslist = ChoosenTagsList
-        let chosen=e.target.value
         tagslist.push(chosen)
         setChoosenTagsList(tagslist)
         console.log(ChoosenTagsList)
@@ -106,17 +105,6 @@ const UploadContent = () => {
         const fd = new FormData()
         fd.append('content', e.target.files[0])
         setPathFile(fd)
-
-        /*for (var key of FD.entries()) {
-            console.log(key[0] + ', ' + key[1]);
-        }
-
-        const files = e.target.files;
-        let reader = new FileReader();
-        reader.readAsDataURL(files[0])
-        reader.onload = (e) => {
-            //console.log(e.target.result)
-        }*/
     }
     const prevent = (e) => {
         e.preventDefault();
@@ -132,7 +120,7 @@ const UploadContent = () => {
             'ContentName': ContentName,
             'Description': Description,
             'PathFile': PathFile,
-            'UploadDate':today
+            'UploadDate': today
         }
         console.log(Content)
         const tags = { ...ChoosenTagsList }
@@ -180,21 +168,6 @@ const UploadContent = () => {
                                     onChange={(e) => setDescription(e.target.value)}
                                 />
                             </Grid>
-                            {/*<Grid item xs={12}>
-                                <label style={{ fontWeight: 'bold', fontSize: '1.1rem' }}>Choose Subject</label>
-                                <Select
-                                    labelId="Tags"
-                                    id="Tags"
-                                    fullWidth
-                                    value={ChosenTag}
-                                    required
-                                    onChange={PushToTagsList}
-                                >
-                                    {
-                                        Tags.map((tag, index) => <MenuItem key={index} value={tag}>{tag}</MenuItem>)
-                                    }
-                                </Select>
-                                </Grid>*/}
                             <Grid item xs={12} sm={6}>
                                 <label style={{ fontWeight: 'bold', fontSize: '1.1rem' }}>Choose tags</label>
                                 <Select
@@ -210,7 +183,7 @@ const UploadContent = () => {
                                     }
                                 </Select>
                             </Grid>
-                            <Grid item xs={12} sm={3}>
+                            <Grid item xs={12} sm={6}>
                                 <label style={{ fontWeight: 'bold', fontSize: '1.1rem' }}>tags</label>
                                 <h3
                                     labelId="ChoosenTagsList"
