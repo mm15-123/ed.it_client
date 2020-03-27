@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import uuid from 'react-uuid';
+import uuid from 'uuid';
 import Avatar from '@material-ui/core/Avatar';
 import Button from '@material-ui/core/Button';
 import CssBaseline from '@material-ui/core/CssBaseline';
@@ -94,10 +94,11 @@ const UploadContent = () => {
     const PushToTagsList = (e) => {
         if (ChoosenTagsList.length == 3) return;
         setChosenTag(e.target.value)
+        const chosen=e.target.value
         const tagslist = ChoosenTagsList
-        tagslist.push(ChosenTag)
+        tagslist.push(chosen)
         setChoosenTagsList(tagslist)
-        //console.log(ChoosenTagsList)
+        console.log(ChoosenTagsList)
     }
 
     const UploadPpt = (e) => {

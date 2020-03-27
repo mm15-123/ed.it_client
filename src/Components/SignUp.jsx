@@ -153,9 +153,11 @@ const SignUp = () => {
 
     const PostUser = (data,fd) => {
         const apiUrl = 'http://localhost:55263/api/User/CreateUser'
-        fetch(apiUrl, {
-            method: 'post',
-            body: JSON.stringify(data) ,//
+        fetch(apiUrl, 
+            {
+            method: 'POST',
+            //mode: 'no-cors',
+            body: JSON.stringify(data) ,
             headers: new Headers({
                 'Content-Type': 'application/json; charset=UTF-8',
               })
