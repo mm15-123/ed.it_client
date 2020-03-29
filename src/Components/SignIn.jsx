@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState,useContext } from 'react';
 import Avatar from '@material-ui/core/Avatar';
 import Button from '@material-ui/core/Button';
 import CssBaseline from '@material-ui/core/CssBaseline';
@@ -13,6 +13,7 @@ import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
 import {Route , Link} from "react-router-dom";
+
 
 function Copyright() {
   return (
@@ -48,12 +49,11 @@ const useStyles = makeStyles(theme => ({
 }));
 
 
-
- const SignIn=()=> {
+  const SignIn=()=> {
   const classes = useStyles();
   const [UserName, setUserName] = useState('')
   const [Password, setPassword] = useState('')
-  
+
 
   const prevent=(e)=>{
       e.preventDefault()

@@ -1,4 +1,4 @@
-import React, { useState,useEffect} from 'react';
+import React, { useState,useEffect,useContext} from 'react';
 import SignIn from './SignIn';
 import SignUp from './SignUp';
 import Content from './Content';
@@ -8,16 +8,21 @@ import './MainPage.css';
 import TextField from '@material-ui/core/TextField';
 import { Container, Grid } from '@material-ui/core';
 import SearchPage from './SearchPage'
+import { GlobalContext } from '../Context/GlobalContext';
 
 
 const MainPage = () => {
-    
- 
+    const {userID,setuserID} = useContext(GlobalContext);//חייב אותם שמות בconst
+    console.log(userID)
+    setuserID(1);//מעדכן משתנה גלובלי
+    console.log(userID)
+
     //useEffect(()=>console.log('begin to start'),[ShowPic])
 
     return (
         <div>
             <nav className="navbar">
+                
                 <ul >
                 <li >
                         <NavLink to='/' exact>HOME</NavLink>
@@ -39,6 +44,7 @@ const MainPage = () => {
             <Route path='/SignUp' component={SignUp} />
             <Route path='/UploadContent' component={UploadContent} />
         </div>
+        
     )
 }
 export default MainPage

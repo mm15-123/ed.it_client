@@ -20,7 +20,7 @@ import Container from '@material-ui/core/Container';
 import { Input } from '@material-ui/core';
 import Chip from '@material-ui/core/Chip';
 import { Link } from "react-router-dom";
-import uuid from 'uuid'; 
+import uuid from 'uuid/v4'; 
 
 function Copyright() {
     return (

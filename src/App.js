@@ -3,7 +3,9 @@ import logo from './logo.svg';
 import './App.css';
 import MainPage from './Components/MainPage';
 //import Navbar from './Components/Navbar';
-import { BrowserRouter  } from "react-router-dom";
+import { BrowserRouter } from "react-router-dom";
+import {GlobalContextProvider} from './Context/GlobalContext'
+
 //import SignIn from './Components/SignIn';
 //import SignUp from './Components/SignUp';
 //import UploadContent from './Components/UploadContent';
@@ -21,9 +23,11 @@ class App extends React.Component {
 
     return (
       <BrowserRouter>
-      <div className="App">
-     <MainPage/>
-      </div>
+        <div className="App">
+          <GlobalContextProvider>
+            <MainPage />
+          </GlobalContextProvider>
+        </div>
       </BrowserRouter>
     );
   }
