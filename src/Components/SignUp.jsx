@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState,useEffect } from 'react';
 import Avatar from '@material-ui/core/Avatar';
 import Button from '@material-ui/core/Button';
 import CssBaseline from '@material-ui/core/CssBaseline';
@@ -102,11 +102,39 @@ const SignUp = () => {
     const [AboutMe, setAboutMe] = useState('')
     const [UrlPic, setUrlPic] = useState('')
     const [FormDataPic, setFormDataPic] = useState('')
-    const [Tags, setTags] = useState({
-        tagsList: ['שלום', 'שואה', 'מלחמת העצמאות']
-    })
+    const [Tags, setTags] = useState(['one','two'])
+       // tagsList: ['שלום', 'שואה', 'מלחמת העצמאות']
+    //})
     const [ChosenTag, setChosenTag] = useState('')
     const [ChosenTags, setChosenTags] = useState([])
+
+    useEffect(()=>{
+        const apiUrl= `http://localhost:55263/api/User/GetTags`
+        fetch(apiUrl,  
+            {
+            method: 'GET',
+            headers: new Headers({
+                'Content-Type': 'application/json; charset=UTF-8',
+            })
+        })
+            .then(res => {
+                console.log('res=', res);
+                console.log('res.status', res.status);
+                console.log('res.ok', res.ok);
+                return res.json()
+            })
+            .then(
+                (result) => {
+                    console.log("fetch get tags= ", result);
+                    result.map(tag => console.log(tag));
+                    console.log('result[0]', result[0]);
+                    setTags(result)
+                },
+                (error) => {
+                    console.log("err post=", error);
+                });
+      }
+    ,[]);
 
     const chooseTags = (e) => {
         if(ChosenTags.length===3) return;
@@ -344,8 +372,8 @@ const SignUp = () => {
                                     onChange={chooseTags}
 
                                 >
-                                    {Tags.tagsList.map((tag, index) => (
-                                        <MenuItem key={index} value={tag} style={getStyles(tag, Tags.tagsList, theme)}>
+                                    {Tags.map((tag, index) => (
+                                        <MenuItem key={index} value={tag} style={getStyles(tag, Tags, theme)}>
                                             {tag}
                                         </MenuItem>
                                     ))}

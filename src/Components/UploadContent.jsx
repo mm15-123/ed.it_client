@@ -1,5 +1,7 @@
-import React, { useState } from 'react';
-import uuid from 'uuid/v4';
+// import React, { useState } from 'react';
+// import uuid from 'uuid/v4';
+import React, { useState, useEffect } from 'react';
+import uuid from 'uuid';
 import Avatar from '@material-ui/core/Avatar';
 import Button from '@material-ui/core/Button';
 import CssBaseline from '@material-ui/core/CssBaseline';
@@ -91,6 +93,34 @@ const UploadContent = () => {
     const [ChosenTag, setChosenTag] = useState('');
     const [ChoosenTagsList, setChoosenTagsList] = useState([])
 
+    useEffect(()=>{
+        const apiUrl= `http://localhost:55263/api/User/GetTags`
+        fetch(apiUrl,  
+            {
+            method: 'GET',
+            headers: new Headers({
+                'Content-Type': 'application/json; charset=UTF-8',
+            })
+        })
+            .then(res => {
+                console.log('res=', res);
+                console.log('res.status', res.status);
+                console.log('res.ok', res.ok);
+                return res.json()
+            })
+            .then(
+                (result) => {
+                    console.log("fetch get tags= ", result);
+                    result.map(tag => console.log(tag));
+                    console.log('result[0]', result[0]);
+                    setTags(result)
+                },
+                (error) => {
+                    console.log("err post=", error);
+                });
+      }
+    ,[]);
+
     const PushToTagsList = (e) => {
         if (ChoosenTagsList.length == 3) return;//אם 3 אז בסדר
         setChosenTag(e.target.value)
@@ -120,7 +150,8 @@ const UploadContent = () => {
             'ContentName': ContentName,
             'Description': Description,
             'PathFile': PathFile,
-            'UploadDate': today
+            'UploadDate': today,
+            'TagsContent':Tags
         }
         console.log(Content)
         const tags = { ...ChoosenTagsList }
