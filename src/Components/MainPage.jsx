@@ -12,10 +12,10 @@ import { GlobalContext } from '../Context/GlobalContext';
 
 
 const MainPage = () => {
-    const {userID,setuserID} = useContext(GlobalContext);//חייב אותם שמות בconst
-    console.log(userID)
-    setuserID(1);//מעדכן משתנה גלובלי
-    console.log(userID)
+    const {GlobalUserName, setGlobalUserName} = useContext(GlobalContext);//חייב אותם שמות בconst
+    console.log(GlobalUserName.UserName)
+    // setGlobalUserName('hadar');//מעדכן משתנה גלובלי
+    // console.log(GlobalUserName)
 
     //useEffect(()=>console.log('begin to start'),[ShowPic])
 
@@ -38,13 +38,15 @@ const MainPage = () => {
                     </li>
                 </ul>
             </nav> 
+            {/* <SearchPage/> */}
             <Route path='/' exact component={SearchPage}/>
             <Route path='/Content' component={Content} />
             <Route path='/SignIn' component={SignIn} />
             <Route path='/SignUp' component={SignUp} />
             <Route path='/UploadContent' component={UploadContent} />
+              
+
         </div>
-        
     )
 }
 export default MainPage

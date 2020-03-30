@@ -20,7 +20,7 @@ import Container from '@material-ui/core/Container';
 import { Input } from '@material-ui/core';
 import Chip from '@material-ui/core/Chip';
 import { Link } from "react-router-dom";
-import uuid from 'uuid/v4'; 
+import { uuid } from 'uuidv4';
 
 function Copyright() {
     return (
@@ -108,7 +108,7 @@ const SignUp = () => {
     const [ChosenTag, setChosenTag] = useState('')
     const [ChosenTags, setChosenTags] = useState([])
 
-    useEffect(()=>{
+    useEffect(()=>{ //document.onLoad()
         const apiUrl= `http://localhost:55263/api/User/GetTags`
         fetch(apiUrl,  
             {
@@ -134,7 +134,7 @@ const SignUp = () => {
                     console.log("err post=", error);
                 });
       }
-    ,[]);
+    ,[]);//מערך ריק אז יקרה פעם אחת. אם שמים משהו מהסטייט אז יקרה שוב שאותו סטייט ישתנה
 
     const chooseTags = (e) => {
         if(ChosenTags.length===3) return;
@@ -153,7 +153,7 @@ const SignUp = () => {
 
     const CreatUser = () => {
         const user = {
-            'UserID': uuid.v4(),
+            'UserID': uuid(),
             'UserName': UserName,
             'Name': Name,
             'Password': Password,

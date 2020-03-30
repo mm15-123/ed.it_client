@@ -13,6 +13,10 @@ import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
 import {Route , Link} from "react-router-dom";
+import { GlobalContext } from '../Context/GlobalContext';
+import { Alert } from '@material-ui/lab';
+import SearchPage from './SearchPage'
+import { Redirect } from 'react-router-dom'
 
 
 function Copyright() {
@@ -46,14 +50,21 @@ const useStyles = makeStyles(theme => ({
   submit: {
     margin: theme.spacing(3, 0, 2),
   },
+  root: {
+    width: '100%',
+    '& > * + *': {
+      marginTop: theme.spacing(2),
+    },
+  },
 }));
 
-
   const SignIn=()=> {
+  const {GlobalUserName, setGlobalUserName} = useContext(GlobalContext);  
   const classes = useStyles();
   const [UserName, setUserName] = useState('')
   const [Password, setPassword] = useState('')
-
+  const [Message,setMessage]=useState('');
+  const [moveMainPage,setmoveMainPage]=useState(false)
 
   const prevent=(e)=>{
       e.preventDefault()
@@ -81,13 +92,42 @@ const useStyles = makeStyles(theme => ({
           console.log('res.ok', res.ok);
           return res.json()
         })
+        .then(
+          (result) => {
+            if(result==null){
+              // alert("הזנת שם משתמש או סיסמא לא נכונים")
+              setMessage( <div className={classes.root}>    <Alert variant="filled" severity="error">
+              user name or password is incorrect!
+            </Alert></div>)     
+              console.log(Message)     
+            }
+            else{
+              console.log("result is ", result.UserName)
+              setMessage  (<div className={classes.root}>    
+                <Alert variant="filled" severity="success">
+                You've logged in successfully
+              </Alert> </div>)
+              setGlobalUserName(result);             
+              console.log(GlobalUserName)
+              setmoveMainPage(true)
+            }
+          })
   
   }
 
+  if(moveMainPage){
+    return(
+      <div>
+      {/* <Route path='/' exact component={SearchPage}/> */}
+      <Redirect to='/' />
+      </div>
+    )
+  }
 
   return (
     <Container component="main" maxWidth="xs">
       <CssBaseline />
+
       <div className={classes.paper}>
         <Avatar className={classes.avatar}>
           <LockOutlinedIcon />
@@ -120,6 +160,10 @@ const useStyles = makeStyles(theme => ({
             autoComplete="current-password"
             onChange={(e) => setPassword(e.target.value)}
           />
+          
+            {Message}
+        
+   
           <FormControlLabel
             control={<Checkbox value="remember" color="primary" />}
             label="Remember me"
@@ -134,6 +178,7 @@ const useStyles = makeStyles(theme => ({
           >
             Sign In
           </Button>
+   
           <Grid container>
             <Grid item xs>
               <Link href="#" variant="body2">
@@ -153,6 +198,7 @@ const useStyles = makeStyles(theme => ({
       <Box mt={8}>
         <Copyright />
       </Box>
+
     </Container>
     
   );
