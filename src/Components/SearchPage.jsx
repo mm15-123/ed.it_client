@@ -16,7 +16,10 @@ const SearchPage =()=>{
     }
     return (
         <div>
+            
+
         { ShowPic &&  <div className={Container}>
+            
         <Grid item xs>
             <TextField
                 variant="outlined"

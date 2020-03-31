@@ -2,6 +2,7 @@
     background-color: #3f51b5; 
     display: flex;
     justify-content: center;
+    top: -20%;
 }
 
 .navbar ul {
@@ -14,6 +15,7 @@
 .navbar li{
     display: inline-block;
         margin: 20px;
+        
 }
 
 .navbar a {
@@ -30,3 +32,21 @@
     font-weight: bold;
     border-radius: 20%;
 }
+
+.logout{
+    left: 21%;
+    position: relative;
+    font-weight: bold;
+
+}
+
+.textProfile {
+    left: 17%;
+    position: relative;
+    font-weight: bold;
+}
+/* 
+li {
+    top: -17%;
+    position: relative;
+} */

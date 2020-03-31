@@ -192,7 +192,7 @@ const SignUp = () => {
         const formData = new FormData();
         formData.append('content1', UrlPic, UrlPic.name)
         const apiUrl = 'http://localhost:55263/api/User/CreateUser'
-        const apiUrl2 = `http://localhost:55263/api/AddPic/${Name}` ///${rName}
+        const apiUrl2 = `http://localhost:55263/api/AddPic/${Email.split("@",1)}` ///${rName}
 
         fetch(apiUrl, {
             method: 'post',

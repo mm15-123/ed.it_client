@@ -59,7 +59,7 @@ const useStyles = makeStyles(theme => ({
 }));
 
   const SignIn=()=> {
-    const [GlobalUserEmail, setGlobalUserEmail]= useContext(GlobalContext);
+    const [GlobalUser, setGlobalUser]= useContext(GlobalContext);
   //const {GlobalUserName, setGlobalUserName} = useContext(GlobalContext);  
   const classes = useStyles();
   const [Email, setEmail] = useState('')
@@ -95,22 +95,22 @@ const useStyles = makeStyles(theme => ({
         })
         .then(
           (result) => {
-            if(result==null){
-              // alert("הזנת שם משתמש או סיסמא לא נכונים")
+            if(result==null){//הזנת שם משתמש או סיסמא לא נכונים
               setMessage( <div className={classes.root}>    <Alert variant="filled" severity="error">
               user name or password is incorrect!
             </Alert></div>)     
               console.log(Message)     
             }
             else{
-              console.log("result is ", result.UserName)
+              console.log("result is ", result)
               setMessage  (<div className={classes.root}>    
                 <Alert variant="filled" severity="success">
                 You've logged in successfully
               </Alert> </div>)
-              setGlobalUserEmail(result.Email);             
-              console.log('GlobalUserEmail ',GlobalUserEmail)
-              setmoveMainPage(true)
+              setGlobalUser(result);             
+              setmoveMainPage(true)//מעבר לעמוד הראשי לאחר התחברות מוצלחת
+
+              
             }
           })
   
