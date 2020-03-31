@@ -1,4 +1,4 @@
-import React, { useState,useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import Avatar from '@material-ui/core/Avatar';
 import Button from '@material-ui/core/Button';
 import CssBaseline from '@material-ui/core/CssBaseline';
@@ -20,7 +20,7 @@ import Container from '@material-ui/core/Container';
 import { Input } from '@material-ui/core';
 import Chip from '@material-ui/core/Chip';
 import { Link } from "react-router-dom";
-import { uuid } from 'uuidv4';
+import uuid from 'uuid/v4';
 
 function Copyright() {
     return (
@@ -92,7 +92,7 @@ const MenuProps = {
 
 const SignUp = () => {
     const classes = useStyles();
-    const [UserName, setUserName] = useState('')
+    //const [UserName, setUserName] = useState('')
     const [Name, setName] = useState('')
     const [Password, setPassword] = useState('')
     const [Email, setEmail] = useState('')
@@ -102,21 +102,21 @@ const SignUp = () => {
     const [AboutMe, setAboutMe] = useState('')
     const [UrlPic, setUrlPic] = useState('')
     const [FormDataPic, setFormDataPic] = useState('')
-    const [Tags, setTags] = useState(['one','two'])
-       // tagsList: ['שלום', 'שואה', 'מלחמת העצמאות']
+    const [Tags, setTags] = useState(['one', 'two'])
+    // tagsList: ['שלום', 'שואה', 'מלחמת העצמאות']
     //})
     const [ChosenTag, setChosenTag] = useState('')
     const [ChosenTags, setChosenTags] = useState([])
 
-    useEffect(()=>{ //document.onLoad()
-        const apiUrl= `http://localhost:55263/api/User/GetTags`
-        fetch(apiUrl,  
+    useEffect(() => {
+        const apiUrl = `http://localhost:55263/api/User/GetTags`
+        fetch(apiUrl,
             {
-            method: 'GET',
-            headers: new Headers({
-                'Content-Type': 'application/json; charset=UTF-8',
+                method: 'GET',
+                headers: new Headers({
+                    'Content-Type': 'application/json; charset=UTF-8',
+                })
             })
-        })
             .then(res => {
                 console.log('res=', res);
                 console.log('res.status', res.status);
@@ -133,11 +133,11 @@ const SignUp = () => {
                 (error) => {
                     console.log("err post=", error);
                 });
-      }
-    ,[]);//מערך ריק אז יקרה פעם אחת. אם שמים משהו מהסטייט אז יקרה שוב שאותו סטייט ישתנה
+    }
+        , []);
 
     const chooseTags = (e) => {
-        if(ChosenTags.length===3) return;
+        if (ChosenTags.length === 3) return;
         const tags = ChosenTags
         setChosenTag(e.target.value)
         const chosen = e.target.value
@@ -153,8 +153,8 @@ const SignUp = () => {
 
     const CreatUser = () => {
         const user = {
-            'UserID': uuid(),
-            'UserName': UserName,
+            //'UserID': uuid.v4(),
+            //'UserName': UserName,
             'Name': Name,
             'Password': Password,
             'Email': Email,
@@ -164,12 +164,12 @@ const SignUp = () => {
             'AboutMe': AboutMe,
             'UrlPicture': UrlPic.name,
             'FormDataPic': FormDataPic,
-            'TagsUser':ChosenTags
+            'TagsUser': ChosenTags
         }
-        if (UserName !== '' && Name !== '' && Password !== '' && Email !== '' && TeacherType !== '' && BDate !== '' && SchoolType !== '' && AboutMe !== '') {
+        if ( Name !== '' && Password !== '' && Email !== '' && TeacherType !== '' && BDate !== '' && SchoolType !== '' && AboutMe !== '') {
             alert('good')
             console.log(FormDataPic, "hey")
-           PostUser(user, FormDataPic)
+            PostUser(user, FormDataPic)
         }
         else {
             alert('fiil all the field pls')
@@ -192,7 +192,7 @@ const SignUp = () => {
         const formData = new FormData();
         formData.append('content1', UrlPic, UrlPic.name)
         const apiUrl = 'http://localhost:55263/api/User/CreateUser'
-        const apiUrl2 = `http://localhost:55263/api/AddPic/${UserName}` ///${UserName}
+        const apiUrl2 = `http://localhost:55263/api/AddPic/${Name}` ///${rName}
 
         fetch(apiUrl, {
             method: 'post',
@@ -200,7 +200,6 @@ const SignUp = () => {
             headers: new Headers({
                 'Content-Type': 'application/json; charset=UTF-8',
             })
-
         })
             .then((result) => {
                 console.log('Success:', result);
@@ -239,7 +238,7 @@ const SignUp = () => {
         </Typography>
                 <form className={classes.form} noValidate onSubmit={prevent}>
                     <Grid container spacing={2}>
-                        <Grid item xs={12}>
+                        {/*<Grid item xs={12}>
                             <TextField
                                 autoComplete="UserName"
                                 name="UserName"
@@ -251,7 +250,7 @@ const SignUp = () => {
                                 autoFocus
                                 onChange={(e) => setUserName(e.target.value)}
                             />
-                        </Grid>
+    </Grid>*/}
                         <Grid item xs={12}>
                             <TextField
                                 autoComplete="Name"

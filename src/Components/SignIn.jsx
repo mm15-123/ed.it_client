@@ -59,9 +59,10 @@ const useStyles = makeStyles(theme => ({
 }));
 
   const SignIn=()=> {
-  const {GlobalUserName, setGlobalUserName} = useContext(GlobalContext);  
+    const [GlobalUserEmail, setGlobalUserEmail]= useContext(GlobalContext);
+  //const {GlobalUserName, setGlobalUserName} = useContext(GlobalContext);  
   const classes = useStyles();
-  const [UserName, setUserName] = useState('')
+  const [Email, setEmail] = useState('')
   const [Password, setPassword] = useState('')
   const [Message,setMessage]=useState('');
   const [moveMainPage,setmoveMainPage]=useState(false)
@@ -75,7 +76,7 @@ const useStyles = makeStyles(theme => ({
     const apiUrl = `http://localhost:55263/api/User/GetUserDetails`
 
     const user = {
-      'UserName': UserName,
+      'Email': Email,
       'Password': Password,
   }
     fetch(apiUrl, {
@@ -107,8 +108,8 @@ const useStyles = makeStyles(theme => ({
                 <Alert variant="filled" severity="success">
                 You've logged in successfully
               </Alert> </div>)
-              setGlobalUserName(result);             
-              console.log(GlobalUserName)
+              setGlobalUserEmail(result.Email);             
+              console.log('GlobalUserEmail ',GlobalUserEmail)
               setmoveMainPage(true)
             }
           })
@@ -146,7 +147,7 @@ const useStyles = makeStyles(theme => ({
             name="email"
             autoComplete="email"
             autoFocus
-            onChange={(e) => setUserName(e.target.value)}
+            onChange={(e) => setEmail(e.target.value)}
           />
           <TextField
             variant="outlined"

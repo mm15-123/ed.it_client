@@ -1,6 +1,5 @@
-// import React, { useState } from 'react';
 import uuid from 'uuid/v4';
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 // import uuid from 'uuid';
 import Avatar from '@material-ui/core/Avatar';
 import Button from '@material-ui/core/Button';
@@ -22,6 +21,7 @@ import { makeStyles, useTheme } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
 import { Input } from '@material-ui/core';
 import Chip from '@material-ui/core/Chip';
+import { GlobalContext } from '../Context/GlobalContext';
 
 
 function getStyles(name, personName, theme) {
@@ -83,6 +83,7 @@ const MenuProps = {
 
 const UploadContent = () => {
     const classes = useStyles();
+    const [GlobalUserEmail, setGlobalUserEmail]= useContext(GlobalContext);
     const [ContentID, setContentID] = useState('')
     const [ContentName, setContentName] = useState('')
     const [PathFile, setPathFile] = useState('')
@@ -95,6 +96,7 @@ const UploadContent = () => {
 
     useEffect(()=>{
         const apiUrl= `http://localhost:55263/api/User/GetTags`
+        console.log('GlobalUserEmail ',GlobalUserEmail)
         fetch(apiUrl,  
             {
             method: 'GET',

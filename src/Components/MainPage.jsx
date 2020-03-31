@@ -12,8 +12,10 @@ import { GlobalContext } from '../Context/GlobalContext';
 
 
 const MainPage = () => {
-    const {GlobalUserName, setGlobalUserName} = useContext(GlobalContext);//חייב אותם שמות בconst
-    console.log(GlobalUserName.UserName)
+    const [GlobalUserEmail, setGlobalUserEmail]= useContext(GlobalContext);
+    //const {GlobalUserName, setGlobalUserName} = useContext(GlobalContext);//חייב אותם שמות בconst
+    console.log(GlobalUserEmail)
+
     // setGlobalUserName('hadar');//מעדכן משתנה גלובלי
     // console.log(GlobalUserName)
 
