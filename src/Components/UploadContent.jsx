@@ -22,7 +22,7 @@ import Container from '@material-ui/core/Container';
 import { Input } from '@material-ui/core';
 import Chip from '@material-ui/core/Chip';
 import { GlobalContext } from '../Context/GlobalContext';
-
+import Radium from 'radium';
 
 function getStyles(name, personName, theme) {
     return {

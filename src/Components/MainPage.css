@@ -45,8 +45,17 @@
     position: relative;
     font-weight: bold;
 }
-/* 
-li {
-    top: -17%;
+
+.logo{
+  width: 20%;
+  right: 40%;
+  position: relative; 
+  height: 70px;
+
+}
+
+.searchText{
+    width: 50%;
     position: relative;
-} */
+    left: 60%;
+}

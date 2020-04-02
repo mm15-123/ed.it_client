@@ -21,6 +21,9 @@ import { Input } from '@material-ui/core';
 import Chip from '@material-ui/core/Chip';
 import { Link } from "react-router-dom";
 import uuid from 'uuid/v4';
+import { Redirect } from 'react-router-dom';
+import swal from 'sweetalert';
+
 
 function Copyright() {
     return (
@@ -107,6 +110,7 @@ const SignUp = () => {
     //})
     const [ChosenTag, setChosenTag] = useState('')
     const [ChosenTags, setChosenTags] = useState([])
+    const [moveMainPage,setmoveMainPage]=useState(false);//בסיום הרשמה יעבור לעמוד הראשי
 
     useEffect(() => {
         const apiUrl = `http://localhost:55263/api/User/GetTags`
@@ -216,9 +220,16 @@ const SignUp = () => {
                 })
             })
 
-            .then((response) => response.json())
+            // .then((response) => response.json())
             .then((result) => {
                 console.log('Success:', result);
+                swal({
+                    title: "Welcome",
+                    text: "User successfully added!",
+                    icon: "success",
+                  });
+            }).then(()=>{
+                setmoveMainPage(true)//מעבר לעמוד הראשי לאחר התחברות מוצלחת
             })
             .catch((error) => {
                 console.error('Error:', error);
@@ -226,6 +237,14 @@ const SignUp = () => {
 
     }
 
+    
+  if(moveMainPage){
+    return(
+        <div>
+            <Redirect to='/' />
+        </div>
+    )
+  }
     return (
         <Container component="main" maxWidth="xs">
             <CssBaseline />
