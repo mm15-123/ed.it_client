@@ -12,6 +12,8 @@ import { GlobalContext } from '../Context/GlobalContext';
 import { makeStyles } from '@material-ui/core/styles';
 import Avatar from '@material-ui/core/Avatar';
 import ProfilePicture from '../uploadedFiles/shiftan92.jpg'
+import ProfilePicture2 from '../uploadedFiles/almog_levi.jpeg'
+import User from './User'
 
 const useStyles = makeStyles((theme) => ({
     ProfileDiv: {
@@ -59,17 +61,19 @@ const MainPage = () => {
                         <NavLink to='/UploadContent'>Upload Content</NavLink>
                     </li>
                     <li className="logout">
-                        <NavLink to='/ShowProfile'>Log Out |</NavLink>
+                        <NavLink to='/User'>Log Out |</NavLink>
                     </li>
                     <li className="textProfile">
-                        <NavLink to='/ShowProfile'>{GlobalUser.Name}</NavLink>
+                        <NavLink to='/User'>{GlobalUser.Name}</NavLink>
                     </li>
                     {/* <li> */}
                    
                     {/* </li> */}
                 </ul>
                 <div className={classes.ProfileDiv}>
+                    <Link to='/User'>
                     <Avatar alt="Remy Sharp" src={ProfilePicture} className={classes.ProfilePic} />
+                    </Link>
                 </div>
                
             </nav> 
@@ -78,6 +82,7 @@ const MainPage = () => {
             <Route path='/SignIn' component={SignIn} />
             <Route path='/SignUp' component={SignUp} />
             <Route path='/UploadContent' component={UploadContent} />
+            <Route path='/User' component={User} />
               
 
         </div>

@@ -1,0 +1,21 @@
+.UserBody{
+direction: rtl;
+}
+
+.MainDetails { 
+    display: flex;
+    justify-content: space-between;
+    top: -20%;    
+}
+.MainDetails div {
+    width: 48%;
+    background-color  : beige;
+    border: 2px solid beige;
+    
+}
+
+td {
+    direction: rtl;
+    height: 100%;
+    width:100%;
+}
