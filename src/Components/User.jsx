@@ -1,4 +1,4 @@
-import React, { useState, useContext } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import { GlobalContext } from '../Context/GlobalContext';
 import './User.css'
 import ProfilePicture2 from '../uploadedFiles/almog_levi.jpeg'
@@ -35,6 +35,13 @@ const User = () => {
     const [SchoolType, setSchoolType] = useState(GlobalUser.SchoolType)
     const [AboutMe, setAboutMe] = useState(GlobalUser.AboutMe)
 
+    useEffect(() => {
+        const BirthDate = GlobalUser.BDate.split(' ')[0].split('/')
+        const DateFromat = BirthDate[2] + '-' + BirthDate[1] + '-' + BirthDate[0]
+        setBDate(DateFromat)
+        console.log(DateFromat)
+    }, [])
+
     const changestate = () => {
         setEdit(!Edit)
     }
@@ -43,12 +50,37 @@ const User = () => {
         const NewUSer = {
             'Name': Name,
             'Password': Password,
+            'Email':GlobalUser.Email,
             'TeacherType': TeacherType,
             'BDate': BDate,
             'SchoolType': SchoolType,
             'AboutMe': AboutMe,
+            'UrlPicture': GlobalUser.UrlPicture,
+            'FormDataPic': GlobalUser.FormDataPic,
+            'ContentsUser': GlobalUser.ContentsUser,
+            'TagsUser': GlobalUser.TagsUser,
+            'Subjects': GlobalUser.Subjects,
+            'TagsScore': GlobalUser.TagsScore
         }
         console.log('New USer ', NewUSer)
+        setGlobalUser(NewUSer)
+        console.log(GlobalUser)
+
+        const apiUrl = 'http://localhost:55263/api/User/UpdateUser';
+        fetch(apiUrl, {
+            method: 'PUT',
+            body: JSON.stringify(NewUSer),
+            headers: new Headers({
+                'Content-Type': 'application/json; charset=UTF-8',
+            })
+        })
+            .then((result) => {
+                console.log('Success:', result);
+            })
+            .then((response) => response.json())
+            .catch((error) => {
+                console.error('Error:', error);
+            });
     }
 
 
@@ -82,7 +114,7 @@ const User = () => {
                                         <tr>
                                             <td><h3>תאריך יום הולדת:</h3></td>
                                             {<td>
-                                                <h3>{GlobalUser.BDate}</h3>
+                                                <h3>{GlobalUser.BDate.split(' ')[0]}</h3>
                                             </td>}
                                         </tr>
                                     </td>
@@ -172,7 +204,7 @@ const User = () => {
                                         label="Birthday"
                                         fullWidth
                                         type="date"
-                                        defaultValue={GlobalUser.BDate}
+                                        defaultValue={BDate}
                                         //className={classes.textField}
                                         InputLabelProps={{
                                             shrink: true,
