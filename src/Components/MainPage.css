@@ -59,3 +59,16 @@
     position: relative;
     left: 60%;
 }
+
+.pdf{
+    width:595px;
+    height: 485px;
+    overflow: hidden;
+    margin: 0;
+    border: 1px solid #ccc;
+    margin-bottom: 5px;
+    max-width: 100%;
+
+      /* frameborder="0" marginwidth="0" marginheight="0" scrolling="no" style="border:1px solid #CCC; border-width:1px; margin-bottom:5px; max-width: 100%;" */
+}
+

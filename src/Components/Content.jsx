@@ -4,7 +4,9 @@ import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import Slider from 'react-slick';
 import styled from 'styled-components';
-
+import presentation from '../uploadedFiles/presentaion1.pptx';//ככה מורידים את המצגת
+import myPDF from '../uploadedFiles/myPDF.pdf';
+import './MainPage.css';
 
 const Wrapper = styled.div`
 width: 100%;
@@ -35,6 +37,9 @@ const Content = (props) => {
                     pages.map((page, index) => <Page key={index}>{page}</Page>)
                 }
             </Slider>
+            {/* <iframe src={myPDF} width="540" height="450"></iframe> */}
+                {/* <iframe src={myPDF} className="pdf" allowfullscreen frameborder="0" scrolling="no" > </iframe> */}
+                <iframe src={presentation} width="595" height="485" frameborder="0" marginwidth="0" marginheight="0" scrolling="no"  allowfullscreen> </iframe>
         </Wrapper>
     )
 }

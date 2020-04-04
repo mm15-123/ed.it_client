@@ -6,6 +6,8 @@ import Content from './Content';
 import logo from '../uploadedFiles/edit logo.png';
 import './MainPage.css';
 
+
+
 const SearchPage =()=>{
     const [Contents, setContents] = useState(['first', 'second', 'third', 'forth', 'fifth', 'sixth', 'seventh', 'eight', 'nine', 'ten'])
     const [ShowPic, setShowPic] = useState(true)
@@ -16,6 +18,12 @@ const SearchPage =()=>{
         margin: '10px',
         padding: '10px'
     }
+
+    //לחיצה על תוכן 
+    const ShowContent=(event)=>{
+
+    };
+
     return (
         <div>
             
