@@ -29,6 +29,8 @@ const SearchPage =()=>{
             
         { ShowPic &&  <div className={Container}>
         <img src={logo} className="logo"></img>
+        {/* <img src={process.env.PUBLIC_URL + 'uploadedFilesPub/shiftan92.jpg'} className="logo"></img> */}
+
         <div className="searchText">
         <Grid item xs >
 

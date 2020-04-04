@@ -72,3 +72,16 @@
       /* frameborder="0" marginwidth="0" marginheight="0" scrolling="no" style="border:1px solid #CCC; border-width:1px; margin-bottom:5px; max-width: 100%;" */
 }
 
+.picContent{
+    width: 40%;
+    height: 230px;
+    left: 8%;
+    position: relative;
+    margin-top: -10%;
+}
+
+.sliderContent .slick-dots li button{
+    right: 800%;
+    position: relative;
+}
+
