@@ -81,9 +81,9 @@ const MenuProps = {
     },
 };
 
-const UploadContent = () => {
+const UploadContent = () => {//העלאת תוכן
     const classes = useStyles();
-    const [GlobalUserEmail, setGlobalUserEmail]= useContext(GlobalContext);
+    const [GlobalUser, setGlobalUser] = useContext(GlobalContext);
     const [ContentID, setContentID] = useState('')
     const [ContentName, setContentName] = useState('')
     const [PathFile, setPathFile] = useState('')
@@ -94,16 +94,16 @@ const UploadContent = () => {
     const [ChosenTag, setChosenTag] = useState('');
     const [ChoosenTagsList, setChoosenTagsList] = useState([])
 
-    useEffect(()=>{
-        const apiUrl= `http://localhost:55263/api/User/GetTags`
-        console.log('GlobalUserEmail ',GlobalUserEmail)
-        fetch(apiUrl,  
+    //משיכת רשימת תגיות בהעלאה של הקומפוננטה
+    useEffect(() => {
+        const apiUrl = `http://localhost:55263/api/User/GetTags`
+        fetch(apiUrl,
             {
-            method: 'GET',
-            headers: new Headers({
-                'Content-Type': 'application/json; charset=UTF-8',
+                method: 'GET',
+                headers: new Headers({
+                    'Content-Type': 'application/json; charset=UTF-8',
+                })
             })
-        })
             .then(res => {
                 console.log('res=', res);
                 console.log('res.status', res.status);
@@ -120,9 +120,10 @@ const UploadContent = () => {
                 (error) => {
                     console.log("err post=", error);
                 });
-      }
-    ,[]);
+    }
+        , []);
 
+    //בחירת תגיות עבור המצגת
     const PushToTagsList = (e) => {
         if (ChoosenTagsList.length == 3) return;//אם 3 אז בסדר
         setChosenTag(e.target.value)
@@ -132,12 +133,14 @@ const UploadContent = () => {
         setChoosenTagsList(tagslist)
         console.log(ChoosenTagsList)
     }
-
+    //צירוף קובץ 
     const UploadPpt = (e) => {
         const fd = new FormData()
         fd.append('content', e.target.files[0])
-        setPathFile(fd)
+        setPathFile(e.target.files[0])
     }
+
+    //upload the form-העלאת התוכן לשרת
     const prevent = (e) => {
         e.preventDefault();
         var today = new Date();
@@ -146,18 +149,52 @@ const UploadContent = () => {
         var yyyy = today.getFullYear();
 
         today = mm + '/' + dd + '/' + yyyy;
-
+        let user=GlobalUser.Email.split("@",1)
+        // const tagsChosen = { ...ChoosenTagsList }
+        // console.log(tagsChosen)
+        console.log(user[0])
         const Content = {
-            'ContentID': uuid.v4(),
             'ContentName': ContentName,
             'Description': Description,
-            'PathFile': PathFile,
-            'UploadDate': today,
-            'TagsContent':Tags
+            'PathFile': PathFile.name,
+            'UploadedDate': today,
+            'TagsContent': ChoosenTagsList,
+            'ByUser':user[0]
         }
-        console.log(Content)
-        const tags = { ...ChoosenTagsList }
-        console.log(tags)
+        console.log("content is ", Content)
+  
+
+        
+        fetch("http://localhost:55263/api/Content/AddContent", {
+            method: 'post',
+            body: JSON.stringify(Content),
+            headers: new Headers({
+                'Content-Type': 'application/json; charset=UTF-8',
+            })
+        })
+            .then((result) => {
+                console.log('Success:', result);
+                result.json().then(data => {
+                    alert(data);
+                  });
+                })
+            
+                
+                // fetch(`http://localhost:55263/api/Content/AddContent/${GlobalUser.Email.split("@",1)}` {
+                //     method: 'post',
+                //     body: fd,
+                //     contentType: false,
+                //     processData: false,
+                //     mode: 'no-cors',
+                //     headers: new Headers({
+                //         'Content-Type': 'application/json; charset=UTF-8',
+                //     })
+
+                // })
+            
+            .catch((error) => {
+                console.error('Error:', error);
+            });
     }
 
     return (

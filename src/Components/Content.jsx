@@ -34,12 +34,12 @@ const Content = (props) => {
     //todo- לשאוב את שם המשתמש בשביל להשלים שם תמונה
     //todo- לקבל מהשרת כמה תמונות יש בכלל בתיקייה
     const PagesSourceList=[]
-    for (var i = 1; i < 10; i++) {
-        PagesSourceList.push( `hadar_${i}.jpg`)
+    for (var i = 1; i < 4; i++) {
+        PagesSourceList.push( process.env.PUBLIC_URL +`uploadedFilesPub/hadar_${i}.jpg`)
     } 
     // setpages(PagesSourceList);
     console.log(PagesSourceList)
-    console.log(process.env.PUBLIC_URL + 'uploadedFilesPub/shiftan92.jpg')
+    console.log(Local)
     useEffect(()=>console.log("props are ",props),[])
     
     return (
@@ -53,7 +53,9 @@ const Content = (props) => {
                 className="sliderContent"
             >
                 {
-                    PagesSourceList.map((page, index) => <Page key={index}><img className="picContent" src={process.env.PUBLIC_URL + `uploadedFilesPub/${page}`}></img>{console.log(page)} </Page>)
+                    // PagesSourceList.map((page, index) => <Page key={index}><img className="picContent" src={process.env.PUBLIC_URL + `uploadedFilesPub/${page}`}></img>{console.log(page)} </Page>)
+                    PagesSourceList.map((page, index) => <Page key={index}><img className="picContent" src={`${page}`}></img>{console.log(page)} </Page>)
+
                 }
             </Slider>
             {/* <iframe src={myPDF} width="540" height="450"></iframe> */}

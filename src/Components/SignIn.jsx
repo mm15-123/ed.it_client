@@ -1,4 +1,4 @@
-import React, { useState,useContext } from 'react';
+import React, { useState,useContext,useEffect } from 'react';
 import Avatar from '@material-ui/core/Avatar';
 import Button from '@material-ui/core/Button';
 import CssBaseline from '@material-ui/core/CssBaseline';
@@ -58,18 +58,33 @@ const useStyles = makeStyles(theme => ({
   },
 }));
 
+
+
   const SignIn=()=> {
-    const [GlobalUser, setGlobalUser]= useContext(GlobalContext);
+  const [GlobalUser, setGlobalUser]= useContext(GlobalContext);
   //const {GlobalUserName, setGlobalUserName} = useContext(GlobalContext);  
   const classes = useStyles();
   const [Email, setEmail] = useState('')
   const [Password, setPassword] = useState('')
   const [Message,setMessage]=useState('');
+  const [RememberMe,setRememberMe]=useState(true)
   const [moveMainPage,setmoveMainPage]=useState(false)
 
   const prevent=(e)=>{
       e.preventDefault()
   }
+
+  
+  //change RememberMe checkbox and save in local storage
+  const RememberMeChanged=(event)=>{
+    console.log("RememberMe ",RememberMe)
+    setRememberMe(!RememberMe)
+  }
+  useEffect(() => {
+    console.log("RememberMe ",RememberMe)   
+    localStorage.setItem('rememberMe',RememberMe)//save in localstorage
+  }, [RememberMe])
+
 
   const ConfirmUser=()=>{
     // const apiUrl = `api/User/GetUserDetails/${UserName}/${Password}`
@@ -103,17 +118,19 @@ const useStyles = makeStyles(theme => ({
             }
             else{
               console.log("result is ", result)
+               //הוספה ללוקל סטורג'
+               localStorage.setItem('User', RememberMe ? JSON.stringify(result) : '');//only if remember me checked
+               console.log(localStorage.getItem('User'))
               setMessage  (<div className={classes.root}>    
                 <Alert variant="filled" severity="success">
                 You've logged in successfully
               </Alert> </div>)
               setGlobalUser(result);             
               setmoveMainPage(true)//מעבר לעמוד הראשי לאחר התחברות מוצלחת
-
-              
             }
           })
   
+          
   }
 
   if(moveMainPage){
@@ -166,7 +183,7 @@ const useStyles = makeStyles(theme => ({
         
    
           <FormControlLabel
-            control={<Checkbox value="remember" color="primary" />}
+            control={<Checkbox value="remember" color="primary" checked={RememberMe} onChange={(e)=>RememberMeChanged(e.target.value)}/>}
             label="Remember me"
           />
           <Button

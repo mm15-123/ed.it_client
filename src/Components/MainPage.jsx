@@ -11,8 +11,8 @@ import SearchPage from './SearchPage'
 import { GlobalContext } from '../Context/GlobalContext';
 import { makeStyles } from '@material-ui/core/styles';
 import Avatar from '@material-ui/core/Avatar';
-import ProfilePicture from '../uploadedFiles/shiftan92.jpg'
-import ProfilePicture2 from '../uploadedFiles/almog_levi.jpeg'
+// import ProfilePicture from '../uploadedFiles/shiftan92.jpg'
+// import ProfilePicture2 from '../uploadedFiles/almog_levi.jpeg'
 import User from './User'
 
 const useStyles = makeStyles((theme) => ({
@@ -25,8 +25,10 @@ const useStyles = makeStyles((theme) => ({
         },
     },
     ProfilePic: {
-        left: '126%',
+        left: '180%',
         position: 'relative',
+        width: '-webkit-fill-available',
+        height: '-webkit-fill-available',
     },
 
 
@@ -34,14 +36,25 @@ const useStyles = makeStyles((theme) => ({
 
 const MainPage = () => {
     const classes = useStyles();
-    const [GlobalUser, setGlobalUser] = useContext(GlobalContext);
-    //const {GlobalUserName, setGlobalUserName} = useContext(GlobalContext);//חייב אותם שמות בconst
+    const [GlobalUser, setGlobalUser,UrlPath] = useContext(GlobalContext);//מושך פרטי משתמש גלובליים ואת הנתיב לקבצים
+    let a=UrlPath+GlobalUser.UrlPicture
+    console.log("From main page" ,a)
+
+    //שאיבת משתמש אם קיים בלוקל סטורג
+    const rememberMe = localStorage.getItem('rememberMe');// === 'true'
+    const User = rememberMe ? localStorage.getItem('User') : '';
+    
+    // מחכה עד שיתעדכן היוזר מלוקל סטורג
+    useEffect(() => {
+        if(User!=''){
+            setGlobalUser(JSON.parse(User))//get from local storage 
+        }
+    }, [User])
+
+    console.log(rememberMe)
     console.log(GlobalUser)
 
-    // setGlobalUserName('hadar');//מעדכן משתנה גלובלי
-    // console.log(GlobalUserName)
-
-    //useEffect(()=>console.log('begin to start'),[ShowPic])
+    
 
     return (
         <div>
@@ -64,6 +77,7 @@ const MainPage = () => {
                         <NavLink to='/User'>Log Out |</NavLink>
                     </li>
                     <li className="textProfile">
+                        {console.log("user nav ",GlobalUser.Name)}
                         <NavLink to='/User'>{GlobalUser.Name}</NavLink>
                     </li>
                     {/* <li> */}
@@ -72,7 +86,7 @@ const MainPage = () => {
                 </ul>
                 <div className={classes.ProfileDiv}>
                     <Link to='/User'>
-                    <Avatar alt="Remy Sharp" src={ProfilePicture} className={classes.ProfilePic} />
+                    <Avatar alt="Remy Sharp" src={UrlPath+GlobalUser.UrlPicture} className={classes.ProfilePic} />
                     </Link>
                 </div>
                
