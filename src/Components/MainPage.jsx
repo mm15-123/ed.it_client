@@ -36,10 +36,20 @@ const useStyles = makeStyles((theme) => ({
 
 const MainPage = () => {
     const classes = useStyles();
-    const [GlobalUser, setGlobalUser,UrlPath] = useContext(GlobalContext);//מושך פרטי משתמש גלובליים ואת הנתיב לקבצים
-    let a=UrlPath+GlobalUser.UrlPicture
-    console.log("From main page" ,GlobalUser)
-    
+    const [GlobalUser, setGlobalUser, UrlPath] = useContext(GlobalContext);//מושך פרטי משתמש גלובליים ואת הנתיב לקבצים
+    //let a = UrlPath + GlobalUser.UrlPicture
+    console.log("From main page", GlobalUser)
+    const [RememberMe,setRememberMe]=useContext(GlobalContext);
+    //console.log( localStorage.getItem('rememberMe')!==null ?localStorage.getItem('rememberMe') : 'somyhing wrong' )
+
+
+    //יציאה מהמשתמש,אתחול לוקל_סטורג' אתחול גלובל_יוזרת וגלובל_רממברמי
+    const LogOut = () => {
+        localStorage.setItem('rememberMe', false);
+        localStorage.setItem('User', null)
+        setRememberMe(false)
+        setGlobalUser(null)
+    }
 
     return (
         <div>
@@ -59,11 +69,11 @@ const MainPage = () => {
                         <NavLink to='/UploadContent'>Upload Content</NavLink>
                     </li>
                     <li className="logout">
-                        <NavLink to='/User'>Log Out |</NavLink>
+                        {GlobalUser !== null && <NavLink to='/' onClick={LogOut}>Log Out |</NavLink>}
                     </li>
                     <li className="textProfile">
 
-                        <NavLink to='/User'>{GlobalUser !== null ? GlobalUser.Name : ''}</NavLink>
+                        {GlobalUser !== null && <NavLink to='/User' >{ GlobalUser.Name}</NavLink>}
                     </li>
                     {/* <li> */}
 
@@ -71,12 +81,12 @@ const MainPage = () => {
                 </ul>
                 <div className={classes.ProfileDiv}>
                     <Link to='/User'>
-                        <Avatar alt="Remy Sharp" src={GlobalUser !== null ? UrlPath + GlobalUser.UrlPicture : ''} className={classes.ProfilePic} />
+                        {GlobalUser !== null && <Avatar alt="Remy Sharp" src={ UrlPath + GlobalUser.UrlPicture} className={classes.ProfilePic} />}
                     </Link>
                 </div>
 
             </nav>
-        
+
 
             <Route path='/' exact component={SearchPage} />
             <Route path='/Content' component={Content} />

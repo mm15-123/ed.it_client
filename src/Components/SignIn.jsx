@@ -67,7 +67,8 @@ const useStyles = makeStyles(theme => ({
   const [Email, setEmail] = useState('')
   const [Password, setPassword] = useState('')
   const [Message,setMessage]=useState('');
-  const [RememberMe,setRememberMe]=useState(false)
+  //const [RememberMe,setRememberMe]=useState(false)
+  const [RememberMe,setRememberMe]=useContext(GlobalContext);
   const [moveMainPage,setmoveMainPage]=useState(false)
 
   const prevent=(e)=>{
@@ -77,13 +78,13 @@ const useStyles = makeStyles(theme => ({
   
   //change RememberMe checkbox and save in local storage
   const RememberMeChanged=(event)=>{
-    console.log("RememberMe ",RememberMe)
+    console.log("RememberMe_change ",RememberMe)
     setRememberMe(!RememberMe)
   }
- /* useEffect(() => {
-    console.log("RememberMe ",RememberMe)   
+  useEffect(() => {
+    console.log("RememberMelocal_storage ",RememberMe)   
     localStorage.setItem('rememberMe',RememberMe)//save in localstorage
-  }, [RememberMe])*/
+  }, [RememberMe])
 
 
   const ConfirmUser=()=>{
@@ -119,7 +120,7 @@ const useStyles = makeStyles(theme => ({
             else{
               console.log("result is ", result)
                //הוספה ללוקל סטורג'
-               //localStorage.setItem('User', RememberMe ? JSON.stringify(result) : '');//only if remember me checked
+               localStorage.setItem('User', RememberMe ? JSON.stringify(result) : null);//only if remember me checked
                //console.log(localStorage.getItem('User'))
               setMessage  (<div className={classes.root}>    
                 <Alert variant="filled" severity="success">
@@ -183,7 +184,7 @@ const useStyles = makeStyles(theme => ({
         
    
           <FormControlLabel
-            control={<Checkbox value="remember" color="primary" checked={RememberMe} onChange={(e)=>RememberMeChanged(e.target.value)}/>}
+            control={<Checkbox value="remember" color="primary" checked={RememberMe} onChange={RememberMeChanged}/>}
             label="Remember me"
           />
           <Button

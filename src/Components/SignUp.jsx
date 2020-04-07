@@ -265,19 +265,6 @@ const SignUp = () => {
         </Typography>
                 <form className={classes.form} noValidate onSubmit={prevent}>
                     <Grid container spacing={2}>
-                        {/*<Grid item xs={12}>
-                            <TextField
-                                autoComplete="UserName"
-                                name="UserName"
-                                variant="outlined"
-                                required
-                                fullWidth
-                                id="UserName"
-                                label="UserName"
-                                autoFocus
-                                onChange={(e) => setUserName(e.target.value)}
-                            />
-    </Grid>*/}
                         <Grid item xs={12}>
                             <TextField
                                 autoComplete="Name"
