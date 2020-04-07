@@ -17,13 +17,18 @@ export const GlobalContext = createContext();
 export const GlobalContextProvider = props => {
   const [GlobalUser, setGlobalUser] = useState('');//תשאיר ככה,זה פרטי יוזר כללי
   const [UrlPath,setUrlPath]=useState(Url)
+  const [RememberMe,setRememberMe]=useState(false)
   console.log(UrlPath)
+
+  //שאיבת משתמש אם קיים בלוקל סטורג
+  //setRememberMe( (typeof localStorage.getItem('rememberMe')!=='undefined' && localStorage.getItem('rememberMe')!==null)? localStorage.getItem('rememberMe') : false);// === 'true'
+  //setGlobalUser(RememberMe ? localStorage.getItem('User') : '');
 
 
   
   return (
     
-      <GlobalContext.Provider value={[GlobalUser, setGlobalUser,UrlPath]}> 
+      <GlobalContext.Provider value={[GlobalUser, setGlobalUser,UrlPath,RememberMe,setRememberMe]}> 
       {props.children}
     </GlobalContext.Provider>
   

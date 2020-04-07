@@ -110,7 +110,7 @@ const SignUp = () => {
     //})
     const [ChosenTag, setChosenTag] = useState('')
     const [ChosenTags, setChosenTags] = useState([])
-    const [moveMainPage,setmoveMainPage]=useState(false);//בסיום הרשמה יעבור לעמוד הראשי
+    const [moveMainPage, setmoveMainPage] = useState(false);//בסיום הרשמה יעבור לעמוד הראשי
 
     useEffect(() => {
         const apiUrl = `http://localhost:55263/api/User/GetTags`
@@ -150,6 +150,14 @@ const SignUp = () => {
         console.log('tags', ChosenTags)
     }
 
+    // מחיקת תגיות שנבחרו
+    const RemoveTag = (tag) => {
+        console.log(tag)
+        const tags = ChosenTags.filter((T) => T !== tag)
+        setChosenTags(tags)
+        console.log(tags)
+    }
+
     const theme = useTheme();
     const prevent = (e) => {
         e.preventDefault()
@@ -170,7 +178,7 @@ const SignUp = () => {
             'FormDataPic': FormDataPic,
             'TagsUser': ChosenTags
         }
-        if ( Name !== '' && Password !== '' && Email !== '' && TeacherType !== '' && BDate !== '' && SchoolType !== '' && AboutMe !== '') {
+        if (Name !== '' && Password !== '' && Email !== '' && TeacherType !== '' && BDate !== '' && SchoolType !== '' && AboutMe !== '') {
             alert('good')
             console.log(FormDataPic, "hey")
             PostUser(user, FormDataPic)
@@ -196,7 +204,7 @@ const SignUp = () => {
         const formData = new FormData();
         formData.append('content1', UrlPic, UrlPic.name)
         const apiUrl = 'http://localhost:55263/api/User/CreateUser'
-        const apiUrl2 = `http://localhost:55263/api/AddPic/${Email.split("@",1)}` ///${rName}
+        const apiUrl2 = `http://localhost:55263/api/AddPic/${Email.split("@", 1)}` ///${rName}
 
         fetch(apiUrl, {
             method: 'post',
@@ -227,8 +235,8 @@ const SignUp = () => {
                     title: "Welcome",
                     text: "User successfully added!",
                     icon: "success",
-                  });
-            }).then(()=>{
+                });
+            }).then(() => {
                 setmoveMainPage(true)//מעבר לעמוד הראשי לאחר התחברות מוצלחת
             })
             .catch((error) => {
@@ -237,14 +245,14 @@ const SignUp = () => {
 
     }
 
-    
-  if(moveMainPage){
-    return(
-        <div>
-            <Redirect to='/' />
-        </div>
-    )
-  }
+
+    if (moveMainPage) {
+        return (
+            <div>
+                <Redirect to='/' />
+            </div>
+        )
+    }
     return (
         <Container component="main" maxWidth="xs">
             <CssBaseline />
@@ -385,10 +393,8 @@ const SignUp = () => {
                                 <Select
                                     labelId="demo-mutiple-chip-label"
                                     id="demo-mutiple-chip"
-
                                     value={ChosenTag}
                                     onChange={chooseTags}
-
                                 >
                                     {Tags.map((tag, index) => (
                                         <MenuItem key={index} value={tag} style={getStyles(tag, Tags, theme)}>
@@ -406,10 +412,14 @@ const SignUp = () => {
                                 fullWidth
                                 value={ChosenTag}
                                 required
-
                             >
                                 {
-                                    ChosenTags.map((tag, index) => <MenuItem key={index} value={tag}>{tag}</MenuItem>)
+                                    ChosenTags.map((tag, index) =>
+                                        <div key={index} style={{ display: 'flex', justifyContent: 'space-between', direction: 'rtl', width: '100%' }} >
+                                            {index+1}.<MenuItem key={index} value={tag}>{tag}</MenuItem>
+                                            <button style={{ backgroundColor: 'none', border: 'none' }} onClick={() => RemoveTag(tag)}>X</button>
+                                        </div>)
+
                                 }
                             </h3>
                         </Grid>

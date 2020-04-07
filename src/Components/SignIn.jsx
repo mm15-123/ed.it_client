@@ -67,7 +67,7 @@ const useStyles = makeStyles(theme => ({
   const [Email, setEmail] = useState('')
   const [Password, setPassword] = useState('')
   const [Message,setMessage]=useState('');
-  const [RememberMe,setRememberMe]=useState(true)
+  const [RememberMe,setRememberMe]=useState(false)
   const [moveMainPage,setmoveMainPage]=useState(false)
 
   const prevent=(e)=>{
@@ -80,10 +80,10 @@ const useStyles = makeStyles(theme => ({
     console.log("RememberMe ",RememberMe)
     setRememberMe(!RememberMe)
   }
-  useEffect(() => {
+ /* useEffect(() => {
     console.log("RememberMe ",RememberMe)   
     localStorage.setItem('rememberMe',RememberMe)//save in localstorage
-  }, [RememberMe])
+  }, [RememberMe])*/
 
 
   const ConfirmUser=()=>{
@@ -119,8 +119,8 @@ const useStyles = makeStyles(theme => ({
             else{
               console.log("result is ", result)
                //הוספה ללוקל סטורג'
-               localStorage.setItem('User', RememberMe ? JSON.stringify(result) : '');//only if remember me checked
-               console.log(localStorage.getItem('User'))
+               //localStorage.setItem('User', RememberMe ? JSON.stringify(result) : '');//only if remember me checked
+               //console.log(localStorage.getItem('User'))
               setMessage  (<div className={classes.root}>    
                 <Alert variant="filled" severity="success">
                 You've logged in successfully

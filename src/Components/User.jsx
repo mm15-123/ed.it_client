@@ -96,7 +96,7 @@ const User = () => {
                                 <tr>
                                     <td>
                                         <h2>{GlobalUser.Name}</h2>
-                                        {<Avatar className={classes.large} src={ProfilePicture2} />}
+                                        {/*<Avatar className={classes.large} src={ProfilePicture2} />*/}
                                     </td>
                                     <td >
                                         <tr>
