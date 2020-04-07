@@ -36,26 +36,10 @@ const useStyles = makeStyles((theme) => ({
 
 const MainPage = () => {
     const classes = useStyles();
-    const [GlobalUser, setGlobalUser, UrlPath] = useContext(GlobalContext);//מושך פרטי משתמש גלובליים ואת הנתיב לקבצים
-    let a = GlobalUser !== null ? UrlPath + GlobalUser.UrlPicture : ''
-    console.log("From main page", a)
-
-    //שאיבת משתמש אם קיים בלוקל סטורג
-    /*const rememberMe = (localStorage.getItem('rememberMe') !== null && localStorage.getItem('rememberMe') !== 'undefined') ? localStorage.getItem('rememberMe') !== null : false;// === 'true'
-    const User = rememberMe ? localStorage.getItem('User') : '';
-
-    // מחכה עד שיתעדכן היוזר מלוקל סטורג
-    useEffect(() => {
-        //console.log('newuser', JSON.parse(User))
-        if (User != '') {
-            setGlobalUser(JSON.parse(User))//get from local storage 
-        }
-    }, [User])
-
-    console.log(rememberMe)
-    console.log(GlobalUser)*/
-
-
+    const [GlobalUser, setGlobalUser,UrlPath] = useContext(GlobalContext);//מושך פרטי משתמש גלובליים ואת הנתיב לקבצים
+    let a=UrlPath+GlobalUser.UrlPicture
+    console.log("From main page" ,GlobalUser)
+    
 
     return (
         <div>
