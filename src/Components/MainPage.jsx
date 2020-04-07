@@ -38,21 +38,21 @@ const MainPage = () => {
     const classes = useStyles();
     const [GlobalUser, setGlobalUser,UrlPath] = useContext(GlobalContext);//מושך פרטי משתמש גלובליים ואת הנתיב לקבצים
     let a=UrlPath+GlobalUser.UrlPicture
-    console.log("From main page" ,a)
+    console.log("From main page" ,GlobalUser)
 
-    //שאיבת משתמש אם קיים בלוקל סטורג
-    const rememberMe = localStorage.getItem('rememberMe');// === 'true'
-    const User = rememberMe ? localStorage.getItem('User') : '';
+    // //שאיבת משתמש אם קיים בלוקל סטורג
+    // const rememberMe = localStorage.getItem('rememberMe');// === 'true'
+    // const UserVar = rememberMe ? localStorage.getItem('User') : '';
     
-    // מחכה עד שיתעדכן היוזר מלוקל סטורג
-    useEffect(() => {
-        if(User!=''){
-            setGlobalUser(JSON.parse(User))//get from local storage 
-        }
-    }, [User])
+    // // מחכה עד שיתעדכן היוזר מלוקל סטורג
+    // useEffect(() => {
+    //     if(UserVar!=''){
+    //         setGlobalUser(JSON.parse(UserVar))//get from local storage 
+    //     }
+    // }, [UserVar])
 
-    console.log(rememberMe)
-    console.log(GlobalUser)
+    // console.log(rememberMe)
+    // console.log(GlobalUser)
 
     
 

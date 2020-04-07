@@ -10,14 +10,24 @@ else{
   Url=process.env.PUBLIC_URL + `uploadedPicturesPub/`;//לשים את הכתובת של השרת
 }
 
+
+//שאיבת נתונים מלוקל סטורג
+ //שאיבת משתמש אם קיים בלוקל סטורג
+ const rememberMe = localStorage.getItem('rememberMe');// === 'true'
+ const UserVar = rememberMe ? JSON.parse(localStorage.getItem('User'))  : '';
+ 
+ console.log(rememberMe)
+ console.log(UserVar)
+
+
 // Create Context Object
 export const GlobalContext = createContext();
 
 // Create a provider for components to consume and subscribe to changes
 export const GlobalContextProvider = props => {
-  const [GlobalUser, setGlobalUser] = useState('');//תשאיר ככה,זה פרטי יוזר כללי
+  const [GlobalUser, setGlobalUser] = useState(UserVar);//תשאיר ככה,זה פרטי יוזר כללי
   const [UrlPath,setUrlPath]=useState(Url)
-  console.log(UrlPath)
+  console.log(GlobalUser)
 
 
   

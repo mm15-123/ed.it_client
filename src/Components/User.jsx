@@ -34,12 +34,14 @@ const User = () => {
     const [BDate, setBDate] = useState(GlobalUser.BDate)
     const [SchoolType, setSchoolType] = useState(GlobalUser.SchoolType)
     const [AboutMe, setAboutMe] = useState(GlobalUser.AboutMe)
+  
 
     useEffect(() => {
+        console.log("היי",GlobalUser.BDate)
         const BirthDate = GlobalUser.BDate.split(' ')[0].split('/')
         const DateFromat = BirthDate[2] + '-' + BirthDate[1] + '-' + BirthDate[0]
         setBDate(DateFromat)
-        console.log(DateFromat)
+        console.log("date",DateFromat)
     }, [])
 
     const changestate = () => {
