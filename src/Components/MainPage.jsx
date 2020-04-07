@@ -39,21 +39,6 @@ const MainPage = () => {
     const [GlobalUser, setGlobalUser,UrlPath] = useContext(GlobalContext);//מושך פרטי משתמש גלובליים ואת הנתיב לקבצים
     let a=UrlPath+GlobalUser.UrlPicture
     console.log("From main page" ,GlobalUser)
-
-    // //שאיבת משתמש אם קיים בלוקל סטורג
-    // const rememberMe = localStorage.getItem('rememberMe');// === 'true'
-    // const UserVar = rememberMe ? localStorage.getItem('User') : '';
-    
-    // // מחכה עד שיתעדכן היוזר מלוקל סטורג
-    // useEffect(() => {
-    //     if(UserVar!=''){
-    //         setGlobalUser(JSON.parse(UserVar))//get from local storage 
-    //     }
-    // }, [UserVar])
-
-    // console.log(rememberMe)
-    // console.log(GlobalUser)
-
     
 
     return (

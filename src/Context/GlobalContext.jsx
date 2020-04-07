@@ -27,13 +27,14 @@ export const GlobalContext = createContext();
 export const GlobalContextProvider = props => {
   const [GlobalUser, setGlobalUser] = useState(UserVar);//תשאיר ככה,זה פרטי יוזר כללי
   const [UrlPath,setUrlPath]=useState(Url)
+  const [GlobalContent,setGlobalContent]=useState('')
   console.log(GlobalUser)
 
 
   
   return (
     
-      <GlobalContext.Provider value={[GlobalUser, setGlobalUser,UrlPath]}> 
+      <GlobalContext.Provider value={[GlobalUser, setGlobalUser,UrlPath,GlobalContent,setGlobalContent]}> 
       {props.children}
     </GlobalContext.Provider>
   

@@ -23,6 +23,7 @@ import { Input } from '@material-ui/core';
 import Chip from '@material-ui/core/Chip';
 import { GlobalContext } from '../Context/GlobalContext';
 import Radium from 'radium';
+import swal from 'sweetalert';
 
 function getStyles(name, personName, theme) {
     return {
@@ -87,6 +88,7 @@ const UploadContent = () => {//העלאת תוכן
     const [ContentID, setContentID] = useState('')
     const [ContentName, setContentName] = useState('')
     const [PathFile, setPathFile] = useState('')
+    const [formData,setFormData]=useState('')
     const [UserID, setUserID] = useState('')
     const [Description, setDescription] = useState('')
     const [UploadDate, setUploadDate] = useState('')
@@ -138,6 +140,7 @@ const UploadContent = () => {//העלאת תוכן
         const fd = new FormData()
         fd.append('content', e.target.files[0])
         setPathFile(e.target.files[0])
+        setFormData(fd)
     }
 
     //upload the form-העלאת התוכן לשרת
@@ -162,7 +165,6 @@ const UploadContent = () => {//העלאת תוכן
             'ByUser':user[0]
         }
         console.log("content is ", Content)
-  
 
         
         fetch("http://localhost:55263/api/Content/AddContent", {
@@ -173,28 +175,38 @@ const UploadContent = () => {//העלאת תוכן
             })
         })
             .then((result) => {
-                console.log('Success:', result);
-                result.json().then(data => {
-                    alert(data);
-                  });
-                })
-            
-                
-                // fetch(`http://localhost:55263/api/Content/AddContent/${GlobalUser.Email.split("@",1)}` {
-                //     method: 'post',
-                //     body: fd,
-                //     contentType: false,
-                //     processData: false,
-                //     mode: 'no-cors',
-                //     headers: new Headers({
-                //         'Content-Type': 'application/json; charset=UTF-8',
-                //     })
-
-                // })
-            
-            .catch((error) => {
-                console.error('Error:', error);
-            });
+                console.log('Success:', result.status);
+                if( result.status<200 && result.status>300){
+                    result.json().then(data => {
+                        alert(data);
+                      });
+                }
+                else{
+                    console.log(ContentName)
+                    console.log( `http://localhost:55263/api/Content/UploadContent/${GlobalUser.Email.split("@",1)}/${ContentName}`)
+                    fetch(`http://localhost:55263/api/Content/UploadContent/${GlobalUser.Email.split("@",1)}/${ContentName}` ,{
+                        method: 'post',
+                        body: formData,
+                        contentType: false,
+                        processData: false,
+                        mode: 'no-cors',
+                        headers: new Headers({
+                            'Content-Type': 'application/json; charset=UTF-8',
+                        })
+    
+                    })
+                }
+               
+                })  .then((result) => {
+                    console.log('Success:', result);
+                    swal({
+                        // title: "Welcome",
+                        text: "Content successfully Uploaded!",
+                        icon: "success",
+                      });
+                }).catch((error) => {
+                    console.error('Error:', error);
+                });
     }
 
     return (

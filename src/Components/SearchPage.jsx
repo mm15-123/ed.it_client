@@ -5,12 +5,15 @@ import { Container, Grid } from '@material-ui/core';
 import Content from './Content';
 import logo from '../uploadedFiles/edit logo.png';
 import './MainPage.css';
+import { GlobalContext } from '../Context/GlobalContext';
 
 
 
 const SearchPage =()=>{
     const [Contents, setContents] = useState(['first', 'second', 'third', 'forth', 'fifth', 'sixth', 'seventh', 'eight', 'nine', 'ten'])
     const [ShowPic, setShowPic] = useState(true)
+    const [GlobalUser, setGlobalUser,UrlPath,GlobalContent,setGlobalContent] = useContext(GlobalContext);
+
     const cotentStyle = {
         display: 'inline-block',
         border: '2px solid #eee',
@@ -19,10 +22,8 @@ const SearchPage =()=>{
         padding: '10px'
     }
 
-    //לחיצה על תוכן 
-    const ShowContent=(event)=>{
-
-    };
+    //משיכת נתונים מהסרבר לגבי תכנים מוצעים 
+    
 
     return (
         <div>
