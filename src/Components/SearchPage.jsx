@@ -27,6 +27,7 @@ const SearchPage = () => {
     useEffect(() => {
         fetch(`http://localhost:55263/api/Content/SuggestContent/${GlobalUser.Email.split("@", 1)}`, {
             method: 'GET',
+            //mode: 'no-cors',
             headers: new Headers({
                 'Content-Type': 'application/json; charset=UTF-8',
             })
@@ -77,7 +78,7 @@ const SearchPage = () => {
                             <div className='contentStyle' key={index}>
                                 <h4>{content.ContentName}</h4>
                                 <h6> {content.Description}</h6>
-                                <Link to='/Content' params={{ testvalue: "hello" }}>
+                                <Link to={'/Content/'+content.ContentID} params={{ testvalue: "hello" }}>
                                     <img style={{ height: '90px', width: '120px' }} onClick={() => setShowPic(!ShowPic)} src={UrlPathFiles + content.PathFile} alt='loading' />
                                 </Link>
                             </div>

@@ -26,7 +26,7 @@ const Content = (props) => {
     useEffect(() => {
     }, [])
 
-
+console.log(props)
     let path=""
     // if(Local)//אם עובדים על מקומי המקור של תמונות המצגת הוא מתקייה מקומית אחרת מהשרת
     // {

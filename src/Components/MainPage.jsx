@@ -89,7 +89,7 @@ const MainPage = () => {
 
 
             <Route path='/' exact component={SearchPage} />
-            <Route path='/Content' component={Content} />
+            <Route path='/Content/:ContentID' component={Content} />
             <Route path='/SignIn' component={SignIn} />
             <Route path='/SignUp' component={SignUp} />
             <Route path='/UploadContent' component={UploadContent} />
