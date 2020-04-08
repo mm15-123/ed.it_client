@@ -1,4 +1,4 @@
-import React, { useState,useEffect,useContext} from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import SignIn from './SignIn';
 import SignUp from './SignUp';
 import Content from './Content';
@@ -36,10 +36,20 @@ const useStyles = makeStyles((theme) => ({
 
 const MainPage = () => {
     const classes = useStyles();
-    const [GlobalUser, setGlobalUser,UrlPath] = useContext(GlobalContext);//מושך פרטי משתמש גלובליים ואת הנתיב לקבצים
-    let a=UrlPath+GlobalUser.UrlPicture
-    console.log("From main page" ,GlobalUser)
-    
+    const [GlobalUser, setGlobalUser, UrlPath] = useContext(GlobalContext);//מושך פרטי משתמש גלובליים ואת הנתיב לקבצים
+    //let a = UrlPath + GlobalUser.UrlPicture
+    console.log("From main page", GlobalUser)
+    const [RememberMe,setRememberMe]=useContext(GlobalContext);
+    //console.log( localStorage.getItem('rememberMe')!==null ?localStorage.getItem('rememberMe') : 'somyhing wrong' )
+
+
+    //יציאה מהמשתמש,אתחול לוקל_סטורג' אתחול גלובל_יוזרת וגלובל_רממברמי
+    const LogOut = () => {
+        localStorage.setItem('rememberMe', false);
+        localStorage.setItem('User', null)
+        setRememberMe(false)
+        setGlobalUser(null)
+    }
 
     return (
         <div>
@@ -47,7 +57,7 @@ const MainPage = () => {
 
                 <ul >
                     <li >
-                       <div> <NavLink to='/' exact>HOME</NavLink></div>
+                        <div> <NavLink to='/' exact>HOME</NavLink></div>
                     </li>
                     <li >
                         <NavLink to='/SignIn'>Sign In</NavLink>
@@ -59,30 +69,32 @@ const MainPage = () => {
                         <NavLink to='/UploadContent'>Upload Content</NavLink>
                     </li>
                     <li className="logout">
-                        <NavLink to='/User'>Log Out |</NavLink>
+                        {GlobalUser !== null && <NavLink to='/' onClick={LogOut}>Log Out |</NavLink>}
                     </li>
                     <li className="textProfile">
-                        {console.log("user nav ",GlobalUser.Name)}
-                        <NavLink to='/User'>{GlobalUser.Name}</NavLink>
+
+                        {GlobalUser !== null && <NavLink to='/User' >{ GlobalUser.Name}</NavLink>}
                     </li>
                     {/* <li> */}
-                   
+
                     {/* </li> */}
                 </ul>
                 <div className={classes.ProfileDiv}>
                     <Link to='/User'>
-                    <Avatar alt="Remy Sharp" src={UrlPath+GlobalUser.UrlPicture} className={classes.ProfilePic} />
+                        {GlobalUser !== null && <Avatar alt="Remy Sharp" src={ UrlPath + GlobalUser.UrlPicture} className={classes.ProfilePic} />}
                     </Link>
                 </div>
-               
-            </nav> 
-            <Route path='/' exact component={SearchPage}/>
+
+            </nav>
+
+
+            <Route path='/' exact component={SearchPage} />
             <Route path='/Content' component={Content} />
             <Route path='/SignIn' component={SignIn} />
             <Route path='/SignUp' component={SignUp} />
             <Route path='/UploadContent' component={UploadContent} />
             <Route path='/User' component={User} />
-              
+
 
         </div>
     )

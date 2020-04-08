@@ -135,6 +135,14 @@ const UploadContent = () => {//העלאת תוכן
         setChoosenTagsList(tagslist)
         console.log(ChoosenTagsList)
     }
+
+    // מחיקת תגיות שנבחרו
+    const RemoveTag = (tag) => {
+        console.log(tag)
+        const tags = ChoosenTagsList.filter((T) => T !== tag)
+        setChoosenTagsList(tags)
+        console.log(tags)
+    }
     //צירוף קובץ 
     const UploadPpt = (e) => {
         const fd = new FormData()
@@ -152,7 +160,7 @@ const UploadContent = () => {//העלאת תוכן
         var yyyy = today.getFullYear();
 
         today = mm + '/' + dd + '/' + yyyy;
-        let user=GlobalUser.Email.split("@",1)
+        let user = GlobalUser.Email.split("@", 1)
         // const tagsChosen = { ...ChoosenTagsList }
         // console.log(tagsChosen)
         console.log(user[0])
@@ -162,11 +170,12 @@ const UploadContent = () => {//העלאת תוכן
             'PathFile': PathFile.name,
             'UploadedDate': today,
             'TagsContent': ChoosenTagsList,
-            'ByUser':user[0]
+            'ByUser': user[0]
         }
         console.log("content is ", Content)
 
-        
+
+
         fetch("http://localhost:55263/api/Content/AddContent", {
             method: 'post',
             body: JSON.stringify(Content),
@@ -276,7 +285,11 @@ const UploadContent = () => {//העלאת תוכן
 
                                 >
                                     {
-                                        ChoosenTagsList.map((tag, index) => <MenuItem key={index} value={tag}>{tag}</MenuItem>)
+                                        ChoosenTagsList.map((tag, index) =>
+                                            <div key={index} style={{ display: 'flex', justifyContent: 'space-between', direction: 'rtl', width: '100%' }} >
+                                                {index + 1}.<MenuItem key={index} value={tag}>{tag}</MenuItem>
+                                                <button style={{ backgroundColor: 'none', border: 'none' }} onClick={() => RemoveTag(tag)}>X</button>
+                                            </div>)
                                     }
                                 </h3>
                             </Grid>
