@@ -2,12 +2,15 @@ import React, { useState, createContext } from "react";
 
 //הגדרת ניתוב לתיקייה 
 let local=true;//לשנות בהתאם לסוג העבודה שלנו
-let Url=''
+let UrlPictures=''
+let UrlFiles=''
 if(local){
-  Url=process.env.PUBLIC_URL + `uploadedPicturesPub/`//uploadedFilesPub למצגות
+  UrlPictures=process.env.PUBLIC_URL + `uploadedPicturesPub/`//uploadedFilesPub למצגות
+  UrlFiles=process.env.PUBLIC_URL + `uploadedFilesPub/`
 }
 else{
-  Url=process.env.PUBLIC_URL + `uploadedPicturesPub/`;//לשים את הכתובת של השרת
+  UrlPictures=process.env.PUBLIC_URL + `uploadedPicturesPub/`;//לשים את הכתובת של השרת
+  UrlFiles=process.env.PUBLIC_URL + `uploadedFilesPub/`
 }
 
 
@@ -26,7 +29,8 @@ export const GlobalContext = createContext();
 // Create a provider for components to consume and subscribe to changes
 export const GlobalContextProvider = props => {
   const [GlobalUser, setGlobalUser] = useState(UserVar);//תשאיר ככה,זה פרטי יוזר כללי
-  const [UrlPath,setUrlPath]=useState(Url)
+  const [UrlPath,setUrlPath]=useState(UrlPictures)
+  const [UrlPathFiles,setUrlPathFiles]=useState(UrlFiles)
   const [GlobalContent,setGlobalContent]=useState('')
   console.log(GlobalUser)
 
@@ -34,7 +38,7 @@ export const GlobalContextProvider = props => {
   
   return (
     
-      <GlobalContext.Provider value={[GlobalUser, setGlobalUser,UrlPath,GlobalContent,setGlobalContent]}> 
+      <GlobalContext.Provider value={[GlobalUser, setGlobalUser,UrlPath,UrlPathFiles,GlobalContent,setGlobalContent]}> 
       {props.children}
     </GlobalContext.Provider>
   
