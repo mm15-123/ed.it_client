@@ -53,23 +53,23 @@ const MainPage = () => {
 
     return (
         <div>
-            <nav className="navbar">
+            <nav className="navbar" style={{direction:'rtl'}}>
 
                 <ul >
                     <li >
-                        <div> <NavLink to='/' exact>HOME</NavLink></div>
+                        <div> <NavLink to='/' exact>בית</NavLink></div>
                     </li>
                     <li >
-                        <NavLink to='/SignIn'>Sign In</NavLink>
+                        <NavLink to='/SignIn'>התחבר</NavLink>
                     </li>
                     <li >
-                        <NavLink to='/SignUp'>Sign Up</NavLink>
+                        <NavLink to='/SignUp'>הרשם</NavLink>
                     </li>
                     <li >
-                        <NavLink to='/UploadContent'>Upload Content</NavLink>
+                        <NavLink to='/UploadContent'>העלאת תוכן</NavLink>
                     </li>
                     <li className="logout">
-                        {GlobalUser !== null && <NavLink to='/' onClick={LogOut}>Log Out |</NavLink>}
+                        {GlobalUser !== null && <NavLink to='/' onClick={LogOut}>התנתק |</NavLink>}
                     </li>
                     <li className="textProfile">
 

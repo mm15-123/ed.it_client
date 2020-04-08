@@ -141,7 +141,7 @@ const SignUp = () => {
         , []);
 
     const chooseTags = (e) => {
-        if (ChosenTags.length === 3) return;
+        //if (ChosenTags.length === 3) return;
         const tags = ChosenTags
         setChosenTag(e.target.value)
         const chosen = e.target.value
@@ -159,14 +159,15 @@ const SignUp = () => {
     }
 
     const theme = useTheme();
+
     const prevent = (e) => {
         e.preventDefault()
+        CreatUser()
     }
 
     const CreatUser = () => {
+
         const user = {
-            //'UserID': uuid.v4(),
-            //'UserName': UserName,
             'Name': Name,
             'Password': Password,
             'Email': Email,
@@ -178,23 +179,35 @@ const SignUp = () => {
             'FormDataPic': FormDataPic,
             'TagsUser': ChosenTags
         }
-        if (Name !== '' && Password !== '' && Email !== '' && TeacherType !== '' && BDate !== '' && SchoolType !== '' && AboutMe !== '') {
-            alert('good')
+        if (BDate !== '' && SchoolType !== '' && ChosenTags.length >= 3) {
+            swal({
+                title: "good",
+                text: "all details were filled",
+                icon: "success",
+            })
             console.log(FormDataPic, "hey")
-            PostUser(user, FormDataPic)
+            //PostUser(user, FormDataPic)
         }
         else {
-            alert('fiil all the field pls')
-            PostUser(user, FormDataPic)
+            const BDerr = BDate === '' ? 'fill date pls.' : '';
+            const Schoolerr = SchoolType === '' ? 'fill school type pls.' : '';
+            const Tsgserr = ChosenTags.length < 3 ? 'choose at least 3 tags.' : '';
+            swal({
+                title: "Sorry, there are missing details",
+                text: `${BDerr}  ${Schoolerr}  ${Tsgserr}`,
+                icon: "error",
+            })
+            //alert(`sorry, there is validate error: ${BDerr}  ${Schoolerr}  ${Tsgserr}`)
+            //PostUser(user, FormDataPic)
         }
         console.log(user)
     }
 
-    const UploadPict = () => {
-        //console.log(UrlPic)
+    const UploadPict = (e) => {      
         const fd = new FormData()
-        fd.append('image', UrlPic, UrlPic.name)
-        console.log(fd, UrlPic, UrlPic.name)
+        fd.append('image', e.target.files[0], e.target.files[0].name)
+        console.log(fd, e.target.files[0], e.target.files[0].name)
+        setUrlPic(e.target.files[0])
         setFormDataPic(fd)
 
     }
@@ -261,9 +274,9 @@ const SignUp = () => {
                     <LockOutlinedIcon />
                 </Avatar>
                 <Typography component="h1" variant="h5">
-                    Sign up
+                    הרשמה
         </Typography>
-                <form className={classes.form} noValidate onSubmit={prevent}>
+                <form className={classes.form} onSubmit={prevent}>
                     <Grid container spacing={2}>
                         <Grid item xs={12}>
                             <TextField
@@ -273,7 +286,7 @@ const SignUp = () => {
                                 required
                                 fullWidth
                                 id="Name"
-                                label="Name"
+                                label="שם"
                                 autoFocus
                                 onChange={(e) => setName(e.target.value)}
                             />
@@ -284,7 +297,7 @@ const SignUp = () => {
                                 required
                                 fullWidth
                                 id="email"
-                                label="Email Address"
+                                label="כתובת מייל"
                                 name="email"
                                 autoComplete="email"
                                 onChange={(e) => setEmail(e.target.value)}
@@ -296,7 +309,7 @@ const SignUp = () => {
                                 required
                                 fullWidth
                                 name="password"
-                                label="Password"
+                                label="סיסמה"
                                 type="password"
                                 id="password"
                                 autoComplete="current-password"
@@ -309,7 +322,7 @@ const SignUp = () => {
                                 fullWidth
                                 required
                                 name="TeacherType"
-                                label="Teacher Type"
+                                label="מקצועות הוראה"
                                 id="TeacherType"
                                 autoComplete="Teacher Type"
                                 onChange={(e) => setTeacherType(e.target.value)}
@@ -319,7 +332,8 @@ const SignUp = () => {
                             <TextField
                                 variant="outlined"
                                 id="BDate"
-                                label="Birthday"
+                                required
+                                label="תאריך לידה"
                                 type="date"
                                 defaultValue="2017-05-24"
                                 className={classes.textField}
@@ -330,13 +344,13 @@ const SignUp = () => {
                             />
                         </Grid>
                         <Grid item xs={12} sm={6} >
-                            <label style={{ fontWeight: 'bold', fontSize: '1.1rem' }}>School Type</label>
+                            <label style={{ fontWeight: 'bold', fontSize: '1.1rem' }}>סוג בית ספר</label>
                             <Select
                                 labelId="SchoolType"
                                 id="SchoolType"
                                 fullWidth
                                 value={SchoolType}
-                                required
+                                required={true}
                                 onChange={(e) => setSchoolType(e.target.value)}
                             >
                                 <MenuItem value="יסודי">יסודי</MenuItem>
@@ -350,14 +364,14 @@ const SignUp = () => {
                                 required
                                 fullWidth
                                 id="AboutMe"
-                                label="About Me"
+                                label="קצת על עצמי"
                                 name="About Me"
                                 autoComplete="AboutMe"
                                 onChange={(e) => setAboutMe(e.target.value)}
                             />
                         </Grid>
                         <Grid item xs={12}>
-                            <label style={{ fontWeight: 'bold', fontSize: '1.3rem' }}>upload picture</label>
+                            <label style={{ fontWeight: 'bold', fontSize: '1.3rem' }}>בחר תמונה</label>
                             <Input
                                 variant="outlined"
                                 accept="image/*"
@@ -366,21 +380,20 @@ const SignUp = () => {
                                 fullWidth
                                 id="pic"
                                 autoComplete="pic"
-                                onChange={(e) => setUrlPic(e.target.files[0])}
+                                onChange={UploadPict}
                             />
-                            <button onClick={UploadPict}>upload</button>
                         </Grid>
-                        <Grid item xs={12}>
-                            <img
-                                src={UrlPic} alt="image" />
-                        </Grid>
+                        {/*<Grid item xs={12}>
+                            <img src={UrlPic.name} alt="image" />
+                            </Grid>*/}
                         <Grid item xs={12} sm={6} >
                             <FormControl className={classes.formControl}>
-                                <InputLabel id="demo-mutiple-chip-label">Tags</InputLabel>
+                                <InputLabel id="demo-mutiple-chip-label">בחר תגיות</InputLabel>
                                 <Select
                                     labelId="demo-mutiple-chip-label"
                                     id="demo-mutiple-chip"
                                     value={ChosenTag}
+                                    required
                                     onChange={chooseTags}
                                 >
                                     {Tags.map((tag, index) => (
@@ -392,7 +405,7 @@ const SignUp = () => {
                             </FormControl>
                         </Grid>
                         <Grid item xs={12} sm={6}>
-                            <label style={{ fontWeight: 'bold', fontSize: '1.1rem' }}>tags</label>
+                            <label style={{ fontWeight: 'bold', fontSize: '1.1rem' }}>תגיות שנבחרו</label>
                             <h3
                                 labelId="ChoosenTags"
                                 id="ChoosenTags"
@@ -403,7 +416,7 @@ const SignUp = () => {
                                 {
                                     ChosenTags.map((tag, index) =>
                                         <div key={index} style={{ display: 'flex', justifyContent: 'space-between', direction: 'rtl', width: '100%' }} >
-                                            {index+1}.<MenuItem key={index} value={tag}>{tag}</MenuItem>
+                                            {index + 1}.<MenuItem key={index} value={tag}>{tag}</MenuItem>
                                             <button style={{ backgroundColor: 'none', border: 'none' }} onClick={() => RemoveTag(tag)}>X</button>
                                         </div>)
 
@@ -417,13 +430,13 @@ const SignUp = () => {
                         variant="contained"
                         color="primary"
                         className={classes.submit}
-                        onClick={CreatUser}
+                    //onClick={CreatUser}
                     >
-                        Sign Up
+                        הירשם
           </Button>
                     <Grid container justify="flex-end">
                         <Grid item>
-                            <Link to='/SignIn'>Already have an account? Sign in</Link>
+                            <Link to='/SignIn'>משתמש קיים? התחבר</Link>
                         </Grid>
                     </Grid>
                 </form>

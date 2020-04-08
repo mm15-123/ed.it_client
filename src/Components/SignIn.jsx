@@ -113,7 +113,7 @@ const useStyles = makeStyles(theme => ({
           (result) => {
             if(result==null){//הזנת שם משתמש או סיסמא לא נכונים
               setMessage( <div className={classes.root}>    <Alert variant="filled" severity="error">
-              user name or password is incorrect!
+              שם משתמש ואו סיסמה לא נכונים
             </Alert></div>)     
               console.log(Message)     
             }
@@ -124,7 +124,7 @@ const useStyles = makeStyles(theme => ({
                //console.log(localStorage.getItem('User'))
               setMessage  (<div className={classes.root}>    
                 <Alert variant="filled" severity="success">
-                You've logged in successfully
+                התחברות הצליחה
               </Alert> </div>)
               setGlobalUser(result);             
               setmoveMainPage(true)//מעבר לעמוד הראשי לאחר התחברות מוצלחת
@@ -152,7 +152,7 @@ const useStyles = makeStyles(theme => ({
           <LockOutlinedIcon />
         </Avatar>
         <Typography component="h1" variant="h5">
-          Sign in
+          התחברות למשתמש
         </Typography>
         <form className={classes.form} noValidate onSubmit={prevent}>
           <TextField
@@ -161,7 +161,7 @@ const useStyles = makeStyles(theme => ({
             required
             fullWidth
             id="email"
-            label="Email Address"
+            label="כתובת מייל"
             name="email"
             autoComplete="email"
             autoFocus
@@ -173,7 +173,7 @@ const useStyles = makeStyles(theme => ({
             required
             fullWidth
             name="password"
-            label="Password"
+            label="סיסמה"
             type="password"
             id="password"
             autoComplete="current-password"
@@ -185,7 +185,7 @@ const useStyles = makeStyles(theme => ({
    
           <FormControlLabel
             control={<Checkbox value="remember" color="primary" checked={RememberMe} onChange={RememberMeChanged}/>}
-            label="Remember me"
+            label="זכור אותי"
           />
           <Button
             type="submit"
@@ -195,20 +195,20 @@ const useStyles = makeStyles(theme => ({
             className={classes.submit}
             onClick={ConfirmUser}
           >
-            Sign In
+            התחבר
           </Button>
    
           <Grid container>
             <Grid item xs>
               <Link href="#" variant="body2">
-                Forgot password?
+                שכחת סיסמה?
               </Link>
             </Grid>
             <Grid item>
               <Link to='/SignUp'
               // variant="body2"
               >
-                {"Don't have an account? Sign Up"}
+                {"עדיין אין לך חשבון משתמש? הרשם "}
               </Link>
             </Grid>
           </Grid>

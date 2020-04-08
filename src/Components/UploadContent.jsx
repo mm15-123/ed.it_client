@@ -88,7 +88,7 @@ const UploadContent = () => {//העלאת תוכן
     const [ContentID, setContentID] = useState('')
     const [ContentName, setContentName] = useState('')
     const [PathFile, setPathFile] = useState('')
-    const [formData,setFormData]=useState('')
+    const [formData, setFormData] = useState('')
     const [UserID, setUserID] = useState('')
     const [Description, setDescription] = useState('')
     const [UploadDate, setUploadDate] = useState('')
@@ -127,7 +127,7 @@ const UploadContent = () => {//העלאת תוכן
 
     //בחירת תגיות עבור המצגת
     const PushToTagsList = (e) => {
-        if (ChoosenTagsList.length == 3) return;//אם 3 אז בסדר
+        //if (ChoosenTagsList.length == 3) return;//אם 3 אז בסדר
         setChosenTag(e.target.value)
         const chosen = e.target.value
         const tagslist = ChoosenTagsList
@@ -154,6 +154,14 @@ const UploadContent = () => {//העלאת תוכן
     //upload the form-העלאת התוכן לשרת
     const prevent = (e) => {
         e.preventDefault();
+        
+        if (ChoosenTagsList.length < 3) {
+            swal({
+                title: 'missing details',
+                text: 'choose 3 tags a least pls.',
+                icon: 'error'
+            })
+        }
         var today = new Date();
         var dd = String(today.getDate()).padStart(2, '0');
         var mm = String(today.getMonth() + 1).padStart(2, '0'); //January is 0!
@@ -185,15 +193,15 @@ const UploadContent = () => {//העלאת תוכן
         })
             .then((result) => {
                 console.log('Success:', result.status);
-                if( result.status<200 && result.status>300){
+                if (result.status < 200 && result.status > 300) {
                     result.json().then(data => {
                         alert(data);
-                      });
+                    });
                 }
-                else{
+                else {
                     console.log(ContentName)
-                    console.log( `http://localhost:55263/api/Content/UploadContent/${GlobalUser.Email.split("@",1)}/${ContentName}`)
-                    fetch(`http://localhost:55263/api/Content/UploadContent/${GlobalUser.Email.split("@",1)}/${ContentName}` ,{
+                    console.log(`http://localhost:55263/api/Content/UploadContent/${GlobalUser.Email.split("@", 1)}/${ContentName}`)
+                    fetch(`http://localhost:55263/api/Content/UploadContent/${GlobalUser.Email.split("@", 1)}/${ContentName}`, {
                         method: 'post',
                         body: formData,
                         contentType: false,
@@ -202,20 +210,19 @@ const UploadContent = () => {//העלאת תוכן
                         headers: new Headers({
                             'Content-Type': 'application/json; charset=UTF-8',
                         })
-    
+
                     })
                 }
-               
-                })  .then((result) => {
-                    console.log('Success:', result);
-                    swal({
-                        // title: "Welcome",
-                        text: "Content successfully Uploaded!",
-                        icon: "success",
-                      });
-                }).catch((error) => {
-                    console.error('Error:', error);
+
+            }).then((result) => {
+                console.log('Success:', result);
+                swal({
+                    title: "Content successfully Uploaded!",
+                    icon: "success",
                 });
+            }).catch((error) => {
+                console.error('Error:', error);
+            });
     }
 
     return (
@@ -229,9 +236,7 @@ const UploadContent = () => {//העלאת תוכן
                     <Typography component="h1" variant="h5">
                         Upload Content
         </Typography>
-                    <form className={classes.form} noValidate
-                        onSubmit={prevent}
-                    >
+                    <form className={classes.form} onSubmit={prevent} >
                         <Grid container spacing={2}>
                             <Grid item xs={12}>
                                 <TextField
