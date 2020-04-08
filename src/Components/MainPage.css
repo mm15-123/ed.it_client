@@ -47,17 +47,29 @@
 }
 
 .logo{
-  width: 20%;
-  right: 40%;
-  position: relative; 
-  height: 70px;
+    width: 40%;
+    right: 100%;
+    position: relative;
+    height: 90px;
 
 }
 
 .searchText{
-    width: 50%;
+    width: 80%;
     position: relative;
-    left: 60%;
+    left: 100%;
+}
+
+.headerContents{
+    left: 90%;
+    position: relative;
+
+}
+
+.ListContents{
+    position: relative;
+    width: 297%;
+    right: 50%;
 }
 
 .pdf{
@@ -83,5 +95,14 @@
 .sliderContent .slick-dots li button{
     right: 800%;
     position: relative;
+}
+
+.contentStyle{
+    display: inline-block;
+    border: 2px solid #eee;
+    box-shadow: 4px 4px 4px 4px #333;
+    margin: 10px;
+    padding: 10px;
+    border-radius: 13%;
 }
 
