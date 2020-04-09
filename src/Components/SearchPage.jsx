@@ -6,7 +6,7 @@ import Content from './Content';
 import logo from '../uploadedFiles/edit logo.png';
 import './MainPage.css';
 import { GlobalContext } from '../Context/GlobalContext';
-
+import 'bootstrap/dist/css/bootstrap.min.css';
 
 const SearchPage = () => {
     const [Contents, setContents] = useState(['first', 'second', 'third', 'forth', 'fifth', 'sixth', 'seventh', 'eight', 'nine', 'ten'])
@@ -25,7 +25,16 @@ const SearchPage = () => {
     //משיכת נתונים מהסרבר לגבי תכנים מוצעים 
 
     useEffect(() => {
-        fetch(`http://localhost:55263/api/Content/SuggestContent/${GlobalUser.Email.split("@", 1)}`, {
+        let apiUrl=''
+        console.log(GlobalUser)
+        if(GlobalUser!=null){
+            apiUrl=`http://localhost:55263/api/Content/SuggestContent/${GlobalUser.Email.split("@", 1)}`
+        }
+        else{
+            apiUrl=`http://localhost:55263/api/Content/SuggestContentForGuest`
+        }
+
+        fetch(apiUrl, {
             method: 'GET',
             //mode: 'no-cors',
             headers: new Headers({
