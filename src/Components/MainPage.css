@@ -20,7 +20,7 @@
 
 .navbar a {
     text-decoration: none;
-        color: black;
+        color: white;
 }
 
 .navbar a:hover,
@@ -28,20 +28,21 @@
 .navbar a.active
  {
     /*text-decoration: underline;*/
-    background-color: whitesmoke;
+    background-color: rgb(7, 28, 122);
+    color: white;
     font-weight: bold;
     border-radius: 20%;
 }
 
 .logout{
-    left: 21%;
+    right: 55%;
     position: relative;
     font-weight: bold;
 
 }
 
 .textProfile {
-    left: 17%;
+    right: 15%;
     position: relative;
     font-weight: bold;
 }

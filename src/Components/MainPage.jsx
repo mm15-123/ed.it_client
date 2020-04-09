@@ -69,7 +69,7 @@ const MainPage = () => {
                         <NavLink to='/UploadContent'>העלאת תוכן</NavLink>
                     </li>
                     <li className="logout">
-                        {GlobalUser !== null && <NavLink to='/' onClick={LogOut}>התנתק |</NavLink>}
+                        {GlobalUser !== null && <NavLink to='/' onClick={LogOut}>התנתק</NavLink>}
                     </li>
                     <li className="textProfile">
 
