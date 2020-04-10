@@ -1,5 +1,5 @@
-import React, { useState, useEffect } from 'react'
-import { Container } from '@material-ui/core';
+import React, { useState, useEffect, useContext } from 'react'
+import { Container, Avatar } from '@material-ui/core';
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import Slider from 'react-slick';
@@ -7,8 +7,12 @@ import styled from 'styled-components';
 import presentation from '../uploadedFiles/presentaion1.pptx';//ככה מורידים את המצגת
 import myPDF from '../uploadedFiles/myPDF.pdf';
 import './MainPage.css';
+import axios from 'axios';
+import { GlobalContext } from '../Context/GlobalContext';
 
-const Local=true;
+
+
+const Local = true;
 
 const Wrapper = styled.div`
 width: 100%;
@@ -22,35 +26,62 @@ margin-top:20%;
 `;
 
 const Content = (props) => {
+    const [ContentToShow, setContentToShow] = useState('')
+    const [PagesSourceList, setPagesSourceList] = useState([])
+    const [GlobalUser, setGlobalUser, UrlPath, UrlPathFiles, GlobalContent, setGlobalContent] = useContext(GlobalContext);
 
     useEffect(() => {
+        const ContentApiUrl = `http://localhost:55263/api/Content/GetContent/${props.match.params.ContentID}`//go to DB and brings the specific presentation with her likes
+        console.log(ContentApiUrl)
+        axios.get(ContentApiUrl)
+            .then(res => {
+                console.log(res.data)
+                setContentToShow(res.data)
+                MakePages(res.data) // do nothing, just for console.log() staf
+                const PagesSourceNewList = []
+                for (var i = 1; i < 22; i++) { // fill list with the presentasion slides as pictures
+                    PagesSourceNewList.push('/'+UrlPathFiles + `${res.data.PathFile.split('.', 1)}_${i}.jpg`)
+                }
+                setPagesSourceList(PagesSourceNewList)
+            })
+
     }, [])
 
-console.log(props)
-    let path=""
+    console.log(props)
+    let path = ""
     // if(Local)//אם עובדים על מקומי המקור של תמונות המצגת הוא מתקייה מקומית אחרת מהשרת
     // {
     //     // path
     // }
-
-    // const [pages, setpages] = useState(['page 1', 'page 2', 'page 3 ', 'page 4'])
-    const [pages, setpages] = useState([])
     //ניסוי לראות אם מציג את התמונות של המצגת
     //todo- לשאוב את שם המשתמש בשביל להשלים שם תמונה
     //todo- לקבל מהשרת כמה תמונות יש בכלל בתיקייה
-    const PagesSourceList=[]
-    for (var i = 1; i < 4; i++) {
-        PagesSourceList.push( process.env.PUBLIC_URL +`uploadedFilesPub/hadar_${i}.jpg`)
-    } 
-    // setpages(PagesSourceList);
-    console.log(PagesSourceList)
-    console.log(Local)
-    useEffect(()=>console.log("props are ",props),[])
-    
+
+    const MakePages = (data) => { //do nothing
+        console.log('make pages')
+        console.log('ContentToShow ', data)
+        console.log('PagesSourceList ', PagesSourceList)
+        console.log('Local ', Local)
+    }
+
     return (
         <Wrapper className={Container}>
-            <Slider 
-                spedd={500}
+            <div style={{ width:'80%',margin:'auto', display: 'flex', justifyContent: 'space-between', direction: 'rtl' }}>
+                <div>
+                    <h1>{ContentToShow.ContentName}</h1>
+                    <h2>{ContentToShow.Description}</h2>
+                </div>
+
+                <div> 
+                <Avatar alt="Remy Sharp" src={'/'+UrlPath + `${ContentToShow.UserPic}`}  />
+                {console.log('img path ', process.env.PUBLIC_URL + '/uploadedPicturesPub/Shiftan92.jpg')}
+                {console.log('avatar Path ','/'+UrlPath + `${ContentToShow.UserPic}`)}
+                    <h3>{ContentToShow.ByUser} משתמש: </h3>
+                    <h3>{ContentToShow.Likes} אהבו את המצגת</h3>
+                </div>
+            </div>
+            <Slider
+                speed={500}
                 slidesToShow={1}
                 slidesToScrol={1}
                 infinite={false}
@@ -58,17 +89,21 @@ console.log(props)
                 className="sliderContent"
             >
                 {
-                    // PagesSourceList.map((page, index) => <Page key={index}><img className="picContent" src={process.env.PUBLIC_URL + `uploadedFilesPub/${page}`}></img>{console.log(page)} </Page>)
-                    PagesSourceList.map((page, index) => <Page key={index}><img className="picContent" src={`${page}`}></img>{console.log(page)} </Page>)
-
+                    PagesSourceList.map((page, index) =>
+                        <Page key={index}>
+                            <img className="picContent" src={page} alt='loading' />
+                            {console.log(page)}
+                        </Page>)
                 }
             </Slider>
+            
             {/* <iframe src={myPDF} width="540" height="450"></iframe> */}
-                {/* <iframe src={myPDF} className="pdf" allowfullscreen frameborder="0" scrolling="no" > </iframe> */}
-                {/* הורדה של התוכן */}
-                {/* <iframe src={presentation} width="595" height="485" frameborder="0" marginwidth="0" marginheight="0" scrolling="no"  allowfullscreen> </iframe> */}
+            {/* <iframe src={myPDF} className="pdf" allowfullscreen frameborder="0" scrolling="no" > </iframe> */}
+            {/* הורדה של התוכן */}
+            {/* <iframe src={presentation} width="595" height="485" frameborder="0" marginwidth="0" marginheight="0" scrolling="no"  allowfullscreen> </iframe> */}
         </Wrapper>
     )
 }
 
 export default Content;
+//<img className="picContent" src={`'${page}'`} alt='loading'/> public\uploadedPicturesPub\eli.PNG

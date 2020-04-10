@@ -88,11 +88,11 @@
 }
 
 .picContent{
-    width: 40%;
-    height: 230px;
-    left: 8%;
+    width: 50%;
+    height: 50%;
+    
     position: relative;
-    margin-top: -10%;
+    margin-top: -20%;
 }
 
 .sliderContent .slick-dots li button{

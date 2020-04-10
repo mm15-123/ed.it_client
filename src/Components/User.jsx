@@ -18,14 +18,14 @@ const useStyles = makeStyles((theme) => ({
         height: theme.spacing(3),
     },
     large: {
-        width: theme.spacing(22),
-        height: theme.spacing(20),
+        width: theme.spacing(60),
+        height: theme.spacing(30),
     },
 }));
 
 const User = () => {
     const classes = useStyles();
-    const [GlobalUser, setGlobalUser] = useContext(GlobalContext);
+    const [GlobalUser, setGlobalUser, UrlPath, UrlPathFiles, GlobalContent, setGlobalContent] = useContext(GlobalContext);
     const [Edit, setEdit] = useState(false)
 
     const [Name, setName] = useState(GlobalUser.Name)
@@ -40,7 +40,7 @@ const User = () => {
         const DateFromat = BirthDate[2] + '-' + BirthDate[1] + '-' + BirthDate[0]
         setBDate(DateFromat)
         console.log(DateFromat)
-    }, [])
+    }, [GlobalUser])
 
     const changestate = () => {
         setEdit(!Edit)
@@ -65,6 +65,7 @@ const User = () => {
         console.log('New USer ', NewUSer)
         setGlobalUser(NewUSer)
         console.log(GlobalUser)
+        localStorage.setItem('User', NewUSer)
 
         const apiUrl = 'http://localhost:55263/api/User/UpdateUser';
         fetch(apiUrl, {
@@ -88,15 +89,19 @@ const User = () => {
         <div className='UserBody'>
             <div className='MainDetails'>
                 <div>
-                    <Container component="main" maxWidth="xs">
-                        <CssBaseline />
-                        <div>
+                    {//<Container component="main" maxWidth="xs">
+                        //<CssBaseline />
+                        <div style={{width:'100%'}}>
                             <Typography component="h1" variant="h5" >דף פרופיל אישי</Typography>
                             <table style={{ width: '100%' }}>
                                 <tr>
                                     <td>
                                         <h2>{GlobalUser.Name}</h2>
-                                        {<Avatar className={classes.large} src={ProfilePicture2} />}
+                                        {<Avatar 
+                                        className={classes.large} 
+                                        //style={{width:'100%', height:'100%'}}
+                                        src={`/${UrlPath + GlobalUser.UrlPicture}`} />}
+                                        {console.log(`/${UrlPath + GlobalUser.UrlPicture}`)}
                                     </td>
                                     <td >
                                         <tr>
@@ -125,7 +130,8 @@ const User = () => {
                                 //color="primary"           
                                 onClick={changestate}>ערוך פרטים</Button>}
                         </div>
-                    </Container>
+                    //</Container>
+                    }
                 </div>
                 <div >
                     <h3>קצת על עצמי: </h3>
