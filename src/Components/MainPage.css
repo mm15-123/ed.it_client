@@ -68,8 +68,8 @@
 
 .ListContents{
     position: relative;
-    width: 297%;
-    right: 50%;
+    width: 220%;
+    right: 30%;
 }
 
 
@@ -102,9 +102,10 @@
 .contentStyle{
     display: inline-block;
     border: 2px solid #eee;
-    box-shadow: 4px 4px 4px 4px #333;
+    box-shadow: 1px 1px 1px 3px #333;
     margin: 10px;
     padding: 10px;
     border-radius: 13%;
+    max-width: -webkit-fill-available;
 }
 

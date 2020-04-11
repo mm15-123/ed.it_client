@@ -7,6 +7,8 @@ import logo from '../uploadedFiles/edit logo.png';
 import './MainPage.css';
 import { GlobalContext } from '../Context/GlobalContext';
 import 'bootstrap/dist/css/bootstrap.min.css';
+import Slider from 'react-slick';
+
 
 const SearchPage = () => {
     const [Contents, setContents] = useState(['first', 'second', 'third', 'forth', 'fifth', 'sixth', 'seventh', 'eight', 'nine', 'ten'])
@@ -81,7 +83,17 @@ const SearchPage = () => {
                         </Grid>
                     </div>
                         <h3 className="headerContents">...תכנים אלה עלולים לעניין אותך</h3>           
+                       
                         <div className='ListContents'>
+                        <Slider 
+                spedd={500}
+                slidesToShow={5}
+                slidesToScrol={5}
+                infinite={false}
+                dots={false}
+                
+                
+            >
                     {
                         SuggestionContents.map((content, index) =>
                             <div className='contentStyle' key={index}>
@@ -93,6 +105,28 @@ const SearchPage = () => {
                             </div>
                         )
                     }
+                       <div className='contentStyle' >
+                                <h4>מה קורה</h4>
+                                <h6> היי</h6>          
+                            </div>
+                            <div className='contentStyle' >
+                                <h4>מה קורה</h4>
+                                <h6> היי</h6>          
+                            </div> <div className='contentStyle' >
+                                <h4>מה קורה</h4>
+                                <h6> היי</h6>          
+                            </div> <div className='contentStyle' >
+                                <h4>מה קורה</h4>
+                                <h6> היי</h6>          
+                            </div> <div className='contentStyle' >
+                                <h4>מה קורה</h4>
+                                <h6> היי</h6>          
+                            </div> <div className='contentStyle' >
+                                <h4>מה קורה</h4>
+                                <h6> היי</h6>          
+                            </div>
+                                </Slider>
+
                                         </div>
 
                 
