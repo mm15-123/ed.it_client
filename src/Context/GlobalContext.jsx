@@ -35,7 +35,8 @@ export const GlobalContextProvider = props => {
   const [GlobalContent,setGlobalContent]=useState('')
   const [RememberMe, setRememberMe] = useState(rememberMe)
   console.log(GlobalUser)
-
+  console.log('UrlPictures',UrlPictures)
+  console.log('UrlFiles',UrlFiles)
 
 
 

@@ -101,6 +101,7 @@ const SearchPage = () => {
                                 <h6> {content.Description}</h6>
                                 <Link to={'/Content/'+content.ContentID} params={{ testvalue: "hello" }}>
                                     <img style={{ height: '90px', width: '120px' }} onClick={() => setShowPic(!ShowPic)} src={UrlPathFiles + content.PathFile} alt='loading' />
+                                    {console.log(UrlPathFiles + content.PathFile)}
                                 </Link>
                             </div>
                         )
