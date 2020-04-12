@@ -88,17 +88,38 @@
 }
 
 .picContent{
-    width: 50%;
+    width: 100%;
     height: 50%;
-    
+    left:5%;
     position: relative;
-    margin-top: -20%;
+    /* margin-top: -20%;    */
 }
 
-.sliderContent .slick-dots li button{
-    right: 800%;
-    position: relative;
+ .slick-prev:before, .slick-next::before {
+    color: black;
 }
+
+.slick-prev, .slick-next{
+    position: inherit;
+}
+
+.slick-next{
+    left: 105%;
+    top:-100px;
+}
+
+.slick-prev{
+    left: 0%;
+}
+
+.slick-slider{
+    width: 40%;
+    float: left;
+    margin-right: 5%;
+    left: 5%;
+}
+
+
 
 .contentStyle{
     display: inline-block;
@@ -109,4 +130,24 @@
     border-radius: 13%;
     max-width: -webkit-fill-available;
 }
+
+.contentDiv{
+    height: 1010px;
+}
+
+.TitlesContent{
+     width: 50%;
+      margin: auto;
+      margin-right: 10%;
+      display: flex; 
+      justify-content: space-between; 
+      direction: rtl ;
+      color:blue;
+}
+
+.inline{
+    display: inline-block;
+}
+
+
 
