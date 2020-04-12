@@ -8,7 +8,7 @@ import './MainPage.css';
 import { GlobalContext } from '../Context/GlobalContext';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import Slider from 'react-slick';
-
+import CardContentt from './CardContent'
 
 const SearchPage = () => {
     const [Contents, setContents] = useState(['first', 'second', 'third', 'forth', 'fifth', 'sixth', 'seventh', 'eight', 'nine', 'ten'])
@@ -63,10 +63,11 @@ const SearchPage = () => {
 
             <Container component="main" maxWidth="xs">
                 {console.log("s", SuggestionContents)}
+                <div style={{ width: '30%',float: 'right' }}>
                     <img src={logo} className="logo"></img>
-                    {/* <img src={process.env.PUBLIC_URL + 'uploadedFilesPub/shiftan92.jpg'} className="logo"></img> */}
-
+                </div>
                     <div className="searchText">
+                        <br></br>
                         <Grid item xs >
 
                             <TextField
@@ -81,28 +82,23 @@ const SearchPage = () => {
                                 autoFocus
                             />
                         </Grid>
-                    </div>
-                        <h3 className="headerContents">...תכנים אלה עלולים לעניין אותך</h3>           
-                       
-                        <div className='ListContents'>
+                    </div><br></br>
+                        <p  className="headerContents">...תכנים אלה עלולים לעניין אותך</p>           
+                       <br></br>
+                        <div className='ListContents' >
                         <Slider 
                 spedd={500}
-                slidesToShow={5}
-                slidesToScrol={5}
+                slidesToShow={4}
+                slidesToScrol={2}
                 infinite={false}
                 dots={false}
-                
+                rtl={true}
                 
             >
                     {
                         SuggestionContents.map((content, index) =>
                             <div className='contentStyle' key={index}>
-                                <h4>{content.ContentName}</h4>
-                                <h6> {content.Description}</h6>
-                                <Link to={'/Content/'+content.ContentID} params={{ testvalue: "hello" }}>
-                                    <img style={{ height: '90px', width: '120px' }} onClick={() => setShowPic(!ShowPic)} src={UrlPathFiles + content.PathFile} alt='loading' />
-                                    {console.log(UrlPathFiles + content.PathFile)}
-                                </Link>
+                                <CardContentt content={content.ContentName}  content={content.ContentName} Description={content.Description} ID={content.ContentID} PathFile={content.PathFile}></CardContentt>
                             </div>
                         )
                     }

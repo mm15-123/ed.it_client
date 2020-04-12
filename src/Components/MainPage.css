@@ -48,29 +48,31 @@
 }
 
 .logo{
-    width: 40%;
-    right: 100%;
+    width: 100%;
     position: relative;
-    height: 90px;
+    height: 130px;
+    left: -450%;
 
 }
 
 .searchText{
     width: 80%;
     position: relative;
-    left: 100%;
+    left: 90%;
 }
 
 .headerContents{
     left: 90%;
     position: relative;
-
+    font-size: 24px;
+    font-weight: bold;
+    width: 100%;
 }
 
 .ListContents{
     position: relative;
-    width: 220%;
-    right: 30%;
+    width: 275%;
+    right: 90%;
 }
 
 
@@ -99,20 +101,20 @@
     color: black;
 }
 
-.slick-prev, .slick-next{
+.contentDiv .slick-prev, .contentDiv.slick-next{
     position: inherit;
 }
 
-.slick-next{
+.contentDiv.slick-next{
     left: 105%;
     top:-100px;
 }
 
-.slick-prev{
+.contentDiv.slick-prev{
     left: 0%;
 }
 
-.slick-slider{
+.contentDiv .slick-slider{
     width: 40%;
     float: left;
     margin-right: 5%;
@@ -122,18 +124,20 @@
 
 
 .contentStyle{
-    display: inline-block;
-    border: 2px solid #eee;
-    box-shadow: 1px 1px 1px 3px #333;
     margin: 10px;
-    padding: 10px;
-    border-radius: 13%;
-    max-width: -webkit-fill-available;
+    padding: 10px;  
+}
+
+.contentDescription{
+    height: 120px;
+
 }
 
 .contentDiv{
     height: 1010px;
 }
+
+
 
 .TitlesContent{
      width: 50%;

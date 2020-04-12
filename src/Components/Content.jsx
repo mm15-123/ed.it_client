@@ -98,6 +98,7 @@ const Content = (props) => {
                         <br></br>                       
                         <br></br>
                         <br></br>
+
                         <h1>{ContentToShow.ContentName}</h1>
                         <h2>{ContentToShow.Description}</h2>
                         <h6>{ContentToShow.Likes} משתמשים אהבו את המצגת</h6>
