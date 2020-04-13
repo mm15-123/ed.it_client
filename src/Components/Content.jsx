@@ -25,6 +25,15 @@ font-size:50px;
 margin-top:20%;
 `;
 
+const settings = {
+    dots: false,
+    fade: true,
+    infinite: false,
+    speed: 500,
+    slidesToShow: 1,
+    slidesToScroll: 1
+};
+
 const Content = (props) => {
     const [ContentToShow, setContentToShow] = useState('')
     const [PagesSourceList, setPagesSourceList] = useState([])
@@ -40,7 +49,7 @@ const Content = (props) => {
                 MakePages(res.data) // do nothing, just for console.log() staf
                 const PagesSourceNewList = []
                 for (var i = 1; i < 22; i++) { // fill list with the presentasion slides as pictures
-                    PagesSourceNewList.push('/'+UrlPathFiles + `${res.data.PathFile.split('.', 1)}_${i}.jpg`)
+                    PagesSourceNewList.push('/' + UrlPathFiles + `${res.data.PathFile.split('.', 1)}_${i}.jpg`)
                 }
                 setPagesSourceList(PagesSourceNewList)
             })
@@ -65,43 +74,66 @@ const Content = (props) => {
     }
 
     return (
-        <Wrapper className={Container}>
-            <div style={{ width:'80%',margin:'auto', display: 'flex', justifyContent: 'space-between', direction: 'rtl' }}>
-                <div>
-                    <h1>{ContentToShow.ContentName}</h1>
-                    <h2>{ContentToShow.Description}</h2>
-                </div>
 
-                <div> 
-                <Avatar alt="Remy Sharp" src={'/'+UrlPath + `${ContentToShow.UserPic}`}  />
-                {console.log('img path ', process.env.PUBLIC_URL + '/uploadedPicturesPub/Shiftan92.jpg')}
-                {console.log('avatar Path ','/'+UrlPath + `${ContentToShow.UserPic}`)}
-                    <h3>{ContentToShow.ByUser} משתמש: </h3>
-                    <h3>{ContentToShow.Likes} אהבו את המצגת</h3>
+        <div>
+            <div>
+                <div className='contentDiv'>
+                    <Slider
+                        {...settings}
+                        className="sliderContent"
+                    >
+                        {
+
+                            PagesSourceList.map((page, index) =>
+                                <div>
+                                    <Page key={index}>
+                                        <img className="picContent" src={page} alt='loading' />
+                                        {console.log(page)}
+                                    </Page>
+                                </div>)
+                        }
+
+
+                    </Slider>
+                    <div className='TitlesContent' >
+                        <div>
+                            <br></br>
+                            <br></br>
+                            <br></br>
+
+                            <h1>{ContentToShow.ContentName}</h1>
+                            <h2>{ContentToShow.Description}</h2>
+                            <h6>{ContentToShow.Likes} משתמשים אהבו את המצגת</h6>
+                            <div>
+                                _______________________________________________
+                            <table>
+                                    <tr>
+                                        <td>              <Avatar alt="Remy Sharp" src={'/' + UrlPath + `${ContentToShow.UserPic}`} className='inline' />
+                                            {console.log('img path ', process.env.PUBLIC_URL + '/uploadedPicturesPub/Shiftan92.jpg')}
+                                            {console.log('avatar Path ', '/' + UrlPath + `${ContentToShow.UserPic}`)}
+                                        </td>
+                                        <td><h3>{ContentToShow.ByUser}  </h3>
+                                        </td>
+                                    </tr>
+
+                                </table>
+                            _______________________________________________
+
+                        </div>
+                        </div>
+
+
+                    </div>
+
+
+                    {/* <iframe src={myPDF} width="540" height="450"></iframe> */}
+                    {/* <iframe src={myPDF} className="pdf" allowfullscreen frameborder="0" scrolling="no" > </iframe> */}
+                    {/* הורדה של התוכן */}
+                    {/* <iframe src={presentation} width="595" height="485" frameborder="0" marginwidth="0" marginheight="0" scrolling="no"  allowfullscreen> </iframe> */}
                 </div>
             </div>
-            <Slider
-                speed={500}
-                slidesToShow={1}
-                slidesToScrol={1}
-                infinite={false}
-                dots={true}
-                className="sliderContent"
-            >
-                {
-                    PagesSourceList.map((page, index) =>
-                        <Page key={index}>
-                            <img className="picContent" src={page} alt='loading' />
-                            {console.log(page)}
-                        </Page>)
-                }
-            </Slider>
-            
-            {/* <iframe src={myPDF} width="540" height="450"></iframe> */}
-            {/* <iframe src={myPDF} className="pdf" allowfullscreen frameborder="0" scrolling="no" > </iframe> */}
-            {/* הורדה של התוכן */}
-            {/* <iframe src={presentation} width="595" height="485" frameborder="0" marginwidth="0" marginheight="0" scrolling="no"  allowfullscreen> </iframe> */}
-        </Wrapper>
+        </div>
+
     )
 }
 

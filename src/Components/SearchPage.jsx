@@ -8,6 +8,9 @@ import './MainPage.css';
 import { GlobalContext } from '../Context/GlobalContext';
 import Autocomplete from '@material-ui/lab/Autocomplete';
 
+import 'bootstrap/dist/css/bootstrap.min.css';
+import Slider from 'react-slick';
+import CardContentt from './CardContent'
 
 const SearchPage = () => {
     const [Contents, setContents] = useState(['first', 'second', 'third', 'forth', 'fifth', 'sixth', 'seventh', 'eight', 'nine', 'ten'])
@@ -82,12 +85,14 @@ const SearchPage = () => {
     return (
         <div>
 
-            <Container component="main" maxWidth="xs">
+            <Container component="main" maxWidth="xl">
+                <div className='SearchFirstDiv'>
                 {console.log("s", SuggestionContents)}
                 <img src={logo} className="logo"></img>
                 {/* <img src={process.env.PUBLIC_URL + 'uploadedFilesPub/shiftan92.jpg'} className="logo"></img> */}
 
                 <div className="searchText">
+                <br></br>
                     <Grid item xs >
                     <Autocomplete
                                     id="combo-box-demo"
@@ -110,23 +115,67 @@ const SearchPage = () => {
                             autoFocus
                         />*/}
                     </Grid>
+                </div><br></br>
+                <p className="headerContents">...תכנים אלה עלולים לעניין אותך</p>
+                <br></br>
                 </div>
-                <h3 className="headerContents">...תכנים אלה עלולים לעניין אותך</h3>
-                <div className='ListContents'>
-                    {
-                        SuggestionContents.map((content, index) =>
-                            <div className='contentStyle' key={index}>
-                                <h4>{content.ContentName}</h4>
-                                <h6> {content.Description}</h6>
-                                <Link to={'/Content/' + content.ContentID} params={{ testvalue: "hello" }}>
-                                    <img style={{ height: '90px', width: '120px' }} onClick={() => setShowPic(!ShowPic)} src={UrlPathFiles + content.PathFile} alt='loading' />
-                                    {console.log(UrlPathFiles + content.PathFile)}
-                                </Link>
-                            </div>
-                        )
-                    }
-                </div>
+                <div className='ListContents' >
+                    <Grid item  xs={12}>
+                        <Slider
+                            spedd={500}
+                            slidesToShow={6}
+                            slidesToScrol={2}
+                            infinite={false}
+                            dots={false}
+                            rtl={false}
 
+                        >
+                            {
+                                SuggestionContents.map((content, index) =>
+                                    <div className='contentStyle' key={index}>
+                                        <CardContentt content={content.ContentName} content={content.ContentName} Description={content.Description} ID={content.ContentID} PathFile={content.PathFile}></CardContentt>
+                                    </div>
+                                )
+                                
+                            }
+                            {
+                                 SuggestionContents.map((content, index) =>
+                                 <div className='contentStyle' key={index}>
+                                     <CardContentt content={content.ContentName} content={content.ContentName} Description={content.Description} ID={content.ContentID} PathFile={content.PathFile}></CardContentt>
+                                 </div>
+                             )
+                            }
+                             {
+                                 SuggestionContents.map((content, index) =>
+                                 <div className='contentStyle' key={index}>
+                                     <CardContentt content={content.ContentName} content={content.ContentName} Description={content.Description} ID={content.ContentID} PathFile={content.PathFile}></CardContentt>
+                                 </div>
+                             )
+                            }
+                            {/* <div className='contentStyle' >
+                                <h4>מה קורה</h4>
+                                <h6> היי</h6>
+                            </div>
+                            <div className='contentStyle' >
+                                <h4>מה קורה</h4>
+                                <h6> היי</h6>
+                            </div> <div className='contentStyle' >
+                                <h4>מה קורה</h4>
+                                <h6> היי</h6>
+                            </div> <div className='contentStyle' >
+                                <h4>מה קורה</h4>
+                                <h6> היי</h6>
+                            </div> <div className='contentStyle' >
+                                <h4>מה קורה</h4>
+                                <h6> היי</h6>
+                            </div> <div className='contentStyle' >
+                                <h4>מה קורה</h4>
+                                <h6> היי</h6>
+                            </div> */}
+                        </Slider>
+                    </Grid>
+                </div>
+               
 
             </Container>
         </div>
