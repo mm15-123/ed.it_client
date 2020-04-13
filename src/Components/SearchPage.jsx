@@ -6,13 +6,15 @@ import Content from './Content';
 import logo from '../uploadedFiles/edit logo.png';
 import './MainPage.css';
 import { GlobalContext } from '../Context/GlobalContext';
-import 'bootstrap/dist/css/bootstrap.min.css';
+import Autocomplete from '@material-ui/lab/Autocomplete';
+
 
 const SearchPage = () => {
     const [Contents, setContents] = useState(['first', 'second', 'third', 'forth', 'fifth', 'sixth', 'seventh', 'eight', 'nine', 'ten'])
     const [ShowPic, setShowPic] = useState(true)
-    const [GlobalUser, setGlobalUser, UrlPath,UrlPathFiles, GlobalContent, setGlobalContent] = useContext(GlobalContext);
+    const [GlobalUser, setGlobalUser, UrlPath, UrlPathFiles, GlobalContent, setGlobalContent] = useContext(GlobalContext);
     const [SuggestionContents, setSuggestionContents] = useState([])
+    const [autoTags, setautoTags] = useState('');
 
     // const cotentStyle = {
     //     display: 'inline-block',
@@ -25,13 +27,13 @@ const SearchPage = () => {
     //משיכת נתונים מהסרבר לגבי תכנים מוצעים 
 
     useEffect(() => {
-        let apiUrl=''
+        let apiUrl = ''
         console.log(GlobalUser)
-        if(GlobalUser!=null){
-            apiUrl=`http://localhost:55263/api/Content/SuggestContent/${GlobalUser.Email.split("@", 1)}`
+        if (GlobalUser != null) {
+            apiUrl = `http://localhost:55263/api/Content/SuggestContent/${GlobalUser.Email.split("@", 1)}`
         }
-        else{
-            apiUrl=`http://localhost:55263/api/Content/SuggestContentForGuest`
+        else {
+            apiUrl = `http://localhost:55263/api/Content/SuggestContentForGuest`
         }
 
         fetch(apiUrl, {
@@ -52,51 +54,80 @@ const SearchPage = () => {
             .catch((error) => {
                 console.error('Error:', error);
             });
+        requestTags();
     }, [])
 
+    const requestTags = async () => {
+        alert('hey')
+        const GetUrl = `http://localhost:55263/api/User/GetTags`
+        const response = await fetch(GetUrl)
+        const result = await response.json()
+        console.log(result)
+        const auto = [];
+                    for (let i = 0; i < result.length; i++) {
+                        const obj = {
+                            'title': result[i],
+                            'id': i
+                        }
+                        auto.push(obj)
+                    }
+                    console.log(auto)
+                    setautoTags(auto)
+    }
 
+    const KeepTag =  (event,NewValue)=>{
+        console.log(NewValue)
+    }
 
     return (
         <div>
 
             <Container component="main" maxWidth="xs">
                 {console.log("s", SuggestionContents)}
-                    <img src={logo} className="logo"></img>
-                    {/* <img src={process.env.PUBLIC_URL + 'uploadedFilesPub/shiftan92.jpg'} className="logo"></img> */}
+                <img src={logo} className="logo"></img>
+                {/* <img src={process.env.PUBLIC_URL + 'uploadedFilesPub/shiftan92.jpg'} className="logo"></img> */}
 
-                    <div className="searchText">
-                        <Grid item xs >
-
-                            <TextField
-                                variant="outlined"
-                                margin="normal"
-                                required
-                                //fullWidth
-                                id="Search"
-                                label="חיפוש"
-                                name="Search"
-                                autoComplete="Search"
-                                autoFocus
-                            />
-                        </Grid>
-                    </div>
-                        <h3 className="headerContents">...תכנים אלה עלולים לעניין אותך</h3>           
-                        <div className='ListContents'>
+                <div className="searchText">
+                    <Grid item xs >
+                    <Autocomplete
+                                    id="combo-box-demo"
+                                    options={autoTags}
+                                    fullWidth
+                                    getOptionLabel={(option) => option.title}
+                                    //style={{ width: 300 }}
+                                    renderInput={(params) => <TextField {...params} label="חפש לפי תגית" variant="outlined" />}
+                                    onChange={(event,NewValue)=>KeepTag(event,NewValue)}
+                                />
+                        {/*<TextField
+                            variant="outlined"
+                            margin="normal"
+                            required
+                            //fullWidth
+                            id="Search"
+                            label="חיפוש"
+                            name="Search"
+                            autoComplete="Search"
+                            autoFocus
+                        />*/}
+                    </Grid>
+                </div>
+                <h3 className="headerContents">...תכנים אלה עלולים לעניין אותך</h3>
+                <div className='ListContents'>
                     {
                         SuggestionContents.map((content, index) =>
                             <div className='contentStyle' key={index}>
                                 <h4>{content.ContentName}</h4>
                                 <h6> {content.Description}</h6>
-                                <Link to={'/Content/'+content.ContentID} params={{ testvalue: "hello" }}>
+                                <Link to={'/Content/' + content.ContentID} params={{ testvalue: "hello" }}>
                                     <img style={{ height: '90px', width: '120px' }} onClick={() => setShowPic(!ShowPic)} src={UrlPathFiles + content.PathFile} alt='loading' />
                                     {console.log(UrlPathFiles + content.PathFile)}
                                 </Link>
                             </div>
                         )
                     }
-                                        </div>
+                </div>
 
-                
+
             </Container>
         </div>
     )

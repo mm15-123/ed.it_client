@@ -83,7 +83,7 @@ const useStyles = makeStyles(theme => ({
   }
   useEffect(() => {
     console.log("RememberMelocal_storage ",RememberMe)   
-    localStorage.setItem('rememberMe',RememberMe)//save in localstorage
+    localStorage.setItem('rememberMe',JSON.stringify(RememberMe))//save in localstorage
   }, [RememberMe])
 
 
@@ -120,6 +120,7 @@ const useStyles = makeStyles(theme => ({
             else{
               console.log("result is ", result)
                //הוספה ללוקל סטורג'
+               
                localStorage.setItem('User', RememberMe ? JSON.stringify(result) : null);//only if remember me checked
                //console.log(localStorage.getItem('User'))
               setMessage  (<div className={classes.root}>    

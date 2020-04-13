@@ -23,6 +23,7 @@ import { Link } from "react-router-dom";
 import uuid from 'uuid/v4';
 import { Redirect } from 'react-router-dom';
 import swal from 'sweetalert';
+import Autocomplete from '@material-ui/lab/Autocomplete';
 
 
 function Copyright() {
@@ -111,6 +112,7 @@ const SignUp = () => {
     const [ChosenTag, setChosenTag] = useState('')
     const [ChosenTags, setChosenTags] = useState([])
     const [moveMainPage, setmoveMainPage] = useState(false);//בסיום הרשמה יעבור לעמוד הראשי
+    const [autoTags,setautoTags]=useState('')
 
     useEffect(() => {
         const apiUrl = `http://localhost:55263/api/User/GetTags`
@@ -133,6 +135,16 @@ const SignUp = () => {
                     result.map(tag => console.log(tag));
                     console.log('result[0]', result[0]);
                     setTags(result)
+                    const auto = [];
+                    for (let i = 0; i < result.length; i++) {
+                        const obj = {
+                            'title': result[i],
+                            'id': i
+                        }
+                        auto.push(obj)
+                    }
+                    console.log(auto)
+                    setautoTags(auto)
                 },
                 (error) => {
                     console.log("err post=", error);
@@ -140,11 +152,11 @@ const SignUp = () => {
     }
         , []);
 
-    const chooseTags = (e) => {
+    const chooseTags = (event,NewValue) => {
         //if (ChosenTags.length === 3) return;
         const tags = ChosenTags
-        setChosenTag(e.target.value)
-        const chosen = e.target.value
+        setChosenTag(NewValue.title)
+        const chosen = NewValue.title
         tags.push(chosen)
         setChosenTags(tags)
         console.log('tags', ChosenTags)
@@ -186,7 +198,8 @@ const SignUp = () => {
                 icon: "success",
             })
             console.log(FormDataPic, "hey")
-            //PostUser(user, FormDataPic)
+            PostUser(user, FormDataPic)
+            
         }
         else {
             const BDerr = BDate === '' ? 'fill date pls.' : '';
@@ -387,7 +400,16 @@ const SignUp = () => {
                             <img src={UrlPic.name} alt="image" />
                             </Grid>*/}
                         <Grid item xs={12} sm={6} >
-                            <FormControl className={classes.formControl}>
+                        <Autocomplete
+                                    id="combo-box-demo"
+                                    options={autoTags}
+                                    fullWidth
+                                    getOptionLabel={(option) => option.title}
+                                    //style={{ width: 300 }}
+                                    renderInput={(params) => <TextField {...params} label="בחר תגיות" variant="outlined" />}
+                                    onChange={(event,NewValue)=>chooseTags(event,NewValue)}
+                                />
+                            {/*<FormControl className={classes.formControl}>
                                 <InputLabel id="demo-mutiple-chip-label">בחר תגיות</InputLabel>
                                 <Select
                                     labelId="demo-mutiple-chip-label"
@@ -402,7 +424,7 @@ const SignUp = () => {
                                         </MenuItem>
                                     ))}
                                 </Select>
-                            </FormControl>
+                                    </FormControl>*/}
                         </Grid>
                         <Grid item xs={12} sm={6}>
                             <label style={{ fontWeight: 'bold', fontSize: '1.1rem' }}>תגיות שנבחרו</label>
