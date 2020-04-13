@@ -48,31 +48,35 @@
 }
 
 .logo{
-    width: 100%;
     position: relative;
     height: 130px;
-    left: -450%;
+    float: left;
+    width: 30%;
 
+}
+
+.MuiGrid-grid-xs-true{
+    float:right;
 }
 
 .searchText{
-    width: 80%;
     position: relative;
-    left: 90%;
+    width: 70%;
+    float: right;
 }
 
 .headerContents{
-    left: 90%;
     position: relative;
+    float: right;
     font-size: 24px;
     font-weight: bold;
-    width: 100%;
 }
 
 .ListContents{
     position: relative;
-    width: 275%;
-    right: 90%;
+
+    /* width: 100%;
+    right: 90%; */
 }
 
 
@@ -101,19 +105,6 @@
     color: black;
 }
 
-.contentDiv .slick-prev, .contentDiv.slick-next{
-    position: inherit;
-}
-
-.contentDiv.slick-next{
-    left: 105%;
-    top:-100px;
-}
-
-.contentDiv.slick-prev{
-    left: 0%;
-}
-
 .contentDiv .slick-slider{
     width: 40%;
     float: left;
@@ -125,7 +116,7 @@
 
 .contentStyle{
     margin: 10px;
-    padding: 10px;  
+    padding: 10px;    
 }
 
 .contentDescription{
@@ -137,6 +128,10 @@
     height: 1010px;
 }
 
+.MuiCard-root {
+    border:1px solid;
+    border-radius: 5%;
+}
 
 
 .TitlesContent{
@@ -153,5 +148,17 @@
     display: inline-block;
 }
 
+.headerCard span{
+    font-size: 16px;
+}
+
+
+.SearchFirstDiv{
+  height: 180px;;
+}
+
+.MuiCardContent-root:last-child {
+    height: 110px;
+}
 
 

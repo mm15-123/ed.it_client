@@ -19,6 +19,7 @@ import MoreVertIcon from '@material-ui/icons/MoreVert';
 import pic from '../uploadedFiles/shiftan92.jpg';
 import { GlobalContext } from '../Context/GlobalContext';
 import { Route, Link, NavLink } from 'react-router-dom';
+import { Container, Grid, Button } from '@material-ui/core';
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -55,6 +56,8 @@ const CardContentt = (props) => {
     return (
         <Link to={'/Content/' + props.ID}>
             <Card className={classes.root}>
+         
+
                 <CardHeader
                     avatar={
                         <Avatar aria-label="recipe" className={classes.avatar}>
@@ -66,9 +69,11 @@ const CardContentt = (props) => {
                             <MoreVertIcon />
                         </IconButton>
                     }
+                    className='headerCard'
                     title={props.content}
-                    subheader="September 14, 2016"
+                    // subheader="September 14, 2016"
                 />
+
                 <CardMedia
                     className={classes.media}
                     image={UrlPathFiles + props.PathFile}

@@ -74,62 +74,66 @@ const Content = (props) => {
     }
 
     return (
-        <Wrapper className={Container}>
-            <div className='contentDiv'>
-                <Slider
-                    {...settings}
-                    className="sliderContent"
-                >
-                    {
 
-                        PagesSourceList.map((page, index) =>
-                            <div>
-                                <Page key={index}>
-                                    <img className="picContent" src={page} alt='loading' />
-                                    {console.log(page)}
-                                </Page>
-                            </div>)
-                    }
+        <div>
+            <div>
+                <div className='contentDiv'>
+                    <Slider
+                        {...settings}
+                        className="sliderContent"
+                    >
+                        {
+
+                            PagesSourceList.map((page, index) =>
+                                <div>
+                                    <Page key={index}>
+                                        <img className="picContent" src={page} alt='loading' />
+                                        {console.log(page)}
+                                    </Page>
+                                </div>)
+                        }
 
 
-                </Slider>
-                <div className='TitlesContent' >
-                    <div>
-                        <br></br>                       
-                        <br></br>
-                        <br></br>
-
-                        <h1>{ContentToShow.ContentName}</h1>
-                        <h2>{ContentToShow.Description}</h2>
-                        <h6>{ContentToShow.Likes} משתמשים אהבו את המצגת</h6>
+                    </Slider>
+                    <div className='TitlesContent' >
                         <div>
-                            _______________________________________________
-                            <table>
-                                <tr>
-                                    <td>              <Avatar alt="Remy Sharp" src={'/' + UrlPath + `${ContentToShow.UserPic}`} className='inline'/>
-                                        {console.log('img path ', process.env.PUBLIC_URL + '/uploadedPicturesPub/Shiftan92.jpg')}
-                                        {console.log('avatar Path ', '/' + UrlPath + `${ContentToShow.UserPic}`)}
-                                    </td>
-                                    <td><h3>{ContentToShow.ByUser}  </h3>
-                                    </td>
-                                </tr>
+                            <br></br>
+                            <br></br>
+                            <br></br>
 
-                            </table>
+                            <h1>{ContentToShow.ContentName}</h1>
+                            <h2>{ContentToShow.Description}</h2>
+                            <h6>{ContentToShow.Likes} משתמשים אהבו את המצגת</h6>
+                            <div>
+                                _______________________________________________
+                            <table>
+                                    <tr>
+                                        <td>              <Avatar alt="Remy Sharp" src={'/' + UrlPath + `${ContentToShow.UserPic}`} className='inline' />
+                                            {console.log('img path ', process.env.PUBLIC_URL + '/uploadedPicturesPub/Shiftan92.jpg')}
+                                            {console.log('avatar Path ', '/' + UrlPath + `${ContentToShow.UserPic}`)}
+                                        </td>
+                                        <td><h3>{ContentToShow.ByUser}  </h3>
+                                        </td>
+                                    </tr>
+
+                                </table>
                             _______________________________________________
 
                         </div>
+                        </div>
+
+
                     </div>
 
 
+                    {/* <iframe src={myPDF} width="540" height="450"></iframe> */}
+                    {/* <iframe src={myPDF} className="pdf" allowfullscreen frameborder="0" scrolling="no" > </iframe> */}
+                    {/* הורדה של התוכן */}
+                    {/* <iframe src={presentation} width="595" height="485" frameborder="0" marginwidth="0" marginheight="0" scrolling="no"  allowfullscreen> </iframe> */}
                 </div>
-
-
-                {/* <iframe src={myPDF} width="540" height="450"></iframe> */}
-                {/* <iframe src={myPDF} className="pdf" allowfullscreen frameborder="0" scrolling="no" > </iframe> */}
-                {/* הורדה של התוכן */}
-                {/* <iframe src={presentation} width="595" height="485" frameborder="0" marginwidth="0" marginheight="0" scrolling="no"  allowfullscreen> </iframe> */}
             </div>
-        </Wrapper>
+        </div>
+
     )
 }
 

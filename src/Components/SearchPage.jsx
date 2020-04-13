@@ -13,7 +13,7 @@ import CardContentt from './CardContent'
 const SearchPage = () => {
     const [Contents, setContents] = useState(['first', 'second', 'third', 'forth', 'fifth', 'sixth', 'seventh', 'eight', 'nine', 'ten'])
     const [ShowPic, setShowPic] = useState(true)
-    const [GlobalUser, setGlobalUser, UrlPath,UrlPathFiles, GlobalContent, setGlobalContent] = useContext(GlobalContext);
+    const [GlobalUser, setGlobalUser, UrlPath, UrlPathFiles, GlobalContent, setGlobalContent] = useContext(GlobalContext);
     const [SuggestionContents, setSuggestionContents] = useState([])
 
     // const cotentStyle = {
@@ -27,13 +27,13 @@ const SearchPage = () => {
     //משיכת נתונים מהסרבר לגבי תכנים מוצעים 
 
     useEffect(() => {
-        let apiUrl=''
+        let apiUrl = ''
         console.log(GlobalUser)
-        if(GlobalUser!=null){
-            apiUrl=`http://localhost:55263/api/Content/SuggestContent/${GlobalUser.Email.split("@", 1)}`
+        if (GlobalUser != null) {
+            apiUrl = `http://localhost:55263/api/Content/SuggestContent/${GlobalUser.Email.split("@", 1)}`
         }
-        else{
-            apiUrl=`http://localhost:55263/api/Content/SuggestContentForGuest`
+        else {
+            apiUrl = `http://localhost:55263/api/Content/SuggestContentForGuest`
         }
 
         fetch(apiUrl, {
@@ -61,72 +61,89 @@ const SearchPage = () => {
     return (
         <div>
 
-            <Container component="main" maxWidth="xs">
+            <Container component="main" maxWidth="xl">
+                <div className='SearchFirstDiv'>
                 {console.log("s", SuggestionContents)}
-                <div style={{ width: '30%',float: 'right' }}>
-                    <img src={logo} className="logo"></img>
-                </div>
-                    <div className="searchText">
-                        <br></br>
-                        <Grid item xs >
+                    <img src={logo} className="logo"></img>         
+               
+                <div className="searchText">
+                    <br></br>
+                    <Grid item xs >
 
-                            <TextField
-                                variant="outlined"
-                                margin="normal"
-                                required
-                                //fullWidth
-                                id="Search"
-                                label="חיפוש"
-                                name="Search"
-                                autoComplete="Search"
-                                autoFocus
-                            />
-                        </Grid>
-                    </div><br></br>
-                        <p  className="headerContents">...תכנים אלה עלולים לעניין אותך</p>           
-                       <br></br>
-                        <div className='ListContents' >
-                        <Slider 
-                spedd={500}
-                slidesToShow={4}
-                slidesToScrol={2}
-                infinite={false}
-                dots={false}
-                rtl={true}
-                
-            >
-                    {
-                        SuggestionContents.map((content, index) =>
-                            <div className='contentStyle' key={index}>
-                                <CardContentt content={content.ContentName}  content={content.ContentName} Description={content.Description} ID={content.ContentID} PathFile={content.PathFile}></CardContentt>
-                            </div>
-                        )
-                    }
-                       <div className='contentStyle' >
+                        <TextField
+                            variant="outlined"
+                            margin="normal"
+                            required
+                            //fullWidth       width: '100%', float: 'right' 
+                            id="Search"
+                            label="חיפוש"
+                            name="Search"
+                            autoComplete="Search"
+                            autoFocus
+                        />
+                    </Grid>
+                </div><br></br>
+                <p className="headerContents">...תכנים אלה עלולים לעניין אותך</p>
+                <br></br>
+                </div>
+                <div className='ListContents' >
+                    <Grid item  xs={12}>
+                        <Slider
+                            spedd={500}
+                            slidesToShow={6}
+                            slidesToScrol={2}
+                            infinite={false}
+                            dots={false}
+                            rtl={false}
+
+                        >
+                            {
+                                SuggestionContents.map((content, index) =>
+                                    <div className='contentStyle' key={index}>
+                                        <CardContentt content={content.ContentName} content={content.ContentName} Description={content.Description} ID={content.ContentID} PathFile={content.PathFile}></CardContentt>
+                                    </div>
+                                )
+                                
+                            }
+                            {
+                                 SuggestionContents.map((content, index) =>
+                                 <div className='contentStyle' key={index}>
+                                     <CardContentt content={content.ContentName} content={content.ContentName} Description={content.Description} ID={content.ContentID} PathFile={content.PathFile}></CardContentt>
+                                 </div>
+                             )
+                            }
+                             {
+                                 SuggestionContents.map((content, index) =>
+                                 <div className='contentStyle' key={index}>
+                                     <CardContentt content={content.ContentName} content={content.ContentName} Description={content.Description} ID={content.ContentID} PathFile={content.PathFile}></CardContentt>
+                                 </div>
+                             )
+                            }
+                            {/* <div className='contentStyle' >
                                 <h4>מה קורה</h4>
-                                <h6> היי</h6>          
+                                <h6> היי</h6>
                             </div>
                             <div className='contentStyle' >
                                 <h4>מה קורה</h4>
-                                <h6> היי</h6>          
+                                <h6> היי</h6>
                             </div> <div className='contentStyle' >
                                 <h4>מה קורה</h4>
-                                <h6> היי</h6>          
+                                <h6> היי</h6>
                             </div> <div className='contentStyle' >
                                 <h4>מה קורה</h4>
-                                <h6> היי</h6>          
+                                <h6> היי</h6>
                             </div> <div className='contentStyle' >
                                 <h4>מה קורה</h4>
-                                <h6> היי</h6>          
+                                <h6> היי</h6>
                             </div> <div className='contentStyle' >
                                 <h4>מה קורה</h4>
-                                <h6> היי</h6>          
-                            </div>
-                                </Slider>
+                                <h6> היי</h6>
+                            </div> */}
+                        </Slider>
+                    </Grid>
+                </div>
+               
 
-                                        </div>
-
-                
             </Container>
         </div>
     )
