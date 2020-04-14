@@ -87,11 +87,11 @@ const SearchPage = () => {
                 <br></br>
                 </div>
                 <div className='ListContents' >
-                    <Grid item  xs={12}>
+                    <Grid item lg={12} xs={12}>
                         <Slider
                             spedd={500}
-                            slidesToShow={6}
-                            slidesToScrol={2}
+                            slidesToShow={4}
+                            slidesToScrol={1}
                             infinite={false}
                             dots={false}
                             rtl={false}

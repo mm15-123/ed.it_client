@@ -61,7 +61,7 @@
 
 .searchText{
     position: relative;
-    width: 70%;
+    width: 40%;
     float: right;
 }
 
@@ -69,8 +69,34 @@
     position: relative;
     float: right;
     font-size: 24px;
-    font-weight: bold;
+    font-weight: 700;
+    text-shadow: 1px 1px #204a6d;
+    color:#173f5f;
+    margin-top:2%;
+    width: 100%;
 }
+
+.MuiCard-root{
+    /* box-shadow: 2px 2px #b3b6b9; */
+    box-shadow:
+    0 2.8px 2.2px rgba(0, 0, 0, 0.034),
+    0 6.7px 5.3px rgba(0, 0, 0, 0.048),
+    0 12.5px 10px rgba(0, 0, 0, 0.06),
+    0 22.3px 17.9px rgba(0, 0, 0, 0.072),
+    0 41.8px 33.4px rgba(0, 0, 0, 0.086),
+    0 100px 80px rgba(0, 0, 0, 0.12)
+  ;
+  
+    
+    
+    min-height: 250px;
+    /* width: 50vw;
+    margin: 100px auto; */
+    background: white;
+    border-radius: 5px;
+
+}
+
 
 .ListContents{
     position: relative;
@@ -96,8 +122,8 @@
 .picContent{
     width: 100%;
     height: 50%;
-    left:5%;
     position: relative;
+    border: 1px solid;
     /* margin-top: -20%;    */
 }
 
@@ -111,6 +137,16 @@
     margin-right: 5%;
     left: 5%;
 }
+
+.slick-list{
+    width: 100%;
+}
+
+.searchText div {
+    border-radius: 24px;
+    width: 95%;
+}   
+
 
 
 
@@ -129,7 +165,6 @@
 }
 
 .MuiCard-root {
-    border:1px solid;
     border-radius: 5%;
 }
 
@@ -161,4 +196,72 @@
     height: 110px;
 }
 
+table td{
+    width: 23%;
+    left: -110%;
+    position: relative;
+}
 
+.buttonDownload{
+    background-color: royalblue;
+    border-radius: 5%;
+    width: 36%;
+    right: 5%;
+    float: right;
+    position: relative;
+    color: white;
+    font-weight: bold;
+}
+
+.buttonDownload:hover{
+    background-color: darkgray;
+    cursor: pointer;
+}  
+
+
+.likeDiv{
+    position: relative;
+    right:17%;
+}
+
+.like:hover{
+    cursor: pointer;
+}
+
+.MuiPaper-root{
+    background-color: royalblue;
+}
+
+.navbar{
+    background-color:#173f5f
+}
+
+.border-button {
+    position: relative;
+    margin: 0.5em;
+    border: solid 5px transparent;
+    background: rgba(62, 67, 119, 0.5);
+  }
+  .border-button:after {
+    content: '';
+    display: block;
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    border: solid 10px #FC5185;
+    margin: -15px;
+    z-index: -1;
+    -webkit-transition: -webkit-transform 0.6s linear;
+    transition: -webkit-transform 0.6s linear;
+    transition: transform 0.6s linear;
+    transition: transform 0.6s linear, -webkit-transform 0.6s linear;
+    -webkit-transform: scale(0.97, 0.93);
+            transform: scale(0.97, 0.93);
+  }
+  .border-button:hover::after {
+    -webkit-transform: scale(1, 1);
+            transform: scale(1, 1);
+  }
+  

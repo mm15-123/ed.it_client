@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useContext } from 'react'
-import { Container, Avatar } from '@material-ui/core';
+import { Container, Avatar, Button } from '@material-ui/core';
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import Slider from 'react-slick';
@@ -9,8 +9,8 @@ import myPDF from '../uploadedFiles/myPDF.pdf';
 import './MainPage.css';
 import axios from 'axios';
 import { GlobalContext } from '../Context/GlobalContext';
-
-
+import FavoriteOutlinedIcon from '@material-ui/icons/FavoriteOutlined';
+import SystemUpdateAltOutlinedIcon from '@material-ui/icons/SystemUpdateAltOutlined';
 
 const Local = true;
 
@@ -34,9 +34,12 @@ const settings = {
     slidesToScroll: 1
 };
 
+
 const Content = (props) => {
     const [ContentToShow, setContentToShow] = useState('')
     const [PagesSourceList, setPagesSourceList] = useState([])
+    const [Like, setLike] = useState(true)
+    // const [ColorLike,setColorLike]=useState('')
     const [GlobalUser, setGlobalUser, UrlPath, UrlPathFiles, GlobalContent, setGlobalContent] = useContext(GlobalContext);
 
     useEffect(() => {
@@ -55,6 +58,21 @@ const Content = (props) => {
             })
 
     }, [])
+
+    //לייק
+    // useEffect(() => {
+    //     if(Like)
+    //     {
+    //         console.log("like ",Like)
+    //         colorLikee.color='red'
+    //     }
+    //     else
+    //     {
+    //         console.log("like ",Like)
+    //         colorLikee.color='black'
+    //     }
+    //   }, [Like])
+
 
     console.log(props)
     let path = ""
@@ -80,14 +98,14 @@ const Content = (props) => {
                 <div className='contentDiv'>
                     <Slider
                         {...settings}
-                        className="sliderContent"
+                        className="sliderContent "
                     >
                         {
 
                             PagesSourceList.map((page, index) =>
                                 <div>
                                     <Page key={index}>
-                                        <img className="picContent" src={page} alt='loading' />
+                                        <img className="picContent border-button" src={page} alt='loading' />
                                         {console.log(page)}
                                     </Page>
                                 </div>)
@@ -95,7 +113,7 @@ const Content = (props) => {
 
 
                     </Slider>
-                    <div className='TitlesContent' >
+               <div className='TitlesContent' >
                         <div>
                             <br></br>
                             <br></br>
@@ -104,8 +122,9 @@ const Content = (props) => {
                             <h1>{ContentToShow.ContentName}</h1>
                             <h2>{ContentToShow.Description}</h2>
                             <h6>{ContentToShow.Likes} משתמשים אהבו את המצגת</h6>
+                            <span>#תגית 1 </span><span>tag2# </span><span>tag3# </span>
                             <div>
-                                _______________________________________________
+                                ______________________________________________________________________________
                             <table>
                                     <tr>
                                         <td>              <Avatar alt="Remy Sharp" src={'/' + UrlPath + `${ContentToShow.UserPic}`} className='inline' />
@@ -117,9 +136,19 @@ const Content = (props) => {
                                     </tr>
 
                                 </table>
-                            _______________________________________________
-
+                            ______________________________________________________________________________
                         </div>
+                            <div>
+                                <div className='buttonDownload'>
+                                <Button><SystemUpdateAltOutlinedIcon style={{fontSize: '2.5rem' }}/>
+                                </Button>
+                                <span>  הורדת המצגת</span>
+                                </div>
+                                <div className='likeDiv'> 
+                                <FavoriteOutlinedIcon className='like' onClick={(e) => setLike(!Like)} style={{ color: Like ? 'red' : 'black', fontSize: '2.5rem' }}></FavoriteOutlinedIcon>
+                                <span>אהבתי</span>      
+                                </div> 
+                            </div>
                         </div>
 
 
