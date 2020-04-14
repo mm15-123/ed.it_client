@@ -1,4 +1,4 @@
-import React, { useState,useContext,useEffect } from 'react';
+import React, { useState, useContext, useEffect } from 'react';
 import Avatar from '@material-ui/core/Avatar';
 import Button from '@material-ui/core/Button';
 import CssBaseline from '@material-ui/core/CssBaseline';
@@ -12,7 +12,7 @@ import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
-import {Route , Link} from "react-router-dom";
+import { Route, Link } from "react-router-dom";
 import { GlobalContext } from '../Context/GlobalContext';
 import { Alert } from '@material-ui/lab';
 import SearchPage from './SearchPage'
@@ -60,86 +60,99 @@ const useStyles = makeStyles(theme => ({
 
 
 
-  const SignIn=()=> {
-  const [GlobalUser, setGlobalUser]= useContext(GlobalContext);
-  //const {GlobalUserName, setGlobalUserName} = useContext(GlobalContext);  
+const SignIn = () => {
+  //const [GlobalUser, setGlobalUser,Server_Url]=useContext(GlobalContent)
+  const [GlobalUser, setGlobalUser, UrlPath, UrlPathFiles, Server_Url, GlobalContent, setGlobalContent, RememberMe, setRememberMe] = useContext(GlobalContext);  
   const classes = useStyles();
   const [Email, setEmail] = useState('')
   const [Password, setPassword] = useState('')
-  const [Message,setMessage]=useState('');
-  //const [RememberMe,setRememberMe]=useState(false)
-  const [RememberMe,setRememberMe]=useContext(GlobalContext);
-  const [moveMainPage,setmoveMainPage]=useState(false)
+  const [Message, setMessage] = useState('');
+  const [moveMainPage, setmoveMainPage] = useState(false)
 
-  const prevent=(e)=>{
-      e.preventDefault()
+  const prevent = (e) => {
+    e.preventDefault()
   }
 
-  
+
   //change RememberMe checkbox and save in local storage
-  const RememberMeChanged=(event)=>{
-    console.log("RememberMe_change ",RememberMe)
-    setRememberMe(!RememberMe)
+  const RememberMeChanged = (event) => {
+    console.log("RememberMe_Before_change ", RememberMe)
+    if (RememberMe) {
+      setRememberMe(false)
+      localStorage.setItem('rememberMe', false)
+    }
+    else if (RememberMe === null || RememberMe === false) {
+      setRememberMe(true)
+      localStorage.setItem('rememberMe', true)
+    }
+    console.log("RememberMe_After_change ", RememberMe)
+    /*if (localStorage.getItem('rememberMe') === null)
+      setRememberMe(true)
+    else if (localStorage.getItem('rememberMe') === false)
+      setRememberMe(true)
+    else setRememberMe(false)*/
+
   }
   useEffect(() => {
-    console.log("RememberMelocal_storage ",RememberMe)   
-    localStorage.setItem('rememberMe',JSON.stringify(RememberMe))//save in localstorage
+    console.log("RememberMe ", RememberMe)
+    //localStorage.setItem('rememberMe',JSON.stringify(RememberMe))//save in localstorage
   }, [RememberMe])
 
 
-  const ConfirmUser=()=>{
+  const ConfirmUser = () => {
     // const apiUrl = `api/User/GetUserDetails/${UserName}/${Password}`
-    const apiUrl = `http://localhost:55263/api/User/GetUserDetails`
-
+    console.log('Server_Url',Server_Url)
+    const apiUrl = `${Server_Url}User/GetUserDetails`
+    //const SapiUrl=`http://proj.ruppin.ac.il/igroup20/prod/api/User/GetUserDetails`
     const user = {
       'Email': Email,
       'Password': Password,
-  }
+    }
     fetch(apiUrl, {
-        method: 'POST',
-        body: JSON.stringify(user) ,
-        headers: new Headers({
-            'Content-Type': 'application/json; charset=UTF-8',
-          })
-    
-        })
-        .then(res => {
-          console.log('res=', res);
-          console.log('res.status', res.status);
-          console.log('res.ok', res.ok);
-          return res.json()
-        })
-        .then(
-          (result) => {
-            if(result==null){//הזנת שם משתמש או סיסמא לא נכונים
-              setMessage( <div className={classes.root}>    <Alert variant="filled" severity="error">
+      method: 'POST',
+      body: JSON.stringify(user),
+      headers: new Headers({
+        'Content-Type': 'application/json; charset=UTF-8',
+      })
+
+    })
+      .then(res => {
+        console.log('res=', res);
+        console.log('res.status', res.status);
+        console.log('res.ok', res.ok);
+        return res.json()
+      })
+      .then(
+        (result) => {
+          if (result == null) {//הזנת שם משתמש או סיסמא לא נכונים
+            setMessage(<div className={classes.root}>    <Alert variant="filled" severity="error">
               שם משתמש ואו סיסמה לא נכונים
-            </Alert></div>)     
-              console.log(Message)     
-            }
-            else{
-              console.log("result is ", result)
-               //הוספה ללוקל סטורג'
-               
-               localStorage.setItem('User', RememberMe ? JSON.stringify(result) : null);//only if remember me checked
-               //console.log(localStorage.getItem('User'))
-              setMessage  (<div className={classes.root}>    
-                <Alert variant="filled" severity="success">
+            </Alert></div>)
+            console.log(Message)
+          }
+          else {
+            console.log("result is ", result)
+            //הוספה ללוקל סטורג'
+
+            localStorage.setItem('User', RememberMe ? JSON.stringify(result) : null);//only if remember me checked
+            //console.log(localStorage.getItem('User'))
+            setMessage(<div className={classes.root}>
+              <Alert variant="filled" severity="success">
                 התחברות הצליחה
               </Alert> </div>)
-              setGlobalUser(result);             
-              setmoveMainPage(true)//מעבר לעמוד הראשי לאחר התחברות מוצלחת
-            }
-          })
-  
-          
+            setGlobalUser(result);
+            setmoveMainPage(true)//מעבר לעמוד הראשי לאחר התחברות מוצלחת
+          }
+        })
+
+
   }
 
-  if(moveMainPage){
-    return(
+  if (moveMainPage) {
+    return (
       <div>
-      {/* <Route path='/' exact component={SearchPage}/> */}
-      <Redirect to='/' />
+        {/* <Route path='/' exact component={SearchPage}/> */}
+        <Redirect to='/' />
       </div>
     )
   }
@@ -180,12 +193,12 @@ const useStyles = makeStyles(theme => ({
             autoComplete="current-password"
             onChange={(e) => setPassword(e.target.value)}
           />
-          
-            {Message}
-        
-   
+
+          {Message}
+
+
           <FormControlLabel
-            control={<Checkbox value="remember" color="primary" checked={RememberMe} onChange={RememberMeChanged}/>}
+            control={<Checkbox value="remember" color="primary" checked={RememberMe} onChange={RememberMeChanged} />}
             label="זכור אותי"
           />
           <Button
@@ -198,7 +211,7 @@ const useStyles = makeStyles(theme => ({
           >
             התחבר
           </Button>
-   
+
           <Grid container>
             <Grid item xs>
               <Link href="#" variant="body2">
@@ -220,7 +233,7 @@ const useStyles = makeStyles(theme => ({
       </Box>
 
     </Container>
-    
+
   );
 }
 export default SignIn;

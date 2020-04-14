@@ -85,7 +85,7 @@ const MenuProps = {
 
 const UploadContent = () => {//העלאת תוכן
     const classes = useStyles();
-    const [GlobalUser, setGlobalUser] = useContext(GlobalContext);
+    const [GlobalUser, setGlobalUser, UrlPath, UrlPathFiles, Server_Url, GlobalContent, setGlobalContent, RememberMe, setRememberMe] = useContext(GlobalContext);
     const [ContentID, setContentID] = useState('')
     const [ContentName, setContentName] = useState('')
     const [PathFile, setPathFile] = useState('')
@@ -100,7 +100,8 @@ const UploadContent = () => {//העלאת תוכן
 
     //משיכת רשימת תגיות בהעלאה של הקומפוננטה
     useEffect(() => {
-        const apiUrl = `http://localhost:55263/api/User/GetTags`
+        const apiUrl = `${Server_Url}User/GetTags`
+        const SapiUrl = `http://proj.ruppin.ac.il/api/User/GetTags`
         fetch(apiUrl,
             {
                 method: 'GET',
@@ -138,7 +139,7 @@ const UploadContent = () => {//העלאת תוכן
         , []);
 
     //בחירת תגיות עבור המצגת
-    const PushToTagsList = (event,NewValue) => {
+    const PushToTagsList = (event, NewValue) => {
         console.log('NewValue ', NewValue)
         //if (ChoosenTagsList.length == 3) return;//אם 3 אז בסדר
         setChosenTag(NewValue.title)
@@ -196,8 +197,9 @@ const UploadContent = () => {//העלאת תוכן
         console.log("content is ", Content)
 
 
-
-        fetch("http://localhost:55263/api/Content/AddContent", {
+        const AddapiUrl = `${Server_Url}Content/AddContent`
+        //const SAddapiUrl = `http://proj.ruppin.ac.il/api/Content/AddContent`
+        fetch(AddapiUrl, {
             method: 'post',
             body: JSON.stringify(Content),
             headers: new Headers({
@@ -213,8 +215,10 @@ const UploadContent = () => {//העלאת תוכן
                 }
                 else {
                     console.log(ContentName)
-                    console.log(`http://localhost:55263/api/Content/UploadContent/${GlobalUser.Email.split("@", 1)}/${ContentName}`)
-                    fetch(`http://localhost:55263/api/Content/UploadContent/${GlobalUser.Email.split("@", 1)}/${ContentName}`, {
+                    console.log(`${Server_Url}Content/UploadContent/${GlobalUser.Email.split("@", 1)}/${ContentName}`)
+                    const UPapiUrl=`${Server_Url}Content/UploadContent/${GlobalUser.Email.split("@", 1)}/${ContentName}`
+                    //const SUPapiUrl=`http://proj.ruppin.ac.il/igroup20/prod/api/Content/UploadContent/${GlobalUser.Email.split("@", 1)}/${ContentName}`
+                    fetch(UPapiUrl, {
                         method: 'post',
                         body: formData,
                         contentType: false,
@@ -286,7 +290,7 @@ const UploadContent = () => {//העלאת תוכן
                                     getOptionLabel={(option) => option.title}
                                     //style={{ width: 300 }}
                                     renderInput={(params) => <TextField {...params} label="בחר תגיות" variant="outlined" />}
-                                    onChange={(event,NewValue)=>PushToTagsList(event,NewValue)}
+                                    onChange={(event, NewValue) => PushToTagsList(event, NewValue)}
                                 />
                             </Grid>}
 
@@ -338,7 +342,7 @@ const UploadContent = () => {//העלאת תוכן
                                 />
                             </Grid>
 
-                            
+
 
                             <Button
                                 type="submit"

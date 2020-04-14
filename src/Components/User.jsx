@@ -49,7 +49,7 @@ class Popup extends React.Component {
 
 const User = () => {
     const classes = useStyles();
-    const [GlobalUser, setGlobalUser,RememberMe, UrlPath, UrlPathFiles, GlobalContent, setGlobalContent] = useContext(GlobalContext);
+    const [GlobalUser, setGlobalUser, UrlPath, UrlPathFiles, Server_Url, GlobalContent, setGlobalContent, RememberMe, setRememberMe] = useContext(GlobalContext);
     const [Edit, setEdit] = useState(false)
 
     const [Name, setName] = useState(GlobalUser.Name)
@@ -76,7 +76,8 @@ const User = () => {
     const ChangePic = () => {
         alert('hey')
 
-        const apiUrl2 = `http://localhost:55263/api/User/update/${UrlPicture}/${GlobalUser.Email}/1`
+        const apiUrl2 = `${Server_Url}User/update/${UrlPicture}/${GlobalUser.Email}/1`
+        //const SapiUrl2=`http://proj.ruppin.ac.il/igroup20/prod/api/User/update/${UrlPicture}/${GlobalUser.Email}/1`
         fetch(apiUrl2, {
             method: 'post',
             body: formDataPic,
@@ -90,7 +91,8 @@ const User = () => {
         GetDetailsAfterChangePic()//לאחר שינוי תמונה נשאב שוב נתונים מהדאטה בייס, כי לא ניתן בעדכון תמונה להחזיר את פרטי היוזר בחדש - נתיב של תמונה חדשה 
     }
     const GetDetailsAfterChangePic = () => {
-        const apiUrl = `http://localhost:55263/api/User/GetUserDetails`
+        const apiUrl = `${Server_Url}User/GetUserDetails`
+        //const SapiUrl=`http://proj.ruppin.ac.il/igroup20/prod/api/User/GetUserDetails`
 
         const Nuser = {
             'Email': GlobalUser.Email,
@@ -103,16 +105,16 @@ const User = () => {
             headers: new Headers({
                 'Content-Type': 'application/json; charset=UTF-8',
             })
-        }) .then(res => {
-                console.log('res=', res);
-                console.log('res.status', res.status);
-                console.log('res.ok', res.ok);
-                return res.json()
-            }).then((result)=>{
-                console.log('result ',result)
-                setGlobalUser(result)
-                localStorage.setItem('User', RememberMe ? JSON.stringify(result) : null);
-            })
+        }).then(res => {
+            console.log('res=', res);
+            console.log('res.status', res.status);
+            console.log('res.ok', res.ok);
+            return res.json()
+        }).then((result) => {
+            console.log('result ', result)
+            setGlobalUser(result)
+            localStorage.setItem('User', RememberMe ? JSON.stringify(result) : null);
+        })
     }
 
 
@@ -148,8 +150,9 @@ const User = () => {
         console.log(GlobalUser)
         localStorage.setItem('User', NewUSer)
 
-        const apiUrl = 'http://localhost:55263/api/User/UpdateUser';
-        fetch(apiUrl, {
+        const apiUrl3 = `${Server_Url}User/UpdateUser`;
+        //const SapiUrl3=`http://proj.ruppin.ac.il/igroup20/prod/api/User/UpdateUser`
+        fetch(apiUrl3, {
             method: 'PUT',
             body: JSON.stringify(NewUSer),
             headers: new Headers({
@@ -195,8 +198,8 @@ const User = () => {
                                         {<Avatar
                                             className={classes.large}
                                             //style={{width:'100%', height:'100%'}}
-                                            src={`/${process.env.PUBLIC_URL}uploadedPicturesPub/${GlobalUser.UrlPicture}`} />}
-                                        {console.log(`/${process.env.PUBLIC_URL}uploadedPicturesPub/${GlobalUser.UrlPicture}`)}
+                                            src={UrlPath + GlobalUser.UrlPicture} />}
+                                        {console.log('URL!!',UrlPath + GlobalUser.UrlPicture)}
                                     </td>
                                     <td >
                                         <tr>

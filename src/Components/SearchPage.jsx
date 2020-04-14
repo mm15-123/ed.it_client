@@ -15,9 +15,10 @@ import CardContentt from './CardContent'
 const SearchPage = () => {
     const [Contents, setContents] = useState(['first', 'second', 'third', 'forth', 'fifth', 'sixth', 'seventh', 'eight', 'nine', 'ten'])
     const [ShowPic, setShowPic] = useState(true)
-    const [GlobalUser, setGlobalUser, UrlPath, UrlPathFiles, GlobalContent, setGlobalContent] = useContext(GlobalContext);
+    const [GlobalUser, setGlobalUser, UrlPath, UrlPathFiles,Server_Url, GlobalContent, setGlobalContent] = useContext(GlobalContext);
     const [SuggestionContents, setSuggestionContents] = useState([])
     const [autoTags, setautoTags] = useState('');
+    //const [URLserver,setURLserver]=useState(`http://proj.ruppin.ac.il/igroup20/prod/api/`)
 
     // const cotentStyle = {
     //     display: 'inline-block',
@@ -31,14 +32,21 @@ const SearchPage = () => {
 
     useEffect(() => {
         let apiUrl = ''
-        console.log(GlobalUser)
+        let SapiUrl = ''
+        console.log('GlobalUser ',GlobalUser)
+        console.log('Server_Url ',Server_Url)
+        //console.log('UrlPath',UrlPath)
         if (GlobalUser != null) {
-            apiUrl = `http://localhost:55263/api/Content/SuggestContent/${GlobalUser.Email.split("@", 1)}`
+            apiUrl = `${Server_Url}Content/SuggestContent/${GlobalUser.Email.split("@", 1)}`
+            //apiUrl = `http://localhost:55263/api/Content/SuggestContent/${GlobalUser.Email.split("@", 1)}`
+            //SapiUrl=`http://proj.ruppin.ac.il/igroup20/prod/api/Content/SuggestContent/${GlobalUser.Email.split("@", 1)}`
         }
         else {
-            apiUrl = `http://localhost:55263/api/Content/SuggestContentForGuest`
+            apiUrl = `${Server_Url}Content/SuggestContentForGuest`
+            //apiUrl = `http://localhost:55263/api/Content/SuggestContentForGuest`
+            //SapiUrl=`http://proj.ruppin.ac.il/igroup20/prod/api/Content/SuggestContentForGuest`
         }
-
+        console.log('SuggestContent URL', apiUrl)
         fetch(apiUrl, {
             method: 'GET',
             //mode: 'no-cors',
@@ -61,24 +69,26 @@ const SearchPage = () => {
     }, [])
 
     const requestTags = async () => {
-        alert('hey')
-        const GetUrl = `http://localhost:55263/api/User/GetTags`
+        const GetUrl = `${Server_Url}User/GetTags`
+        //const GetUrl = `http://localhost:55263/api/User/GetTags`
+        //const SGetUrl=`http://proj.ruppin.ac.il/igroup20/prod/api/User/GetTags`
+        console.log('get tags url ', GetUrl)
         const response = await fetch(GetUrl)
         const result = await response.json()
         console.log(result)
         const auto = [];
-                    for (let i = 0; i < result.length; i++) {
-                        const obj = {
-                            'title': result[i],
-                            'id': i
-                        }
-                        auto.push(obj)
-                    }
-                    console.log(auto)
-                    setautoTags(auto)
+        for (let i = 0; i < result.length; i++) {
+            const obj = {
+                'title': result[i],
+                'id': i
+            }
+            auto.push(obj)
+        }
+        console.log(auto)
+        setautoTags(auto)
     }
 
-    const KeepTag =  (event,NewValue)=>{
+    const KeepTag = (event, NewValue) => {
         console.log(NewValue)
     }
 
@@ -87,23 +97,24 @@ const SearchPage = () => {
 
             <Container component="main" maxWidth="xl">
                 <div className='SearchFirstDiv'>
-                {console.log("s", SuggestionContents)}
-                <img src={logo} className="logo"></img>
-                {/* <img src={process.env.PUBLIC_URL + 'uploadedFilesPub/shiftan92.jpg'} className="logo"></img> */}
+                    {console.log("s", SuggestionContents)}
+                    <img src={logo} className="logo"></img>
+                    {/* <img src={process.env.PUBLIC_URL + 'uploadedFilesPub/shiftan92.jpg'} className="logo"></img> */}
 
-                <div className="searchText">
-                <br></br>
-                    <Grid item xs >
-                    <Autocomplete
+                    <div className="searchText" style={{ direction: 'rtl' }}>
+                        <br></br>
+                        <Grid container spacing={2}>
+                            <Grid item xs={4}  >
+                                <Autocomplete
                                     id="combo-box-demo"
                                     options={autoTags}
                                     fullWidth
                                     getOptionLabel={(option) => option.title}
                                     //style={{ width: 300 }}
                                     renderInput={(params) => <TextField {...params} label="חפש לפי תגית" variant="outlined" />}
-                                    onChange={(event,NewValue)=>KeepTag(event,NewValue)}
+                                    onChange={(event, NewValue) => KeepTag(event, NewValue)}
                                 />
-                        {/*<TextField
+                                {/*<TextField
                             variant="outlined"
                             margin="normal"
                             required
@@ -114,13 +125,14 @@ const SearchPage = () => {
                             autoComplete="Search"
                             autoFocus
                         />*/}
-                    </Grid>
-                </div><br></br>
-                <p className="headerContents">...תכנים אלה עלולים לעניין אותך</p>
-                <br></br>
+                            </Grid>
+                        </Grid>
+                    </div><br></br>
+                    <p className="headerContents">...תכנים אלה עלולים לעניין אותך</p>
+                    <br></br>
                 </div>
                 <div className='ListContents' >
-                    <Grid item  xs={12}>
+                    <Grid item xs={12}>
                         <Slider
                             spedd={500}
                             slidesToShow={6}
@@ -136,21 +148,21 @@ const SearchPage = () => {
                                         <CardContentt content={content.ContentName} content={content.ContentName} Description={content.Description} ID={content.ContentID} PathFile={content.PathFile}></CardContentt>
                                     </div>
                                 )
-                                
+
                             }
                             {
-                                 SuggestionContents.map((content, index) =>
-                                 <div className='contentStyle' key={index}>
-                                     <CardContentt content={content.ContentName} content={content.ContentName} Description={content.Description} ID={content.ContentID} PathFile={content.PathFile}></CardContentt>
-                                 </div>
-                             )
+                                SuggestionContents.map((content, index) =>
+                                    <div className='contentStyle' key={index}>
+                                        <CardContentt content={content.ContentName} content={content.ContentName} Description={content.Description} ID={content.ContentID} PathFile={content.PathFile}></CardContentt>
+                                    </div>
+                                )
                             }
-                             {
-                                 SuggestionContents.map((content, index) =>
-                                 <div className='contentStyle' key={index}>
-                                     <CardContentt content={content.ContentName} content={content.ContentName} Description={content.Description} ID={content.ContentID} PathFile={content.PathFile}></CardContentt>
-                                 </div>
-                             )
+                            {
+                                SuggestionContents.map((content, index) =>
+                                    <div className='contentStyle' key={index}>
+                                        <CardContentt content={content.ContentName} content={content.ContentName} Description={content.Description} ID={content.ContentID} PathFile={content.PathFile}></CardContentt>
+                                    </div>
+                                )
                             }
                             {/* <div className='contentStyle' >
                                 <h4>מה קורה</h4>
@@ -175,7 +187,7 @@ const SearchPage = () => {
                         </Slider>
                     </Grid>
                 </div>
-               
+
 
             </Container>
         </div>
