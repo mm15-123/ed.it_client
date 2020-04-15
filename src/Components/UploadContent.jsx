@@ -24,6 +24,7 @@ import Chip from '@material-ui/core/Chip';
 import { GlobalContext } from '../Context/GlobalContext';
 import Radium from 'radium';
 import swal from 'sweetalert';
+import Autocomplete from '@material-ui/lab/Autocomplete';
 
 function getStyles(name, personName, theme) {
     return {
@@ -84,7 +85,7 @@ const MenuProps = {
 
 const UploadContent = () => {//העלאת תוכן
     const classes = useStyles();
-    const [GlobalUser, setGlobalUser] = useContext(GlobalContext);
+    const [GlobalUser, setGlobalUser, UrlPath, UrlPathFiles, Server_Url, GlobalContent, setGlobalContent, RememberMe, setRememberMe] = useContext(GlobalContext);
     const [ContentID, setContentID] = useState('')
     const [ContentName, setContentName] = useState('')
     const [PathFile, setPathFile] = useState('')
@@ -95,10 +96,12 @@ const UploadContent = () => {//העלאת תוכן
     const [Tags, setTags] = useState(['first tag', 'second tag', 'third tag'])
     const [ChosenTag, setChosenTag] = useState('');
     const [ChoosenTagsList, setChoosenTagsList] = useState([])
+    const [autoTags, setautoTags] = useState('');
 
     //משיכת רשימת תגיות בהעלאה של הקומפוננטה
     useEffect(() => {
-        const apiUrl = `http://localhost:55263/api/User/GetTags`
+        const apiUrl = `${Server_Url}User/GetTags`
+        const SapiUrl = `http://proj.ruppin.ac.il/api/User/GetTags`
         fetch(apiUrl,
             {
                 method: 'GET',
@@ -118,6 +121,16 @@ const UploadContent = () => {//העלאת תוכן
                     result.map(tag => console.log(tag));
                     console.log('result[0]', result[0]);
                     setTags(result)
+                    const auto = [];
+                    for (let i = 0; i < result.length; i++) {
+                        const obj = {
+                            'title': result[i],
+                            'id': i
+                        }
+                        auto.push(obj)
+                    }
+                    console.log(auto)
+                    setautoTags(auto)
                 },
                 (error) => {
                     console.log("err post=", error);
@@ -126,10 +139,11 @@ const UploadContent = () => {//העלאת תוכן
         , []);
 
     //בחירת תגיות עבור המצגת
-    const PushToTagsList = (e) => {
+    const PushToTagsList = (event, NewValue) => {
+        console.log('NewValue ', NewValue)
         //if (ChoosenTagsList.length == 3) return;//אם 3 אז בסדר
-        setChosenTag(e.target.value)
-        const chosen = e.target.value
+        setChosenTag(NewValue.title)
+        const chosen = NewValue.title
         const tagslist = ChoosenTagsList
         tagslist.push(chosen)
         setChoosenTagsList(tagslist)
@@ -154,7 +168,7 @@ const UploadContent = () => {//העלאת תוכן
     //upload the form-העלאת התוכן לשרת
     const prevent = (e) => {
         e.preventDefault();
-        
+
         if (ChoosenTagsList.length < 3) {
             swal({
                 title: 'missing details',
@@ -183,8 +197,9 @@ const UploadContent = () => {//העלאת תוכן
         console.log("content is ", Content)
 
 
-
-        fetch("http://localhost:55263/api/Content/AddContent", {
+        const AddapiUrl = `${Server_Url}Content/AddContent`
+        //const SAddapiUrl = `http://proj.ruppin.ac.il/api/Content/AddContent`
+        fetch(AddapiUrl, {
             method: 'post',
             body: JSON.stringify(Content),
             headers: new Headers({
@@ -200,8 +215,10 @@ const UploadContent = () => {//העלאת תוכן
                 }
                 else {
                     console.log(ContentName)
-                    console.log(`http://localhost:55263/api/Content/UploadContent/${GlobalUser.Email.split("@", 1)}/${ContentName}`)
-                    fetch(`http://localhost:55263/api/Content/UploadContent/${GlobalUser.Email.split("@", 1)}/${ContentName}`, {
+                    console.log(`${Server_Url}Content/UploadContent/${GlobalUser.Email.split("@", 1)}/${ContentName}`)
+                    const UPapiUrl=`${Server_Url}Content/UploadContent/${GlobalUser.Email.split("@", 1)}/${ContentName}`
+                    //const SUPapiUrl=`http://proj.ruppin.ac.il/igroup20/prod/api/Content/UploadContent/${GlobalUser.Email.split("@", 1)}/${ContentName}`
+                    fetch(UPapiUrl, {
                         method: 'post',
                         body: formData,
                         contentType: false,
@@ -264,7 +281,20 @@ const UploadContent = () => {//העלאת תוכן
                                     onChange={(e) => setDescription(e.target.value)}
                                 />
                             </Grid>
-                            <Grid item xs={12} sm={6}>
+
+                            {<Grid item xs={12} sm={6}>
+                                <Autocomplete
+                                    id="combo-box-demo"
+                                    options={autoTags}
+                                    fullWidth
+                                    getOptionLabel={(option) => option.title}
+                                    //style={{ width: 300 }}
+                                    renderInput={(params) => <TextField {...params} label="בחר תגיות" variant="outlined" />}
+                                    onChange={(event, NewValue) => PushToTagsList(event, NewValue)}
+                                />
+                            </Grid>}
+
+                            {/*<Grid item xs={12} sm={6}>
                                 <label style={{ fontWeight: 'bold', fontSize: '1.1rem' }}>Choose tags</label>
                                 <Select
                                     labelId="Tags"
@@ -278,7 +308,7 @@ const UploadContent = () => {//העלאת תוכן
                                         Tags.map((tag, index) => <MenuItem key={index} value={tag}>{tag}</MenuItem>)
                                     }
                                 </Select>
-                            </Grid>
+                                </Grid>*/}
                             <Grid item xs={12} sm={6}>
                                 <label style={{ fontWeight: 'bold', fontSize: '1.1rem' }}>tags</label>
                                 <h3
@@ -311,9 +341,9 @@ const UploadContent = () => {//העלאת תוכן
                                     onChange={UploadPpt}
                                 />
                             </Grid>
-                            {/*<Grid item xs={12} sm={4}>
-                                <button onClick={UploadPpt}>upload</button>
-                            </Grid>*/}
+
+
+
                             <Button
                                 type="submit"
                                 fullWidth

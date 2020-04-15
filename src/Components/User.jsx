@@ -4,7 +4,10 @@ import './User.css'
 import ProfilePicture2 from '../uploadedFiles/almog_levi.jpeg'
 import { makeStyles } from '@material-ui/core/styles';
 import Avatar from '@material-ui/core/Avatar';
-import { Button, Container, CssBaseline, Typography, Grid, TextField, Select, MenuItem } from '@material-ui/core';
+import { Button, Container, CssBaseline, Typography, Grid, TextField, Select, MenuItem, Input } from '@material-ui/core';
+import AddAPhotoIcon from '@material-ui/icons/AddAPhoto';
+import Axios from 'axios';
+
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -23,9 +26,30 @@ const useStyles = makeStyles((theme) => ({
     },
 }));
 
+class Popup extends React.Component {
+    render() {
+        return (
+
+            <div className='popup'>
+                <div className='popup_inner'>
+                    <Container>
+                        <h1>{this.props.text}</h1>
+
+                        <input type='file' onChange={this.props.KeepPath} />
+                        <button onClick={this.props.ChangePic}>החלף תמונה</button>
+                        <button onClick={this.props.closePopup}>סגור</button>
+
+                    </Container>
+                </div>
+            </div>
+
+        );
+    }
+}
+
 const User = () => {
     const classes = useStyles();
-    const [GlobalUser, setGlobalUser, UrlPath, UrlPathFiles, GlobalContent, setGlobalContent] = useContext(GlobalContext);
+    const [GlobalUser, setGlobalUser, UrlPath, UrlPathFiles, Server_Url, GlobalContent, setGlobalContent, RememberMe, setRememberMe] = useContext(GlobalContext);
     const [Edit, setEdit] = useState(false)
 
     const [Name, setName] = useState(GlobalUser.Name)
@@ -34,6 +58,65 @@ const User = () => {
     const [BDate, setBDate] = useState(GlobalUser.BDate)
     const [SchoolType, setSchoolType] = useState(GlobalUser.SchoolType)
     const [AboutMe, setAboutMe] = useState(GlobalUser.AboutMe)
+    const [UrlPicture, setUrlPicture] = useState(GlobalUser.UrlPicture)
+    const [ShowPopUp, setShowPopUp] = useState(false)
+    const [NewUrlPicture, setNewUrlPicture] = useState('')
+    const [formDataPic, setformDataPic] = useState('')
+
+    const togglePopup = () => {
+        setShowPopUp(!ShowPopUp)
+    }
+    const KeepPath = (e) => {
+        console.log(e.target.files[0])
+        console.log(UrlPicture)
+        const fd = new FormData()
+        fd.append('image', e.target.files[0], e.target.files[0].name)
+        setformDataPic(fd)
+    }
+    const ChangePic = () => {
+        alert('hey')
+
+        const apiUrl2 = `${Server_Url}User/update/${UrlPicture}/${GlobalUser.Email}/1`
+        //const SapiUrl2=`http://proj.ruppin.ac.il/igroup20/prod/api/User/update/${UrlPicture}/${GlobalUser.Email}/1`
+        fetch(apiUrl2, {
+            method: 'post',
+            body: formDataPic,
+            contentType: false,
+            processData: false,
+            mode: 'no-cors',
+            headers: new Headers({
+                'Content-Type': 'application/json; charset=UTF-8',
+            })
+        })
+        GetDetailsAfterChangePic()//לאחר שינוי תמונה נשאב שוב נתונים מהדאטה בייס, כי לא ניתן בעדכון תמונה להחזיר את פרטי היוזר בחדש - נתיב של תמונה חדשה 
+    }
+    const GetDetailsAfterChangePic = () => {
+        const apiUrl = `${Server_Url}User/GetUserDetails`
+        //const SapiUrl=`http://proj.ruppin.ac.il/igroup20/prod/api/User/GetUserDetails`
+
+        const Nuser = {
+            'Email': GlobalUser.Email,
+            'Password': Password,
+        }
+        console.log('Nuser ', Nuser)
+        fetch(apiUrl, {
+            method: 'POST',
+            body: JSON.stringify(Nuser),
+            headers: new Headers({
+                'Content-Type': 'application/json; charset=UTF-8',
+            })
+        }).then(res => {
+            console.log('res=', res);
+            console.log('res.status', res.status);
+            console.log('res.ok', res.ok);
+            return res.json()
+        }).then((result) => {
+            console.log('result ', result)
+            setGlobalUser(result)
+            localStorage.setItem('User', RememberMe ? JSON.stringify(result) : null);
+        })
+    }
+
 
     useEffect(() => {
         const BirthDate = GlobalUser.BDate.split(' ')[0].split('/')
@@ -50,12 +133,12 @@ const User = () => {
         const NewUSer = {
             'Name': Name,
             'Password': Password,
-            'Email':GlobalUser.Email,
+            'Email': GlobalUser.Email,
             'TeacherType': TeacherType,
             'BDate': BDate,
             'SchoolType': SchoolType,
             'AboutMe': AboutMe,
-            'UrlPicture': GlobalUser.UrlPicture,
+            'UrlPicture': UrlPicture,
             'FormDataPic': GlobalUser.FormDataPic,
             'ContentsUser': GlobalUser.ContentsUser,
             'TagsUser': GlobalUser.TagsUser,
@@ -67,8 +150,9 @@ const User = () => {
         console.log(GlobalUser)
         localStorage.setItem('User', NewUSer)
 
-        const apiUrl = 'http://localhost:55263/api/User/UpdateUser';
-        fetch(apiUrl, {
+        const apiUrl3 = `${Server_Url}User/UpdateUser`;
+        //const SapiUrl3=`http://proj.ruppin.ac.il/igroup20/prod/api/User/UpdateUser`
+        fetch(apiUrl3, {
             method: 'PUT',
             body: JSON.stringify(NewUSer),
             headers: new Headers({
@@ -91,17 +175,31 @@ const User = () => {
                 <div>
                     {//<Container component="main" maxWidth="xs">
                         //<CssBaseline />
-                        <div style={{width:'100%'}}>
+                        <div style={{ width: '100%' }}>
                             <Typography component="h1" variant="h5" >דף פרופיל אישי</Typography>
                             <table style={{ width: '100%' }}>
                                 <tr>
                                     <td>
                                         <h2>{GlobalUser.Name}</h2>
-                                        {<Avatar 
-                                        className={classes.large} 
-                                        //style={{width:'100%', height:'100%'}}
-                                        src={`/${UrlPath + GlobalUser.UrlPicture}`} />}
-                                        {console.log(`/${UrlPath + GlobalUser.UrlPicture}`)}
+                                        <div style={{ right: '2%', display: 'flex', justifyContent: 'space-around' }}>
+                                            <label style={{ fontWeight: 'bold' }}>החלף תמונה</label>
+                                            <AddAPhotoIcon onClick={togglePopup} />
+
+                                            {ShowPopUp &&
+                                                <Popup
+                                                    text='תמונה חדשה '
+                                                    closePopup={togglePopup}
+                                                    ChangePic={ChangePic}
+                                                    KeepPath={KeepPath}
+                                                />
+                                            }
+
+                                        </div>
+                                        {<Avatar
+                                            className={classes.large}
+                                            //style={{width:'100%', height:'100%'}}
+                                            src={UrlPath + GlobalUser.UrlPicture} />}
+                                        {console.log('URL!!',UrlPath + GlobalUser.UrlPicture)}
                                     </td>
                                     <td >
                                         <tr>
@@ -130,7 +228,7 @@ const User = () => {
                                 //color="primary"           
                                 onClick={changestate}>ערוך פרטים</Button>}
                         </div>
-                    //</Container>
+                        //</Container>
                     }
                 </div>
                 <div >
@@ -207,7 +305,7 @@ const User = () => {
                                     <TextField
                                         variant="outlined"
                                         id="BDate"
-                                        label="Birthday"
+                                        label="יום הולדת "
                                         fullWidth
                                         type="date"
                                         defaultValue={BDate}
@@ -218,7 +316,16 @@ const User = () => {
                                         onChange={(e) => setBDate(e.target.value)}
                                     />
                                 </Grid>
-                                <Grid item xs={12} sm={9} >
+                                {/*<Grid item xs={12} sm={3}>
+                                    <TextField
+                                        variant="outlined"
+                                        id="picture"
+                                        label="תמונת פרופיל"
+                                        fullWidth
+                                        type='file'
+                                    />
+                                </Grid>*/}
+                                <Grid item xs={12} sm={6} >
                                     <TextField
                                         id="outlined-multiline-static"
                                         fullWidth
@@ -238,8 +345,8 @@ const User = () => {
                         variant="contained"
                         onClick={UpdateDetails}>בצע שינוי</Button>
                         <Button
-                        variant="contained"
-                        onClick={changestate}>חזור</Button></div>}
+                            variant="contained"
+                            onClick={changestate}>חזור</Button></div>}
                 </div>}
         </div>
     );

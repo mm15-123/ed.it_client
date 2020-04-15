@@ -38,13 +38,15 @@ const settings = {
 const Content = (props) => {
     const [ContentToShow, setContentToShow] = useState('')
     const [PagesSourceList, setPagesSourceList] = useState([])
+    const [GlobalUser, setGlobalUser, UrlPath, UrlPathFiles,Server_Url, GlobalContent, setGlobalContent] = useContext(GlobalContext);
+    const [URLserver,setURLserver]=useState(`http://proj.ruppin.ac.il/igroup20/prod/api/`)
     const [Like, setLike] = useState(true)
-    // const [ColorLike,setColorLike]=useState('')
-    const [GlobalUser, setGlobalUser, UrlPath, UrlPathFiles, GlobalContent, setGlobalContent] = useContext(GlobalContext);
-
     useEffect(() => {
-        const ContentApiUrl = `http://localhost:55263/api/Content/GetContent/${props.match.params.ContentID}`//go to DB and brings the specific presentation with her likes
-        console.log(ContentApiUrl)
+        console.log('Server_Url ',Server_Url)
+        const ContentApiUrl=`${Server_Url}Content/GetContent/${props.match.params.ContentID}`
+        //const ContentApiUrl = `http://localhost:55263/api/Content/GetContent/${props.match.params.ContentID}`//go to DB and brings the specific presentation with her likes
+        //const SContentApiUrl=`http://proj.ruppin.ac.il/igroup20/prod/api/Content/GetContent/${props.match.params.ContentID}`
+        console.log('ContentApiUrl',ContentApiUrl)
         axios.get(ContentApiUrl)
             .then(res => {
                 console.log(res.data)
@@ -52,7 +54,7 @@ const Content = (props) => {
                 MakePages(res.data) // do nothing, just for console.log() staf
                 const PagesSourceNewList = []
                 for (var i = 1; i < 22; i++) { // fill list with the presentasion slides as pictures
-                    PagesSourceNewList.push('/' + UrlPathFiles + `${res.data.PathFile.split('.', 1)}_${i}.jpg`)
+                    PagesSourceNewList.push(  UrlPathFiles + `${res.data.PathFile.split('.', 1)}_${i}.jpg`)
                 }
                 setPagesSourceList(PagesSourceNewList)
             })
@@ -88,7 +90,7 @@ const Content = (props) => {
         console.log('make pages')
         console.log('ContentToShow ', data)
         console.log('PagesSourceList ', PagesSourceList)
-        console.log('Local ', Local)
+        //console.log('Local ', Local)
     }
 
     return (
@@ -127,9 +129,9 @@ const Content = (props) => {
                                 ______________________________________________________________________________
                             <table>
                                     <tr>
-                                        <td>              <Avatar alt="Remy Sharp" src={'/' + UrlPath + `${ContentToShow.UserPic}`} className='inline' />
+                                        <td>              <Avatar alt="Remy Sharp" src={ UrlPath + `${ContentToShow.UserPic}`} className='inline' />
                                             {console.log('img path ', process.env.PUBLIC_URL + '/uploadedPicturesPub/Shiftan92.jpg')}
-                                            {console.log('avatar Path ', '/' + UrlPath + `${ContentToShow.UserPic}`)}
+                                            {console.log('avatar Path ',  UrlPath + `${ContentToShow.UserPic}`)}
                                         </td>
                                         <td><h3>{ContentToShow.ByUser}  </h3>
                                         </td>

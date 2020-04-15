@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect,useContext } from 'react';
 import Avatar from '@material-ui/core/Avatar';
 import Button from '@material-ui/core/Button';
 import CssBaseline from '@material-ui/core/CssBaseline';
@@ -23,6 +23,8 @@ import { Link } from "react-router-dom";
 import uuid from 'uuid/v4';
 import { Redirect } from 'react-router-dom';
 import swal from 'sweetalert';
+import Autocomplete from '@material-ui/lab/Autocomplete';
+import { GlobalContext } from '../Context/GlobalContext';
 
 
 function Copyright() {
@@ -96,6 +98,7 @@ const MenuProps = {
 const SignUp = () => {
     const classes = useStyles();
     //const [UserName, setUserName] = useState('')
+    const [GlobalUser, setGlobalUser, UrlPath, UrlPathFiles, Server_Url, GlobalContent, setGlobalContent, RememberMe, setRememberMe] = useContext(GlobalContext);
     const [Name, setName] = useState('')
     const [Password, setPassword] = useState('')
     const [Email, setEmail] = useState('')
@@ -111,9 +114,10 @@ const SignUp = () => {
     const [ChosenTag, setChosenTag] = useState('')
     const [ChosenTags, setChosenTags] = useState([])
     const [moveMainPage, setmoveMainPage] = useState(false);//בסיום הרשמה יעבור לעמוד הראשי
+    const [autoTags, setautoTags] = useState('')
 
     useEffect(() => {
-        const apiUrl = `http://localhost:55263/api/User/GetTags`
+        const apiUrl = `${Server_Url}User/GetTags`
         fetch(apiUrl,
             {
                 method: 'GET',
@@ -133,6 +137,16 @@ const SignUp = () => {
                     result.map(tag => console.log(tag));
                     console.log('result[0]', result[0]);
                     setTags(result)
+                    const auto = [];
+                    for (let i = 0; i < result.length; i++) {
+                        const obj = {
+                            'title': result[i],
+                            'id': i
+                        }
+                        auto.push(obj)
+                    }
+                    console.log(auto)
+                    setautoTags(auto)
                 },
                 (error) => {
                     console.log("err post=", error);
@@ -140,11 +154,11 @@ const SignUp = () => {
     }
         , []);
 
-    const chooseTags = (e) => {
+    const chooseTags = (event, NewValue) => {
         //if (ChosenTags.length === 3) return;
         const tags = ChosenTags
-        setChosenTag(e.target.value)
-        const chosen = e.target.value
+        setChosenTag(NewValue.title)
+        const chosen = NewValue.title
         tags.push(chosen)
         setChosenTags(tags)
         console.log('tags', ChosenTags)
@@ -186,7 +200,8 @@ const SignUp = () => {
                 icon: "success",
             })
             console.log(FormDataPic, "hey")
-            //PostUser(user, FormDataPic)
+            PostUser(user, FormDataPic)
+
         }
         else {
             const BDerr = BDate === '' ? 'fill date pls.' : '';
@@ -203,7 +218,7 @@ const SignUp = () => {
         console.log(user)
     }
 
-    const UploadPict = (e) => {      
+    const UploadPict = (e) => {
         const fd = new FormData()
         fd.append('image', e.target.files[0], e.target.files[0].name)
         console.log(fd, e.target.files[0], e.target.files[0].name)
@@ -216,10 +231,11 @@ const SignUp = () => {
 
         const formData = new FormData();
         formData.append('content1', UrlPic, UrlPic.name)
-        const apiUrl = 'http://localhost:55263/api/User/CreateUser'
-        const apiUrl2 = `http://localhost:55263/api/AddPic/${Email.split("@", 1)}` ///${rName}
-
-        fetch(apiUrl, {
+        const apiUrl1 = `${Server_Url}User/CreateUser`
+        //const SapiUrl = `http://proj.ruppin.ac.il/igroup20/prod/api/User/CreateUser`
+        const apiUrl2 = `${Server_Url}AddPic/${Email.split("@", 1)}` ///${rName}
+        //const SapiUrl2 = `http://proj.ruppin.ac.il/igroup20/prod/api/AddPic/${Email.split("@", 1)}`
+        fetch(apiUrl1, {
             method: 'post',
             body: JSON.stringify(data),
             headers: new Headers({
@@ -387,7 +403,16 @@ const SignUp = () => {
                             <img src={UrlPic.name} alt="image" />
                             </Grid>*/}
                         <Grid item xs={12} sm={6} >
-                            <FormControl className={classes.formControl}>
+                            <Autocomplete
+                                id="combo-box-demo"
+                                options={autoTags}
+                                fullWidth
+                                getOptionLabel={(option) => option.title}
+                                //style={{ width: 300 }}
+                                renderInput={(params) => <TextField {...params} label="בחר תגיות" variant="outlined" />}
+                                onChange={(event, NewValue) => chooseTags(event, NewValue)}
+                            />
+                            {/*<FormControl className={classes.formControl}>
                                 <InputLabel id="demo-mutiple-chip-label">בחר תגיות</InputLabel>
                                 <Select
                                     labelId="demo-mutiple-chip-label"
@@ -402,7 +427,7 @@ const SignUp = () => {
                                         </MenuItem>
                                     ))}
                                 </Select>
-                            </FormControl>
+                                    </FormControl>*/}
                         </Grid>
                         <Grid item xs={12} sm={6}>
                             <label style={{ fontWeight: 'bold', fontSize: '1.1rem' }}>תגיות שנבחרו</label>
