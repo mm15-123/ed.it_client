@@ -38,6 +38,7 @@ const settings = {
 const Content = (props) => {
     const [ContentToShow, setContentToShow] = useState('')
     const [PagesSourceList, setPagesSourceList] = useState([])
+    const [Tagslist,setTagslist]=useState('')
     const [GlobalUser, setGlobalUser, UrlPath, UrlPathFiles,Server_Url, GlobalContent, setGlobalContent] = useContext(GlobalContext);
     const [URLserver,setURLserver]=useState(`http://proj.ruppin.ac.il/igroup20/prod/api/`)
     const [Like, setLike] = useState(true)
@@ -54,11 +55,31 @@ const Content = (props) => {
                 setContentToShow(res.data)
                 MakePages(res.data) // do nothing, just for console.log() staf
                 const PagesSourceNewList = []
-                for (var i = 1; i < 22; i++) { // fill list with the presentasion slides as pictures
+                for (var i = 1; i <= res.data.PagesNumber; i++) { // fill list with the presentasion slides as pictures
                     PagesSourceNewList.push(  UrlPathFiles + `${res.data.PathFile.split('.', 1)}_${i}.jpg`)
                     console.log( UrlPathFiles + `${res.data.PathFile.split('.', 1)}_${i}.jpg`)
-                }
+                }               
                 setPagesSourceList(PagesSourceNewList)
+                console.log(res.data.TagsContent)
+
+                res.data.TagsContent.map((page, index) =>{
+                    return(
+                        <span>#{page}</span>
+                    )
+                    
+                })
+                //רשימת תגים של התוכן
+               setTagslist(()=>{
+                return(
+                    res.data.TagsContent.map((page, index) =>{
+                        return(
+                            <span>#{page}</span>
+                        )
+                    })
+                )
+               }) 
+
+        
             })
 
     }, [])
@@ -80,13 +101,6 @@ const Content = (props) => {
 
     console.log(props)
     let path = ""
-    // if(Local)//אם עובדים על מקומי המקור של תמונות המצגת הוא מתקייה מקומית אחרת מהשרת
-    // {
-    //     // path
-    // }
-    //ניסוי לראות אם מציג את התמונות של המצגת
-    //todo- לשאוב את שם המשתמש בשביל להשלים שם תמונה
-    //todo- לקבל מהשרת כמה תמונות יש בכלל בתיקייה
 
     const MakePages = (data) => { //do nothing
         console.log('make pages')
@@ -112,7 +126,7 @@ const Content = (props) => {
                                         <img className="picContent border-button" src={page} alt='loading' />
                                         {console.log(page)}
                                     </Page>
-                                    {console.log(PagesSourceList)}
+                            
                                 </div>)
                         }
 
@@ -127,7 +141,8 @@ const Content = (props) => {
                             <h1>{ContentToShow.ContentName}</h1>
                             <h2>{ContentToShow.Description}</h2>
                             <h6>{ContentToShow.Likes} משתמשים אהבו את המצגת</h6>
-                            <span>#תגית 1 </span><span>tag2# </span><span>tag3# </span>
+                            {/* <span>#{ContentToShow.TagsContent[0]}</span><span>#{ContentToShow.TagsContent[1]} </span><span>#{ContentToShow.TagsContent[2]} </span> */}
+                            {Tagslist}
                             <div>
                                 ______________________________________________________________________________
                             <table>

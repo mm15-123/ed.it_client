@@ -7,8 +7,8 @@ let UrlPictures = ''
 let UrlFiles = ''
 let UrlServer = ''
 if (local) {
-  UrlPictures = process.env.PUBLIC_URL + `uploadedPicturesPub/`//uploadedFilesPub למצגות
-  UrlFiles = process.env.PUBLIC_URL + `uploadedFilesPub/`
+  UrlPictures = process.env.PUBLIC_URL + `/uploadedPicturesPub/`//uploadedFilesPub למצגות
+  UrlFiles = process.env.PUBLIC_URL + `/uploadedFilesPub/`
   UrlServer = `http://localhost:55263/api/`
 }
 else {
