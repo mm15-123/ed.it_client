@@ -159,10 +159,23 @@ const UploadContent = () => {//העלאת תוכן
     }
     //צירוף קובץ 
     const UploadPpt = (e) => {
-        const fd = new FormData()
-        fd.append('content', e.target.files[0])
-        setPathFile(e.target.files[0])
-        setFormData(fd)
+        var parts = e.target.files[0].name.split('.');
+        console.log(parts[parts.length - 1])
+        if(parts[parts.length - 1]=='ppt' || parts[parts.length - 1]=='pptx'){
+            const fd = new FormData()
+            fd.append('content', e.target.files[0])
+            setPathFile(e.target.files[0])
+            setFormData(fd)
+        }
+        else{
+            swal({
+                title: 'שגיאת קובץ',
+                text: 'אנא העלה תוכן מסוג מצגת בלבד',
+                icon: 'error'
+            })
+            return;
+        }
+        
     }
 
     //upload the form-העלאת התוכן לשרת
@@ -332,7 +345,7 @@ const UploadContent = () => {//העלאת תוכן
                                 <label style={{ fontWeight: 'bold', fontSize: '1.3rem' }}>upload File</label>
                                 <Input
                                     variant="outlined"
-                                    //accept="*.pptx"
+                                    accept="*.pptx"
                                     type='file'
                                     required
                                     fullWidth

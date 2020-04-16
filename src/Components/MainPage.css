@@ -14,15 +14,31 @@
 
 .navbar li{
     display: inline-block;
-        margin: 20px;
+    margin: 20px;
         
 }
 
-.navbar a {
+.navbar a  {
     text-decoration: none;
         color: white;
 }
+.navbar a:hover{
+    padding-top: 20px;
+    padding-bottom: 20px;
+    font-size: larger;
+    background-color: #569dd6;
 
+}
+.userNav a,.userNav span
+{
+    width:auto;
+    font-weight: bold;
+    color: white;
+    font-size: 20px;
+    position: relative;
+    top: 20%;
+
+}
 .navbar a:hover,
 .navbar a:active,
 .navbar a.active
@@ -49,10 +65,9 @@
 
 .logo{
     position: relative;
-    height: 130px;
+    height: 105px;
     float: left;
-    width: 30%;
-
+    width: 17%;
 }
 
 .MuiGrid-grid-xs-true{
@@ -61,7 +76,7 @@
 
 .searchText{
     position: relative;
-    width: 40%;
+    width: 70%;
     float: right;
 }
 
@@ -136,6 +151,7 @@
     float: left;
     margin-right: 5%;
     left: 5%;
+    top:-2%
 }
 
 .slick-list{
@@ -144,7 +160,6 @@
 
 .searchText div {
     border-radius: 24px;
-    width: 95%;
 }   
 
 
@@ -176,7 +191,12 @@
       display: flex; 
       justify-content: space-between; 
       direction: rtl ;
-      color:blue;
+      /* text-shadow: 1px 1px #204a6d; */
+      color: #173f5f;
+}
+.TitlesContent h1,.TitlesContent h2{
+    text-shadow: 1px 1px #204a6d; 
+
 }
 
 .inline{
@@ -197,9 +217,9 @@
 }
 
 table td{
-    width: 23%;
-    left: -110%;
-    position: relative;
+    width: 70%;
+   
+   
 }
 
 .buttonDownload{
@@ -237,31 +257,7 @@ table td{
 }
 
 .border-button {
-    position: relative;
-    margin: 0.5em;
-    border: solid 5px transparent;
-    background: rgba(62, 67, 119, 0.5);
+    border-width: 10px;
+    border-style: groove ridge;
+    border-color: dimgrey;
   }
-  .border-button:after {
-    content: '';
-    display: block;
-    position: absolute;
-    top: 0;
-    right: 0;
-    bottom: 0;
-    left: 0;
-    border: solid 10px #FC5185;
-    margin: -15px;
-    z-index: -1;
-    -webkit-transition: -webkit-transform 0.6s linear;
-    transition: -webkit-transform 0.6s linear;
-    transition: transform 0.6s linear;
-    transition: transform 0.6s linear, -webkit-transform 0.6s linear;
-    -webkit-transform: scale(0.97, 0.93);
-            transform: scale(0.97, 0.93);
-  }
-  .border-button:hover::after {
-    -webkit-transform: scale(1, 1);
-            transform: scale(1, 1);
-  }
-  

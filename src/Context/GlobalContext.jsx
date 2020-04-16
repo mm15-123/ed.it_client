@@ -1,7 +1,7 @@
 import React, { useState, createContext } from "react";
-
+ // "homepage":"/igroup20/prod/Client/",
 //הגדרת ניתוב לתיקייה 
-const local = false;//לשנות בהתאם לסוג העבודה שלנו
+const local = true;//לשנות בהתאם לסוג העבודה שלנו
 
 let UrlPictures = ''
 let UrlFiles = ''

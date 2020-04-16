@@ -1,7 +1,7 @@
 {
   "name": "ed.it_client",
   "version": "0.1.0",
-  "homepage":"/igroup20/prod/Client/",
+ 
   "private": true,
   "dependencies": {
     "@date-io/date-fns": "^2.4.0",
@@ -52,3 +52,4 @@
     ]
   }
 }
+

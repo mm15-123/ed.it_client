@@ -41,8 +41,9 @@ const Content = (props) => {
     const [GlobalUser, setGlobalUser, UrlPath, UrlPathFiles,Server_Url, GlobalContent, setGlobalContent] = useContext(GlobalContext);
     const [URLserver,setURLserver]=useState(`http://proj.ruppin.ac.il/igroup20/prod/api/`)
     const [Like, setLike] = useState(true)
+
     useEffect(() => {
-        console.log('Server_Url ',Server_Url)
+        console.log('content Server_Url ',Server_Url)
         const ContentApiUrl=`${Server_Url}Content/GetContent/${props.match.params.ContentID}`
         //const ContentApiUrl = `http://localhost:55263/api/Content/GetContent/${props.match.params.ContentID}`//go to DB and brings the specific presentation with her likes
         //const SContentApiUrl=`http://proj.ruppin.ac.il/igroup20/prod/api/Content/GetContent/${props.match.params.ContentID}`
@@ -55,6 +56,7 @@ const Content = (props) => {
                 const PagesSourceNewList = []
                 for (var i = 1; i < 22; i++) { // fill list with the presentasion slides as pictures
                     PagesSourceNewList.push(  UrlPathFiles + `${res.data.PathFile.split('.', 1)}_${i}.jpg`)
+                    console.log( UrlPathFiles + `${res.data.PathFile.split('.', 1)}_${i}.jpg`)
                 }
                 setPagesSourceList(PagesSourceNewList)
             })
@@ -110,6 +112,7 @@ const Content = (props) => {
                                         <img className="picContent border-button" src={page} alt='loading' />
                                         {console.log(page)}
                                     </Page>
+                                    {console.log(PagesSourceList)}
                                 </div>)
                         }
 
