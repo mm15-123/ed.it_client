@@ -17,7 +17,9 @@ const SearchPage = () => {
     const [ShowPic, setShowPic] = useState(true)
     const [GlobalUser, setGlobalUser, UrlPath, UrlPathFiles, Server_Url, GlobalContent, setGlobalContent, RememberMe, setRememberMe] = useContext(GlobalContext);
     const [SuggestionContents, setSuggestionContents] = useState([])
+    const [PopularContents, setPopularContents] = useState([])
     const [autoTags, setautoTags] = useState('');
+    const [titleSuggest,settitleSuggest]=useState('');
     //const [URLserver,setURLserver]=useState(`http://proj.ruppin.ac.il/igroup20/prod/api/`)
 
     // const cotentStyle = {
@@ -31,41 +33,65 @@ const SearchPage = () => {
     //משיכת נתונים מהסרבר לגבי תכנים מוצעים 
 
     useEffect(() => {
-        let apiUrl = ''
+        let apiUrl = ''//עבור תכנים מוצעים
         let SapiUrl = ''
         console.log('GlobalUser ',GlobalUser)
         console.log('Server_Url ',Server_Url)
-        //console.log('UrlPath',UrlPath)
-        if (GlobalUser != null) {
+
+        if (GlobalUser != null) {//אם משתמש מחובר יציע לו תכנים לפי הפרופיל שלו
             apiUrl = `${Server_Url}Content/SuggestContent/${GlobalUser.Email.split("@", 1)}`
             //apiUrl = `http://localhost:55263/api/Content/SuggestContent/${GlobalUser.Email.split("@", 1)}`
             //SapiUrl=`http://proj.ruppin.ac.il/igroup20/prod/api/Content/SuggestContent/${GlobalUser.Email.split("@", 1)}`
+            settitleSuggest( function() {
+                return (
+                    <div><br></br>
+                <p className="headerContents">תכנים אלה עלולים לעניין אותך...</p>
+                <br></br></div>
+                )}); 
+            console.log('SuggestContent URL', apiUrl)
+            fetch(apiUrl, {
+                method: 'GET',
+                //mode: 'no-cors',
+                headers: new Headers({
+                    'Content-Type': 'application/json; charset=UTF-8',
+                })
+            })
+                .then((result) => {
+                    console.log('Success:', result);
+                    result.json().then(data => {
+                        console.log(data)
+                        setSuggestionContents(data);
+                    });
+    
+                })
+                .catch((error) => {
+                    console.error('Error:', error);
+                });
         }
-        else {
+            //שליפת תכנים פופולריים גם לאורח וגם למשתמש מחובר
             apiUrl = `${Server_Url}Content/SuggestContentForGuest`
             //apiUrl = `http://localhost:55263/api/Content/SuggestContentForGuest`
             //SapiUrl=`http://proj.ruppin.ac.il/igroup20/prod/api/Content/SuggestContentForGuest`
-        }
-        console.log('SuggestContent URL', apiUrl)
-        fetch(apiUrl, {
-            method: 'GET',
-            //mode: 'no-cors',
-            headers: new Headers({
-                'Content-Type': 'application/json; charset=UTF-8',
+            fetch(apiUrl, {
+                method: 'GET',
+                //mode: 'no-cors',
+                headers: new Headers({
+                    'Content-Type': 'application/json; charset=UTF-8',
+                })
             })
-        })
-            .then((result) => {
-                console.log('Success:', result);
-                result.json().then(data => {
-                    console.log(data)
-                    setSuggestionContents(data);
+                .then((result) => {
+                    console.log('Success:', result);
+                    result.json().then(data => {
+                        console.log(data)
+                        setPopularContents(data);
+                    });
+    
+                })
+                .catch((error) => {
+                    console.error('Error:', error);
                 });
-
-            })
-            .catch((error) => {
-                console.error('Error:', error);
-            });
-        requestTags();
+    
+        requestTags();//מושך רשימת תגים עבור מנוע חיפוש
     }, [])
 
     const requestTags = async () => {
@@ -86,6 +112,7 @@ const SearchPage = () => {
         }
         console.log(auto)
         setautoTags(auto)
+        
     }
 
     const KeepTag = (event, NewValue) => {
@@ -104,7 +131,7 @@ const SearchPage = () => {
                     <div className="searchText" style={{ direction: 'rtl' }}>
                         <br></br>
                         <Grid container spacing={2}>
-                            <Grid item xs={4}  >
+                            <Grid item xs={10}  >
                                 <Autocomplete
                                     id="combo-box-demo"
                                     options={autoTags}
@@ -127,16 +154,16 @@ const SearchPage = () => {
                         />*/}
                             </Grid>
                         </Grid>
-                    </div><br></br>
-                    <p className="headerContents">...תכנים אלה עלולים לעניין אותך</p>
-                    <br></br>
+                    </div>
+                    {console.log(titleSuggest)}
+                    {titleSuggest}
                 </div>
                 <div className='ListContents' >
-                    <Grid item xs={12}>
+                    <Grid item lg={12} xs={12}>
                         <Slider
                             spedd={500}
-                            slidesToShow={6}
-                            slidesToScrol={2}
+                            slidesToShow={4}
+                            slidesToScrol={1}
                             infinite={false}
                             dots={false}
                             rtl={false}
@@ -164,28 +191,45 @@ const SearchPage = () => {
                                     </div>
                                 )
                             }
-                            {/* <div className='contentStyle' >
-                                <h4>מה קורה</h4>
-                                <h6> היי</h6>
-                            </div>
-                            <div className='contentStyle' >
-                                <h4>מה קורה</h4>
-                                <h6> היי</h6>
-                            </div> <div className='contentStyle' >
-                                <h4>מה קורה</h4>
-                                <h6> היי</h6>
-                            </div> <div className='contentStyle' >
-                                <h4>מה קורה</h4>
-                                <h6> היי</h6>
-                            </div> <div className='contentStyle' >
-                                <h4>מה קורה</h4>
-                                <h6> היי</h6>
-                            </div> <div className='contentStyle' >
-                                <h4>מה קורה</h4>
-                                <h6> היי</h6>
-                            </div> */}
+                            
                         </Slider>
                     </Grid>
+                    <p className="headerContents">הפופולריים ביותר</p>
+                    <br></br>
+                    <Slider
+                            spedd={500}
+                            slidesToShow={4}
+                            slidesToScrol={1}
+                            infinite={false}
+                            dots={false}
+                            rtl={false}
+
+                        >
+                            {
+                                PopularContents.map((content, index) =>
+                                    <div className='contentStyle' key={index}>
+                                        <CardContentt content={content.ContentName} content={content.ContentName} Description={content.Description} ID={content.ContentID} PathFile={content.PathFile}></CardContentt>
+                                    </div>
+                                )
+
+                            }
+                            {
+                                PopularContents.map((content, index) =>
+                                    <div className='contentStyle' key={index}>
+                                        <CardContentt content={content.ContentName} content={content.ContentName} Description={content.Description} ID={content.ContentID} PathFile={content.PathFile}></CardContentt>
+                                    </div>
+                                )
+                            }
+                            {
+                                PopularContents.map((content, index) =>
+                                    <div className='contentStyle' key={index}>
+                                        <CardContentt content={content.ContentName} content={content.ContentName} Description={content.Description} ID={content.ContentID} PathFile={content.PathFile}></CardContentt>
+                                    </div>
+                                )
+                            }
+                            
+                        </Slider>
+                    {console.log(PopularContents)}
                 </div>
 
 

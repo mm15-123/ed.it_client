@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useContext } from 'react'
-import { Container, Avatar } from '@material-ui/core';
+import { Container, Avatar, Button } from '@material-ui/core';
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import Slider from 'react-slick';
@@ -9,8 +9,8 @@ import myPDF from '../uploadedFiles/myPDF.pdf';
 import './MainPage.css';
 import axios from 'axios';
 import { GlobalContext } from '../Context/GlobalContext';
-
-
+import FavoriteOutlinedIcon from '@material-ui/icons/FavoriteOutlined';
+import SystemUpdateAltOutlinedIcon from '@material-ui/icons/SystemUpdateAltOutlined';
 
 const Local = true;
 
@@ -34,13 +34,17 @@ const settings = {
     slidesToScroll: 1
 };
 
+
 const Content = (props) => {
     const [ContentToShow, setContentToShow] = useState('')
     const [PagesSourceList, setPagesSourceList] = useState([])
     const [GlobalUser, setGlobalUser, UrlPath, UrlPathFiles, Server_Url, GlobalContent, setGlobalContent, RememberMe, setRememberMe] = useContext(GlobalContext);
+    const [Tagslist,setTagslist]=useState('')
     const [URLserver,setURLserver]=useState(`http://proj.ruppin.ac.il/igroup20/prod/api/`)
+    const [Like, setLike] = useState(true)
+
     useEffect(() => {
-        console.log('Server_Url ',Server_Url)
+        console.log('content Server_Url ',Server_Url)
         const ContentApiUrl=`${Server_Url}Content/GetContent/${props.match.params.ContentID}`
         //const ContentApiUrl = `http://localhost:55263/api/Content/GetContent/${props.match.params.ContentID}`//go to DB and brings the specific presentation with her likes
         //const SContentApiUrl=`http://proj.ruppin.ac.il/igroup20/prod/api/Content/GetContent/${props.match.params.ContentID}`
@@ -51,23 +55,52 @@ const Content = (props) => {
                 setContentToShow(res.data)
                 MakePages(res.data) // do nothing, just for console.log() staf
                 const PagesSourceNewList = []
-                for (var i = 1; i < 22; i++) { // fill list with the presentasion slides as pictures
+                for (var i = 1; i <= res.data.PagesNumber; i++) { // fill list with the presentasion slides as pictures
                     PagesSourceNewList.push(  UrlPathFiles + `${res.data.PathFile.split('.', 1)}_${i}.jpg`)
-                }
+                    console.log( UrlPathFiles + `${res.data.PathFile.split('.', 1)}_${i}.jpg`)
+                }               
                 setPagesSourceList(PagesSourceNewList)
+                console.log(res.data.TagsContent)
+
+                res.data.TagsContent.map((page, index) =>{
+                    return(
+                        <span>#{page}</span>
+                    )
+                    
+                })
+                //רשימת תגים של התוכן
+               setTagslist(()=>{
+                return(
+                    res.data.TagsContent.map((page, index) =>{
+                        return(
+                            <span>#{page}</span>
+                        )
+                    })
+                )
+               }) 
+
+        
             })
 
     }, [])
 
+    //לייק
+    // useEffect(() => {
+    //     if(Like)
+    //     {
+    //         console.log("like ",Like)
+    //         colorLikee.color='red'
+    //     }
+    //     else
+    //     {
+    //         console.log("like ",Like)
+    //         colorLikee.color='black'
+    //     }
+    //   }, [Like])
+
+
     console.log(props)
     let path = ""
-    // if(Local)//אם עובדים על מקומי המקור של תמונות המצגת הוא מתקייה מקומית אחרת מהשרת
-    // {
-    //     // path
-    // }
-    //ניסוי לראות אם מציג את התמונות של המצגת
-    //todo- לשאוב את שם המשתמש בשביל להשלים שם תמונה
-    //todo- לקבל מהשרת כמה תמונות יש בכלל בתיקייה
 
     const MakePages = (data) => { //do nothing
         console.log('make pages')
@@ -83,22 +116,23 @@ const Content = (props) => {
                 <div className='contentDiv'>
                     <Slider
                         {...settings}
-                        className="sliderContent"
+                        className="sliderContent "
                     >
                         {
 
                             PagesSourceList.map((page, index) =>
                                 <div>
                                     <Page key={index}>
-                                        <img className="picContent" src={page} alt='loading' />
+                                        <img className="picContent border-button" src={page} alt='loading' />
                                         {console.log(page)}
                                     </Page>
+                            
                                 </div>)
                         }
 
 
                     </Slider>
-                    <div className='TitlesContent' >
+               <div className='TitlesContent' >
                         <div>
                             <br></br>
                             <br></br>
@@ -107,8 +141,10 @@ const Content = (props) => {
                             <h1>{ContentToShow.ContentName}</h1>
                             <h2>{ContentToShow.Description}</h2>
                             <h6>{ContentToShow.Likes} משתמשים אהבו את המצגת</h6>
+                            {/* <span>#{ContentToShow.TagsContent[0]}</span><span>#{ContentToShow.TagsContent[1]} </span><span>#{ContentToShow.TagsContent[2]} </span> */}
+                            {Tagslist}
                             <div>
-                                _______________________________________________
+                                ______________________________________________________________________________
                             <table>
                                     <tr>
                                         <td>              <Avatar alt="Remy Sharp" src={ UrlPath + `${ContentToShow.UserPic}`} className='inline' />
@@ -120,9 +156,19 @@ const Content = (props) => {
                                     </tr>
 
                                 </table>
-                            _______________________________________________
-
+                            ______________________________________________________________________________
                         </div>
+                            <div>
+                                <div className='buttonDownload'>
+                                <Button><SystemUpdateAltOutlinedIcon style={{fontSize: '2.5rem' }}/>
+                                </Button>
+                                <span>  הורדת המצגת</span>
+                                </div>
+                                <div className='likeDiv'> 
+                                <FavoriteOutlinedIcon className='like' onClick={(e) => setLike(!Like)} style={{ color: Like ? 'red' : 'black', fontSize: '2.5rem' }}></FavoriteOutlinedIcon>
+                                <span>אהבתי</span>      
+                                </div> 
+                            </div>
                         </div>
 
 

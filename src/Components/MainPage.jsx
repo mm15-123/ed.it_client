@@ -22,13 +22,17 @@ const useStyles = makeStyles((theme) => ({
             margin: theme.spacing(1),
             width: theme.spacing(7),
             height: theme.spacing(7),
+        
         },
+        // display: 'inline-block',
+        margin: '5px',
+        fontWeight:'bold',
+        
     },
     ProfilePic: {
-        left: '180%',
-        position: 'relative',
         width: '-webkit-fill-available',
         height: '-webkit-fill-available',
+        
     },
 
 
@@ -68,23 +72,25 @@ const MainPage = () => {
                     <li >
                         <NavLink to='/UploadContent'>העלאת תוכן</NavLink>
                     </li>
-                    <li className="logout">
+                    {/* <li className="logout">
                         {GlobalUser !== null && <NavLink to='/' onClick={LogOut}>התנתק</NavLink>}
                     </li>
                     <li className="textProfile">
 
                         {GlobalUser !== null && <NavLink to='/User' >{ GlobalUser.Name}</NavLink>}
-                    </li>
-                    {/* <li> */}
-
-                    {/* </li> */}
+                    </li> */}
+                 
                 </ul>
-                <div className={classes.ProfileDiv}>
+                <div className={classes.ProfileDiv} >
+                    <div className='userNav' style={{width:'auto'}}>
+                {GlobalUser !== null && <NavLink to='/User' >{ GlobalUser.Name}</NavLink>} <span> | </span>
+                {GlobalUser !== null && <NavLink to='/' onClick={LogOut}>התנתק</NavLink>}
+                   </div>
                     <Link to='/User'>
                         {GlobalUser !== null && <Avatar alt="Remy Sharp" src={ UrlPath + GlobalUser.UrlPicture} className={classes.ProfilePic} />}
                     </Link>
                 </div>
-
+                    {console.log(UrlPath + GlobalUser.UrlPicture)}
             </nav>
 
 

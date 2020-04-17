@@ -79,11 +79,11 @@ const CardContentt = (props) => {
                     image={UrlPathFiles + props.PathFile}
                     title="Paella dish"
                 />
-                <CardContent>
+                {/* <CardContent>
                     <Typography variant="body2" color="textSecondary" component="p">
                         {props.Description}
                     </Typography>
-                </CardContent>
+                </CardContent> */}
                 {/* <CardActions disableSpacing>
         <IconButton aria-label="add to favorites">
           <FavoriteIcon />
