@@ -1,19 +1,19 @@
 import React, { useState, createContext } from "react";
 
 //הגדרת ניתוב לתיקייה 
-const local = false;//לשנות בהתאם לסוג העבודה שלנו
-
+const local = true;//לשנות בהתאם לסוג העבודה שלנו
+// add to package.json when deploy -- "homepage":"/igroup20/prod/Client/",
 let UrlPictures = ''
 let UrlFiles = ''
 let UrlServer = ''
 if (local) {
-  UrlPictures = process.env.PUBLIC_URL + `uploadedPicturesPub/`//uploadedFilesPub למצגות
-  UrlFiles = process.env.PUBLIC_URL + `uploadedFilesPub/`
+  UrlPictures = process.env.PUBLIC_URL + `/uploadedPicturesPub/`//uploadedFilesPub למצגות
+  UrlFiles = process.env.PUBLIC_URL + `/uploadedFilesPub/`
   UrlServer = `http://localhost:55263/api/`
 }
 else {
-  UrlPictures = `http://proj.ruppin.ac.il/igroup20/prod/Client/uploadedPicturesPub/`;//לשים את הכתובת של השרת
-  UrlFiles = `http://proj.ruppin.ac.il/igroup20/prod/Client/uploadedFilesPub/`
+  UrlPictures = `http://proj.ruppin.ac.il/igroup20/prod/uploadedPictures/`;//לשים את הכתובת של השרת
+  UrlFiles = `http://proj.ruppin.ac.il/igroup20/prod/uploadedContents/`
   UrlServer = `http://proj.ruppin.ac.il/igroup20/prod/api/`
 }
 
@@ -42,6 +42,7 @@ export const GlobalContextProvider = props => {
   const [Server_Url, setServer_Url] = useState(UrlServer)
   const [GlobalContent, setGlobalContent] = useState('')
   const [RememberMe, setRememberMe] = useState(rememberMe)
+  console.log('process.env.PUBLIC_URL', process.env.PUBLIC_URL)
   console.log(GlobalUser)
   console.log('UrlPictures', UrlPictures)
   console.log('UrlFiles', UrlFiles)

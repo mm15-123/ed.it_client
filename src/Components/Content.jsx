@@ -37,7 +37,7 @@ const settings = {
 const Content = (props) => {
     const [ContentToShow, setContentToShow] = useState('')
     const [PagesSourceList, setPagesSourceList] = useState([])
-    const [GlobalUser, setGlobalUser, UrlPath, UrlPathFiles,Server_Url, GlobalContent, setGlobalContent] = useContext(GlobalContext);
+    const [GlobalUser, setGlobalUser, UrlPath, UrlPathFiles, Server_Url, GlobalContent, setGlobalContent, RememberMe, setRememberMe] = useContext(GlobalContext);
     const [URLserver,setURLserver]=useState(`http://proj.ruppin.ac.il/igroup20/prod/api/`)
     useEffect(() => {
         console.log('Server_Url ',Server_Url)

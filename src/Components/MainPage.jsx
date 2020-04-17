@@ -43,7 +43,7 @@ const MainPage = () => {
     //console.log( localStorage.getItem('rememberMe')!==null ?localStorage.getItem('rememberMe') : 'somyhing wrong' )
 
 
-    //יציאה מהמשתמש,אתחול לוקל_סטורג' אתחול גלובל_יוזרת וגלובל_רממברמי
+    //יציאה מהמשתמש,אתחול לוקל_סטורג' אתחול גלובל_יוזר וגלובל_רממברמי
     const LogOut = () => {
         localStorage.setItem('rememberMe', false);
         localStorage.setItem('User', null)
