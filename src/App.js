@@ -22,13 +22,11 @@ class App extends React.Component {
 
 
     return (
-      <BrowserRouter>
         <div className="App">
           <GlobalContextProvider>
             <MainPage />
           </GlobalContextProvider>
         </div>
-      </BrowserRouter>
     );
   }
 }

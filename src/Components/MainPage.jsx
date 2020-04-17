@@ -3,7 +3,7 @@ import SignIn from './SignIn';
 import SignUp from './SignUp';
 import Content from './Content';
 import UploadContent from './UploadContent';
-import { Route, Link, NavLink } from 'react-router-dom';
+import { Route, Link, NavLink,Switch } from 'react-router-dom';
 import './MainPage.css';
 import TextField from '@material-ui/core/TextField';
 import { Container, Grid } from '@material-ui/core';
@@ -93,14 +93,14 @@ const MainPage = () => {
                     {console.log(UrlPath + GlobalUser.UrlPicture)}
             </nav>
 
-
+             <Switch>
             <Route path='/' exact component={SearchPage} />
             <Route path='/Content/:ContentID' component={Content} />
             <Route path='/SignIn' component={SignIn} />
             <Route path='/SignUp' component={SignUp} />
             <Route path='/UploadContent' component={UploadContent} />
             <Route path='/User' component={User} />
-
+            </Switch>
 
         </div>
     )
