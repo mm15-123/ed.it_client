@@ -7,9 +7,9 @@ import { BrowserRouter ,Route,HashRouter} from 'react-router-dom';
 
 
 ReactDOM.render(
-<BrowserRouter basename={window.location.pathname || ""}>
+<HashRouter>
 <Route component={App}/>
-</BrowserRouter>,
+</HashRouter>,
 document.getElementById('root'));
 
 // If you want your app to work offline and load faster, you can change

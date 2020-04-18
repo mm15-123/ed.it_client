@@ -172,25 +172,26 @@ const SearchPage = () => {
                             {
                                 SuggestionContents.map((content, index) =>
                                     <div className='contentStyle' key={index}>
-                                        <CardContentt content={content.ContentName} content={content.ContentName} Description={content.Description} ID={content.ContentID} PathFile={content.PathFile}></CardContentt>
+                                        <CardContentt content={content.ContentName} content={content.ContentName} Description={content.Description} ID={content.ContentID} PathFile={content.PathFile} UserPic={content.UserPic}></CardContentt>
+                                        {console.log(content)}
                                     </div>
                                 )
 
                             }
-                            {
+                            {/* {
+                                SuggestionContents.map((content, index) =>
+                                    <div className='contentStyle' key={index}>
+                                        <CardContentt content={content.ContentName} content={content.ContentName} Description={content.Description} ID={content.ContentID} PathFile={content.PathFile} ></CardContentt>
+                                    </div>
+                                )
+                            } */}
+                            {/* {
                                 SuggestionContents.map((content, index) =>
                                     <div className='contentStyle' key={index}>
                                         <CardContentt content={content.ContentName} content={content.ContentName} Description={content.Description} ID={content.ContentID} PathFile={content.PathFile}></CardContentt>
                                     </div>
                                 )
-                            }
-                            {
-                                SuggestionContents.map((content, index) =>
-                                    <div className='contentStyle' key={index}>
-                                        <CardContentt content={content.ContentName} content={content.ContentName} Description={content.Description} ID={content.ContentID} PathFile={content.PathFile}></CardContentt>
-                                    </div>
-                                )
-                            }
+                            } */}
                             
                         </Slider>
                     </Grid>
@@ -208,12 +209,12 @@ const SearchPage = () => {
                             {
                                 PopularContents.map((content, index) =>
                                     <div className='contentStyle' key={index}>
-                                        <CardContentt content={content.ContentName} content={content.ContentName} Description={content.Description} ID={content.ContentID} PathFile={content.PathFile}></CardContentt>
+                                        <CardContentt content={content.ContentName} content={content.ContentName} Description={content.Description} ID={content.ContentID} PathFile={content.PathFile} UserPic={content.UserPic}></CardContentt>
                                     </div>
                                 )
 
                             }
-                            {
+                            {/* {
                                 PopularContents.map((content, index) =>
                                     <div className='contentStyle' key={index}>
                                         <CardContentt content={content.ContentName} content={content.ContentName} Description={content.Description} ID={content.ContentID} PathFile={content.PathFile}></CardContentt>
@@ -226,7 +227,7 @@ const SearchPage = () => {
                                         <CardContentt content={content.ContentName} content={content.ContentName} Description={content.Description} ID={content.ContentID} PathFile={content.PathFile}></CardContentt>
                                     </div>
                                 )
-                            }
+                            } */}
                             
                         </Slider>
                     {console.log(PopularContents)}

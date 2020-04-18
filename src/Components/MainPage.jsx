@@ -90,7 +90,6 @@ const MainPage = () => {
                         {GlobalUser !== null && <Avatar alt="Remy Sharp" src={ UrlPath + GlobalUser.UrlPicture} className={classes.ProfilePic} />}
                     </Link>
                 </div>
-                    {console.log(UrlPath + GlobalUser.UrlPicture)}
             </nav>
 
              <Switch>

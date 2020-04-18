@@ -140,14 +140,16 @@ const UploadContent = () => {//העלאת תוכן
 
     //בחירת תגיות עבור המצגת
     const PushToTagsList = (event, NewValue) => {
-        console.log('NewValue ', NewValue)
-        //if (ChoosenTagsList.length == 3) return;//אם 3 אז בסדר
-        setChosenTag(NewValue.title)
-        const chosen = NewValue.title
-        const tagslist = ChoosenTagsList
-        tagslist.push(chosen)
-        setChoosenTagsList(tagslist)
-        console.log(ChoosenTagsList)
+        if(NewValue!=null){
+            console.log('NewValue ', NewValue)
+            //if (ChoosenTagsList.length == 3) return;//אם 3 אז בסדר
+            setChosenTag(NewValue.title)
+            const chosen = NewValue.title
+            const tagslist = ChoosenTagsList
+            tagslist.push(chosen)
+            setChoosenTagsList(tagslist)
+            console.log(ChoosenTagsList)
+        }   
     }
 
     // מחיקת תגיות שנבחרו
