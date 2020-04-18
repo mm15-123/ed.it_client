@@ -57,12 +57,12 @@ const CardContentt = (props) => {
         <Link to={'/Content/' + props.ID}>
             <Card className={classes.root}>
          
-
+            {console.log(UrlPath+props.UserPic)}
                 <CardHeader
                     avatar={
                         <Avatar aria-label="recipe" className={classes.avatar}>
-                            R
-          </Avatar>
+                            <img src={UrlPath+props.UserPic} style={{width: '100%',height: '100%'}}></img>
+                       </Avatar>
                     }
                     action={
                         <IconButton aria-label="settings">

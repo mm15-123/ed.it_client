@@ -4,18 +4,15 @@ import './App.css';
 import MainPage from './Components/MainPage';
 //import Navbar from './Components/Navbar';
 import { BrowserRouter } from "react-router-dom";
-import { GlobalContextProvider } from './Context/GlobalContext'
+import {GlobalContextProvider} from './Context/GlobalContext'
+import { Route, Link, NavLink,Switch } from 'react-router-dom';
+// import SignIn from './Components/SignIn';
+// import SignUp from './Components/SignUp';
+// import Content from './Components/Content';
+// import UploadContent from './Components/UploadContent';
+import SearchPage from './Components/SearchPage';
+// import User from './Components/User';
 
-//import SignIn from './Components/SignIn';
-//import SignUp from './Components/SignUp';
-//import UploadContent from './Components/UploadContent';
-//import Content from './Components/Content';
-//import styled from 'styled-components';
-
-/*const AppWrapper = styled.div`
-display:flex;
-justify-content:center;
-`*/
 class App extends React.Component {
 
   render() {

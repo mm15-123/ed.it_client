@@ -1,7 +1,7 @@
 import React, { useState, createContext } from "react";
  // 
 //הגדרת ניתוב לתיקייה 
-const local = false;//לשנות בהתאם לסוג העבודה שלנו
+const local = true;//לשנות בהתאם לסוג העבודה שלנו
 // add to package.json when deploy -- "homepage":"/igroup20/prod/Client/",
 let UrlPictures = ''
 let UrlFiles = ''
@@ -27,7 +27,7 @@ try {
   console.error(err);
 }
 
-console.log(rememberMe)
+console.log(UrlServer)
 console.log(UserVar)
 
 // Create Context Object
