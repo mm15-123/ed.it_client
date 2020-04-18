@@ -7,7 +7,9 @@ import Avatar from '@material-ui/core/Avatar';
 import { Button, Container, CssBaseline, Typography, Grid, TextField, Select, MenuItem, Input } from '@material-ui/core';
 import AddAPhotoIcon from '@material-ui/icons/AddAPhoto';
 import Axios from 'axios';
-
+import 'bootstrap/dist/css/bootstrap.min.css';
+import Paper from '@material-ui/core/Paper';
+import FaceSharpIcon from '@material-ui/icons/FaceSharp';
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -21,8 +23,13 @@ const useStyles = makeStyles((theme) => ({
         height: theme.spacing(3),
     },
     large: {
-        width: theme.spacing(60),
-        height: theme.spacing(30),
+        width: theme.spacing(15),
+        height: theme.spacing(15),
+    },
+    paper: {
+        padding: theme.spacing(2),
+        textAlign: 'center',
+        color: theme.palette.text.secondary,
     },
 }));
 
@@ -64,7 +71,10 @@ const User = () => {
     const [formDataPic, setformDataPic] = useState('')
 
     const togglePopup = () => {
+        const boolshow = !ShowPopUp
         setShowPopUp(!ShowPopUp)
+        if (!boolshow)
+            GetDetailsAfterChangePic()//לאחר שינוי תמונה נשאב שוב נתונים מהדאטה בייס, כי לא ניתן בעדכון תמונה להחזיר את פרטי היוזר בחדש - נתיב של תמונה חדשה        
     }
     const KeepPath = (e) => {
         console.log(e.target.files[0])
@@ -74,8 +84,6 @@ const User = () => {
         setformDataPic(fd)
     }
     const ChangePic = () => {
-        alert('hey')
-
         const apiUrl2 = `${Server_Url}User/update/${UrlPicture}/${GlobalUser.Email}/1`
         //const SapiUrl2=`http://proj.ruppin.ac.il/igroup20/prod/api/User/update/${UrlPicture}/${GlobalUser.Email}/1`
         fetch(apiUrl2, {
@@ -87,8 +95,14 @@ const User = () => {
             headers: new Headers({
                 'Content-Type': 'application/json; charset=UTF-8',
             })
+        }).then(res => {
+            console.log('res=', res);
+            console.log('res.status', res.status);
+            console.log('res.ok', res.ok);
+        }).then((result) => {
+            console.log('result ', result)
         })
-        GetDetailsAfterChangePic()//לאחר שינוי תמונה נשאב שוב נתונים מהדאטה בייס, כי לא ניתן בעדכון תמונה להחזיר את פרטי היוזר בחדש - נתיב של תמונה חדשה 
+
     }
     const GetDetailsAfterChangePic = () => {
         const apiUrl = `${Server_Url}User/GetUserDetails`
@@ -112,6 +126,7 @@ const User = () => {
             return res.json()
         }).then((result) => {
             console.log('result ', result)
+            setUrlPicture(result.UrlPicture)
             setGlobalUser(result)
             localStorage.setItem('User', RememberMe ? JSON.stringify(result) : null);
         })
@@ -120,10 +135,14 @@ const User = () => {
 
     useEffect(() => {
         const BirthDate = GlobalUser.BDate.split(' ')[0].split('/')
-        const DateFromat = BirthDate[2] + '-' + BirthDate[1] + '-' + BirthDate[0]
+        let DateFromat = ``
+        if (Server_Url === `http://localhost:55263/api/`)
+            DateFromat = BirthDate[2] + '-' + BirthDate[1] + '-' + BirthDate[0]
+        else
+            DateFromat = BirthDate[0] + '-' + BirthDate[1] + '-' + BirthDate[2]
         setBDate(DateFromat)
-        console.log(DateFromat)
-    }, [GlobalUser])
+        console.log('DateFromat',DateFromat)
+    }, [GlobalUser, UrlPicture])
 
     const changestate = () => {
         setEdit(!Edit)
@@ -170,72 +189,77 @@ const User = () => {
 
 
     return (
-        <div className='UserBody'>
-            <div className='MainDetails'>
-                <div>
-                    {//<Container component="main" maxWidth="xs">
-                        //<CssBaseline />
-                        <div style={{ width: '100%' }}>
-                            <Typography component="h1" variant="h5" >דף פרופיל אישי</Typography>
-                            <table style={{ width: '100%' }}>
-                                <tr>
-                                    <td>
-                                        <h2>{GlobalUser.Name}</h2>
-                                        <div style={{ right: '2%', display: 'flex', justifyContent: 'space-around' }}>
-                                            <label style={{ fontWeight: 'bold' }}>החלף תמונה</label>
-                                            <AddAPhotoIcon onClick={togglePopup} />
+        <div
+            className='UserBody'>
+            <div
+            //className='MainDetails'
+            >
+                <Grid
+                    container
+                    direction="row"
+                    justify="flex-start"
+                    alignItems="center" >
+                    <FaceSharpIcon />
+                    <Typography variant="h4" >דף פרופיל אישי</Typography>
 
+                </Grid>
+
+                <Grid container item sm={12} >
+                    <Grid container item sm={8} spacing={2}>
+                        <Grid container item sm={12} spacing={2}>
+                            <Grid container item sm={5} name='Picture'>
+                                <Grid container direction='column' justify="flex-start" >
+                                    <Paper className={classes.paper}>
+                                        <Typography component="h3" variant="h5" >{GlobalUser.Name}</Typography>
+                                        {/*<Typography component="h3" variant="h5" >החלף תמונה</Typography>*/}
+
+                                        <Grid container direction="row">
+                                            <AddAPhotoIcon onClick={togglePopup} />
                                             {ShowPopUp &&
                                                 <Popup
                                                     text='תמונה חדשה '
                                                     closePopup={togglePopup}
                                                     ChangePic={ChangePic}
                                                     KeepPath={KeepPath}
-                                                />
-                                            }
+                                                />}
+                                            {<Avatar
+                                                className={classes.large}
+                                                src={UrlPath + GlobalUser.UrlPicture} />}
+                                        </Grid>
+                                    </Paper>
+                                    {<Button
+                                        variant="contained"
+                                        style={{ backgroundColor: '#173f5f8a' }}
+                                        onClick={changestate}>ערוך פרטים</Button>}
 
-                                        </div>
-                                        {<Avatar
-                                            className={classes.large}
-                                            //style={{width:'100%', height:'100%'}}
-                                            src={UrlPath + GlobalUser.UrlPicture} />}
-                                        {console.log('URL!!',UrlPath + GlobalUser.UrlPicture)}
-                                    </td>
-                                    <td >
-                                        <tr>
-                                            <td><h3>מייל:</h3></td>
-                                            <td><h3>{GlobalUser.Email}</h3></td>
-                                        </tr>
-                                        <tr>
-                                            <td><h3>מלמד ב:</h3></td>
-                                            <td><h3>{GlobalUser.SchoolType}</h3></td>
-                                        </tr>
-                                        <tr>
-                                            <td><h3>מורה ל:</h3></td>
-                                            <td><h3>{GlobalUser.TeacherType}</h3></td>
-                                        </tr>
-                                        <tr>
-                                            <td><h3>תאריך יום הולדת:</h3></td>
-                                            {<td>
-                                                <h3>{GlobalUser.BDate.split(' ')[0]}</h3>
-                                            </td>}
-                                        </tr>
-                                    </td>
-                                </tr>
-                            </table>
-                            {<Button
-                                variant="contained"
-                                //color="primary"           
-                                onClick={changestate}>ערוך פרטים</Button>}
-                        </div>
-                        //</Container>
-                    }
-                </div>
-                <div >
-                    <h3>קצת על עצמי: </h3>
-                    <h3>{GlobalUser.AboutMe}</h3>
-                </div>
+                                </Grid>
+                            </Grid>
+                            <Grid container item sm={7}>
+                                <Grid container direction="column" justify="flex-start" item sm={12}>
+                                    <Typography variant="h5" >פרטים אישיים : </Typography>
+                                    <Paper className={classes.paper}>
+                                        <Typography variant="h5" >מייל {GlobalUser.Email}</Typography>
+                                        <Typography variant="h5" >מלמד ב{GlobalUser.SchoolType}</Typography>
+                                        <Typography variant="h5" >מלמד מקצועות {GlobalUser.TeacherType}</Typography>
+                                        <Typography variant="h5" >תאריך יום הולדת {GlobalUser.BDate.split(' ')[0]}</Typography>
+                                    </Paper>
+                                </Grid>
+                            </Grid>
+                        </Grid>
+                    </Grid>
+
+
+                    <Grid container item sm={4} direction='column' name='AboutMe'>
+
+                        <Typography variant="h5" >קצת על עצמי :</Typography>
+                        <Paper className={classes.paper}>
+                            <Typography variant="h5" >{GlobalUser.AboutMe}</Typography>
+                        </Paper>
+                    </Grid>
+
+                </Grid>
             </div>
+         
 
             {Edit &&
                 <div>
@@ -316,15 +340,6 @@ const User = () => {
                                         onChange={(e) => setBDate(e.target.value)}
                                     />
                                 </Grid>
-                                {/*<Grid item xs={12} sm={3}>
-                                    <TextField
-                                        variant="outlined"
-                                        id="picture"
-                                        label="תמונת פרופיל"
-                                        fullWidth
-                                        type='file'
-                                    />
-                                </Grid>*/}
                                 <Grid item xs={12} sm={6} >
                                     <TextField
                                         id="outlined-multiline-static"
@@ -341,12 +356,20 @@ const User = () => {
                         </Grid>
                     </Grid>
 
-                    {<div><Button
-                        variant="contained"
-                        onClick={UpdateDetails}>בצע שינוי</Button>
+                    {<Grid container direction="row" justify="center" alignItems="center" >
+
                         <Button
                             variant="contained"
-                            onClick={changestate}>חזור</Button></div>}
+                            style={{ backgroundColor: '#173f5f8a' }}
+                            onClick={UpdateDetails}>בצע שינוי</Button>
+
+
+                        <Button
+                            variant="contained"
+                            style={{ backgroundColor: '#80421e6c' }}
+                            onClick={changestate}>חזור</Button>
+
+                    </Grid>}
                 </div>}
         </div>
     );

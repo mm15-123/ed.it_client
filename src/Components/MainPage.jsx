@@ -40,10 +40,10 @@ const useStyles = makeStyles((theme) => ({
 
 const MainPage = () => {
     const classes = useStyles();
-    const [GlobalUser, setGlobalUser, UrlPath] = useContext(GlobalContext);//מושך פרטי משתמש גלובליים ואת הנתיב לקבצים
+    const [GlobalUser, setGlobalUser, UrlPath, UrlPathFiles, Server_Url, GlobalContent, setGlobalContent, RememberMe, setRememberMe] = useContext(GlobalContext);//מושך פרטי משתמש גלובליים ואת הנתיב לקבצים
     //let a = UrlPath + GlobalUser.UrlPicture
     console.log("From main page", GlobalUser)
-    const [RememberMe,setRememberMe]=useContext(GlobalContext);
+    //const [RememberMe,setRememberMe]=useContext(GlobalContext);
     //console.log( localStorage.getItem('rememberMe')!==null ?localStorage.getItem('rememberMe') : 'somyhing wrong' )
 
 
@@ -90,7 +90,7 @@ const MainPage = () => {
                         {GlobalUser !== null && <Avatar alt="Remy Sharp" src={ UrlPath + GlobalUser.UrlPicture} className={classes.ProfilePic} />}
                     </Link>
                 </div>
-                    {console.log(UrlPath + GlobalUser.UrlPicture)}
+                    
             </nav>
 
              <Switch>

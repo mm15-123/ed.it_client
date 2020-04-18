@@ -3,17 +3,22 @@ direction: rtl;
 }
 
 .MainDetails { 
-    display: flex;
+    /*display: flex;
     justify-content: space-between;
-    top: -20%;    
+    top: -20%; */   
 }
 .MainDetails div {
-    width: 48%;
-    background-color  : beige;
-    border: 2px solid beige;
-    
+    /*width: 48%;*/
+   /* background-color  : beige;
+    border: 2px solid black;
+    box-shadow: 2px 2.8px 2.2px rgba(0, 0, 0, 0.034);*/
 }
 
+.BoxShadow{
+    /*border: 1px solid;
+    padding: 10px;
+    box-shadow: 5px 10px #888888;*/
+}
 td {
     direction: rtl;
     height: 100%;
