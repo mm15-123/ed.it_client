@@ -7,8 +7,10 @@ let UrlPictures = ''
 let UrlFiles = ''
 let UrlServer = ''
 if (local) {
-  UrlPictures = process.env.PUBLIC_URL + `/uploadedPicturesPub/`//uploadedFilesPub למצגות
-  UrlFiles = process.env.PUBLIC_URL + `/uploadedFilesPub/`
+  // UrlPictures = process.env.PUBLIC_URL + `/uploadedPicturesPub/`//uploadedFilesPub למצגות
+  // UrlFiles = process.env.PUBLIC_URL + `/uploadedFilesPub/`
+  UrlPictures = `http://proj.ruppin.ac.il/igroup20/prod/uploadedPictures/`;//לשים את הכתובת של השרת
+  UrlFiles = `http://proj.ruppin.ac.il/igroup20/prod/uploadedContents/`
   UrlServer = `http://localhost:55263/api/`
 }
 else {

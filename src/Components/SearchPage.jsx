@@ -7,7 +7,7 @@ import logo from '../uploadedFiles/edit logo.png';
 import './MainPage.css';
 import { GlobalContext } from '../Context/GlobalContext';
 import Autocomplete from '@material-ui/lab/Autocomplete';
-
+import axios from 'axios';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import Slider from 'react-slick';
 import CardContentt from './CardContent'
@@ -18,17 +18,11 @@ const SearchPage = () => {
     const [GlobalUser, setGlobalUser, UrlPath, UrlPathFiles, Server_Url, GlobalContent, setGlobalContent, RememberMe, setRememberMe] = useContext(GlobalContext);
     const [SuggestionContents, setSuggestionContents] = useState([])
     const [PopularContents, setPopularContents] = useState([])
+    const [ResultsSearchContents, setResultsSearchContents] = useState([])
     const [autoTags, setautoTags] = useState('');
     const [titleSuggest,settitleSuggest]=useState('');
-    //const [URLserver,setURLserver]=useState(`http://proj.ruppin.ac.il/igroup20/prod/api/`)
-
-    // const cotentStyle = {
-    //     display: 'inline-block',
-    //     border: '2px solid #eee',
-    //     boxShadow: '4px 4px 4px 4px #333',
-    //     margin: '10px',
-    //     padding: '10px',
-    // }
+    const [titleResultsSearch,settitleResultsSearch]=useState('');
+    const [tagToSearch,settagToSearch]=useState('');
 
     //משיכת נתונים מהסרבר לגבי תכנים מוצעים 
 
@@ -44,8 +38,8 @@ const SearchPage = () => {
             //SapiUrl=`http://proj.ruppin.ac.il/igroup20/prod/api/Content/SuggestContent/${GlobalUser.Email.split("@", 1)}`
             settitleSuggest( function() {
                 return (
-                    <div><br></br>
-                <p className="headerContents">תכנים אלה עלולים לעניין אותך...</p>
+                <div>
+                <p className="headerContents">...תכנים אלה עלולים לעניין אותך</p>
                 <br></br></div>
                 )}); 
             console.log('SuggestContent URL', apiUrl)
@@ -116,7 +110,33 @@ const SearchPage = () => {
     }
 
     const KeepTag = (event, NewValue) => {
-        console.log(NewValue)
+        if(NewValue!=null){
+            console.log(NewValue)
+            settagToSearch(NewValue)
+        }
+      
+    }
+
+    //מביא תוצאות חיפוש
+    const SearchFunc=(e)=>{
+        if(e.key === 'Enter'){
+            const SearchApiUrl=`${Server_Url}Content/Search/${tagToSearch.title}`
+            console.log("enter",tagToSearch.title,SearchApiUrl)
+            axios.get(SearchApiUrl)
+            .then(res => {
+                console.log(res.data)
+                    settitleResultsSearch(
+                        function() {
+                            return (
+                                <div><br></br>
+                            <p className="headerContents">תוצאות חיפוש עבור {tagToSearch.title}</p>
+                            <br></br></div>
+                            )}
+                        )
+                    setResultsSearchContents(res.data);
+                
+            })
+        }
     }
 
     return (
@@ -140,25 +160,35 @@ const SearchPage = () => {
                                     //style={{ width: 300 }}
                                     renderInput={(params) => <TextField {...params} label="חפש לפי תגית" variant="outlined" />}
                                     onChange={(event, NewValue) => KeepTag(event, NewValue)}
+                                    onKeyDown={(e)=>SearchFunc(e)}
                                 />
-                                {/*<TextField
-                            variant="outlined"
-                            margin="normal"
-                            required
-                            //fullWidth
-                            id="Search"
-                            label="חיפוש"
-                            name="Search"
-                            autoComplete="Search"
-                            autoFocus
-                        />*/}
+                 
                             </Grid>
                         </Grid>
                     </div>
-                    {console.log(titleSuggest)}
-                    {titleSuggest}
+                 
                 </div>
                 <div className='ListContents' >
+                {titleResultsSearch}
+                <Slider
+                            spedd={500}
+                            slidesToShow={4}
+                            slidesToScrol={1}
+                            infinite={false}
+                            dots={false}
+                            rtl={false}
+
+                        >
+                            {
+                                ResultsSearchContents.map((content, index) =>
+                                    <div className='contentStyle' key={index}>
+                                        <CardContentt content={content.ContentName} content={content.ContentName} Description={content.Description} ID={content.ContentID} PathFile={content.PathFile} UserPic={content.UserPic}></CardContentt>
+                                    </div>
+                                )
+
+                            }                     
+                        </Slider>
+                    {titleSuggest}
                     <Grid item lg={12} xs={12}>
                         <Slider
                             spedd={500}
@@ -177,22 +207,7 @@ const SearchPage = () => {
                                     </div>
                                 )
 
-                            }
-                            {/* {
-                                SuggestionContents.map((content, index) =>
-                                    <div className='contentStyle' key={index}>
-                                        <CardContentt content={content.ContentName} content={content.ContentName} Description={content.Description} ID={content.ContentID} PathFile={content.PathFile} ></CardContentt>
-                                    </div>
-                                )
-                            } */}
-                            {/* {
-                                SuggestionContents.map((content, index) =>
-                                    <div className='contentStyle' key={index}>
-                                        <CardContentt content={content.ContentName} content={content.ContentName} Description={content.Description} ID={content.ContentID} PathFile={content.PathFile}></CardContentt>
-                                    </div>
-                                )
-                            } */}
-                            
+                            }                           
                         </Slider>
                     </Grid>
                     <p className="headerContents">הפופולריים ביותר</p>
@@ -213,22 +228,7 @@ const SearchPage = () => {
                                     </div>
                                 )
 
-                            }
-                            {/* {
-                                PopularContents.map((content, index) =>
-                                    <div className='contentStyle' key={index}>
-                                        <CardContentt content={content.ContentName} content={content.ContentName} Description={content.Description} ID={content.ContentID} PathFile={content.PathFile}></CardContentt>
-                                    </div>
-                                )
-                            }
-                            {
-                                PopularContents.map((content, index) =>
-                                    <div className='contentStyle' key={index}>
-                                        <CardContentt content={content.ContentName} content={content.ContentName} Description={content.Description} ID={content.ContentID} PathFile={content.PathFile}></CardContentt>
-                                    </div>
-                                )
-                            } */}
-                            
+                            }                     
                         </Slider>
                     {console.log(PopularContents)}
                 </div>
