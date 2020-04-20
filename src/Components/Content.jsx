@@ -42,6 +42,7 @@ const Content = (props) => {
     const [Tagslist,setTagslist]=useState('')
     const [URLserver,setURLserver]=useState(`http://proj.ruppin.ac.il/igroup20/prod/api/`)
     const [Like, setLike] = useState(true)
+    const [Download,setDownload]=useState(false)
 
     useEffect(() => {
         console.log('content Server_Url ',Server_Url)
@@ -97,6 +98,16 @@ const Content = (props) => {
     //         colorLikee.color='black'
     //     }
     //   }, [Like])
+
+    //נלחץ על כפתור הורדת מצגת
+    const ButtonDownloadClicked = () => {
+        console.log('Download',Download)
+        setDownload(true)   
+      }
+      useEffect(() => {     
+        setDownload(false)
+        console.log('Download',Download)
+      }, [Download])
 
 
     console.log(props)
@@ -160,7 +171,7 @@ const Content = (props) => {
                         </div>
                             <div>
                                 <div className='buttonDownload'>
-                                <Button><SystemUpdateAltOutlinedIcon style={{fontSize: '2.5rem' }}/>
+                                <Button onClick={ButtonDownloadClicked }><SystemUpdateAltOutlinedIcon style={{fontSize: '2.5rem' }}/>
                                 </Button>
                                 <span>  הורדת המצגת</span>
                                 </div>
@@ -168,6 +179,8 @@ const Content = (props) => {
                                 <FavoriteOutlinedIcon className='like' onClick={(e) => setLike(!Like)} style={{ color: Like ? 'red' : 'black', fontSize: '2.5rem' }}></FavoriteOutlinedIcon>
                                 <span>אהבתי</span>      
                                 </div> 
+                                {Download && <iframe src={UrlPathFiles+ContentToShow.PathFile}  allowfullscreen frameborder="0" scrolling="no" > </iframe>}
+
                             </div>
                         </div>
 

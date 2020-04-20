@@ -27,7 +27,7 @@ td {
 
 .popup {
     position: fixed;
-    width: 100%;
+    width: 50%;
     height: 70%;
     top: 0;
     left: 0;
@@ -38,13 +38,11 @@ td {
   }
   .popup_inner {
     position: relative;
-    width: 100%;
+    width: 90%;
     height: 80%;
     top: 10%;
-    /*left: 25%;
-    right: 25%;
-    top: 25%;
-    bottom: 25%;*/
     margin: auto;
+    border: 5px solid #ccc;
+    border-radius: 4%;
     background: white;
   }
