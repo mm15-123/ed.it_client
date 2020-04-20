@@ -50,7 +50,7 @@ const Content = (props) => {
         //const ContentApiUrl = `http://localhost:55263/api/Content/GetContent/${props.match.params.ContentID}`//go to DB and brings the specific presentation with her likes
         //const SContentApiUrl=`http://proj.ruppin.ac.il/igroup20/prod/api/Content/GetContent/${props.match.params.ContentID}`
         console.log('ContentApiUrl',ContentApiUrl)
-        axios.get(ContentApiUrl)
+        axios.get(ContentApiUrl)//משיכת פרטי התוכן בעת עליית הקומפוננטה
             .then(res => {
                 console.log(res.data)
                 setContentToShow(res.data)
@@ -83,6 +83,10 @@ const Content = (props) => {
         
             })
 
+            //עדכון ניקוד עבור המשתמש
+            axios.put(`${Server_Url}User/UpdateScore/${props.match.params.ContentID}/${GlobalUser.Email.split("@", 1)}/watch`)
+            .then(res=>console.log('hey'))
+
     }, [])
 
     //לייק
@@ -101,12 +105,14 @@ const Content = (props) => {
 
     //נלחץ על כפתור הורדת מצגת
     const ButtonDownloadClicked = () => {
-        console.log('Download',Download)
+        console.log('Download clicked',Download)
         setDownload(true)   
       }
       useEffect(() => {     
-        setDownload(false)
         console.log('Download',Download)
+        setTimeout(() => {
+            setDownload(false);
+          }, 3000);
       }, [Download])
 
 
