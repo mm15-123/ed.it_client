@@ -122,10 +122,14 @@ const Content = (props) => {
     //נלחץ על כפתור הורדת מצגת
     const ButtonDownloadClicked = () => {
         console.log('Download clicked',Download)
-        setDownload(true)   
+        setDownload(true)          
       }
       useEffect(() => {     
         console.log('Download',Download)
+        if(Download){
+            axios.put(`${Server_Url}User/UpdateScore/${props.match.params.ContentID}/${GlobalUser.Email.split("@", 1)}/downloaded`)
+            .then(res=>console.log('hey')) 
+        }
         setTimeout(() => {
             setDownload(false);
           }, 3000);
