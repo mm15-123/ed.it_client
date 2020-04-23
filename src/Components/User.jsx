@@ -4,12 +4,17 @@ import './User.css'
 import ProfilePicture2 from '../uploadedFiles/almog_levi.jpeg'
 import { makeStyles } from '@material-ui/core/styles';
 import Avatar from '@material-ui/core/Avatar';
-import { Button, Container, CssBaseline, Typography, Grid, TextField, Select, MenuItem, Input } from '@material-ui/core';
+import { Button, Container, CssBaseline, Typography, Grid, TextField, Select, MenuItem, Input, CardContent } from '@material-ui/core';
 import AddAPhotoIcon from '@material-ui/icons/AddAPhoto';
 import Axios from 'axios';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import Paper from '@material-ui/core/Paper';
 import FaceSharpIcon from '@material-ui/icons/FaceSharp';
+import CardContentt from './CardContent';
+import Slider from 'react-slick';
+import './MainPage.css';
+import { Route, Link, NavLink,Switch } from 'react-router-dom';
+
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -69,6 +74,8 @@ const User = () => {
     const [ShowPopUp, setShowPopUp] = useState(false)
     const [NewUrlPicture, setNewUrlPicture] = useState('')
     const [formDataPic, setformDataPic] = useState('')
+    const [UserContent, setUserContent] = useState('')
+    const [UserLikedContent, setUserLikedContent] = useState('')
 
     const togglePopup = () => {
         const boolshow = !ShowPopUp
@@ -141,7 +148,22 @@ const User = () => {
         else
             DateFromat = BirthDate[0] + '-' + BirthDate[1] + '-' + BirthDate[2]
         setBDate(DateFromat)
-        console.log('DateFromat',DateFromat)
+        console.log('DateFromat', DateFromat)
+        console.log('get user content url', `${Server_Url}/Content/GetUserContents/${GlobalUser.Email.split('@')[0]}`)
+
+        async function fetcUserContent() {
+            const response = await fetch(`${Server_Url}/Content/GetUserContents/${GlobalUser.Email.split('@')[0]}`)
+            const result = await response.json()
+            setUserContent(result)
+        }
+        async function fetcUserLikedContent() {
+            const response = await fetch(`${Server_Url}/Content/GetUserLikedContents/${GlobalUser.Email.split('@')[0]}`)
+            const result = await response.json()
+            setUserLikedContent(result)
+            console.log(result)
+        }
+        fetcUserContent()
+        fetcUserLikedContent()
     }, [GlobalUser, UrlPicture])
 
     const changestate = () => {
@@ -231,7 +253,12 @@ const User = () => {
                                         variant="contained"
                                         style={{ backgroundColor: '#173f5f8a' }}
                                         onClick={changestate}>ערוך פרטים</Button>}
-
+                                    {<Link to={'/Graphs/'+GlobalUser.Email.split('@')[0]}>
+                                        <Button
+                                        variant="contained"
+                                        style={{ backgroundColor: '#173f5f8a' }}
+                                        >הצג גרפים</Button>
+                                        </Link>}
                                 </Grid>
                             </Grid>
                             <Grid container item sm={7}>
@@ -259,7 +286,7 @@ const User = () => {
 
                 </Grid>
             </div>
-         
+
 
             {Edit &&
                 <div>
@@ -371,6 +398,46 @@ const User = () => {
 
                     </Grid>}
                 </div>}
+            <p className="headerContents">תכנים שלי ...</p>
+            <br></br>
+            <Grid item lg={12} xs={12}>
+                <Slider
+                    speed={500}
+                    slidesToShow={4}
+                    slidesToScrol={1}
+                    infinite={true}
+                    dots={false}
+                    rtl={false}
+                >
+                    {UserContent !== '' &&
+                        UserContent.map((content, index) =>
+                            <div className='contentStyle' key={index}>
+                                <CardContentt content={content.ContentName} content={content.ContentName} Description={content.Description} ID={content.ContentID} PathFile={content.PathFile} UserPic={content.UserPic}></CardContentt>
+                                {console.log(content)}
+                            </div>)
+                    }
+                </Slider>
+            </Grid>
+            <p className="headerContents">תכנים שאהבתי...</p>
+            <br></br>
+            <Grid item lg={12} xs={12}>
+                <Slider
+                    speed={500}
+                    slidesToShow={4}
+                    slidesToScrol={1}
+                    infinite={true}
+                    dots={false}
+                    rtl={false}
+                >
+                    {UserLikedContent !== '' &&
+                        UserLikedContent.map((content, index) =>
+                            <div className='contentStyle' key={index}>
+                                <CardContentt content={content.ContentName} content={content.ContentName} Description={content.Description} ID={content.ContentID} PathFile={content.PathFile} UserPic={content.UserPic}></CardContentt>
+                                {console.log(content)}
+                            </div>)
+                    }
+                </Slider>
+            </Grid>
         </div>
     );
 

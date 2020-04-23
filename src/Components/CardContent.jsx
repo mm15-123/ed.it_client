@@ -22,69 +22,70 @@ import { Route, Link, NavLink } from 'react-router-dom';
 import { Container, Grid, Button } from '@material-ui/core';
 
 const useStyles = makeStyles((theme) => ({
-    root: {
-        maxWidth: 345,
-    },
-    media: {
-        height: 0,
-        paddingTop: '56.25%', // 16:9
-    },
-    expand: {
-        transform: 'rotate(0deg)',
-        marginLeft: 'auto',
-        transition: theme.transitions.create('transform', {
-            duration: theme.transitions.duration.shortest,
-        }),
-    },
-    expandOpen: {
-        transform: 'rotate(180deg)',
-    },
-    avatar: {
-        backgroundColor: red[500],
-    },
+  root: {
+    maxWidth: 345,
+  },
+  media: {
+    height: 0,
+    paddingTop: '56.25%', // 16:9
+  },
+  expand: {
+    transform: 'rotate(0deg)',
+    marginLeft: 'auto',
+    transition: theme.transitions.create('transform', {
+      duration: theme.transitions.duration.shortest,
+    }),
+  },
+  expandOpen: {
+    transform: 'rotate(180deg)',
+  },
+  avatar: {
+    backgroundColor: red[500],
+  },
 }));
 
 const CardContentt = (props) => {
-    const [GlobalUser, setGlobalUser, UrlPath, UrlPathFiles, GlobalContent, setGlobalContent] = useContext(GlobalContext);
-    const classes = useStyles();
-    const [expanded, setExpanded] = React.useState(false);
-    console.log(props.content)
-    const handleExpandClick = () => {
-        setExpanded(!expanded);
-    };
+  const [GlobalUser, setGlobalUser, UrlPath, UrlPathFiles, Server_Url, GlobalContent, setGlobalContent, RememberMe, setRememberMe] = useContext(GlobalContext);
+  const classes = useStyles();
+  const [expanded, setExpanded] = React.useState(false);
+  console.log('content props',props)
 
-    return (
-        <Link to={'/Content/' + props.ID}>
-            <Card className={classes.root}>
-         
-            {console.log(UrlPath+props.UserPic)}
-                <CardHeader
-                    avatar={
-                        <Avatar aria-label="recipe" className={classes.avatar}>
-                            <img src={UrlPath+props.UserPic} style={{width: '100%',height: '100%'}}></img>
-                       </Avatar>
-                    }
-                    action={
-                        <IconButton aria-label="settings">
-                            <MoreVertIcon />
-                        </IconButton>
-                    }
-                    className='headerCard'
-                    title={props.content}
-                    // subheader="September 14, 2016"
-                />
+  const handleExpandClick = () => {
+    setExpanded(!expanded);
+  };
 
-                <CardMedia
-                    className={classes.media}
-                    image={UrlPathFiles + props.PathFile}
-                    title="Paella dish"
-                />
-                {/* <CardContent>
+  return (
+    <Link to={'/Content/' + props.ID}>
+      <Card className={classes.root}>
+
+        {console.log(UrlPath + props.UserPic)}
+        <CardHeader
+          avatar={
+            <Avatar aria-label="recipe" className={classes.avatar}>
+              <img src={UrlPath + props.UserPic} style={{ width: '100%', height: '100%' }}></img>
+            </Avatar>
+          }
+          action={
+            <IconButton aria-label="settings">
+              <MoreVertIcon />
+            </IconButton>
+          }
+          className='headerCard'
+          title={props.content}
+        // subheader="September 14, 2016"
+        />
+
+        <CardMedia
+          className={classes.media}
+          image={UrlPathFiles + props.PathFile}
+          title="Paella dish"
+        />
+        {/* <CardContent>
                     <Typography variant="body2" color="textSecondary" component="p">
                         {props.Description}
                     </Typography>
                 </CardContent> */}
-                {/* <CardActions disableSpacing>
+        {/* <CardActions disableSpacing>
         <IconButton aria-label="add to favorites">
           <FavoriteIcon />
         </IconButton>
@@ -129,8 +130,8 @@ const CardContentt = (props) => {
           </Typography>
         </CardContent>
       </Collapse> */}
-            </Card>
-        </Link>
-    );
+      </Card>
+    </Link>
+  );
 }
 export default CardContentt;

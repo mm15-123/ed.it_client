@@ -13,7 +13,8 @@ import { makeStyles } from '@material-ui/core/styles';
 import Avatar from '@material-ui/core/Avatar';
 // import ProfilePicture from '../uploadedFiles/shiftan92.jpg'
 // import ProfilePicture2 from '../uploadedFiles/almog_levi.jpeg'
-import User from './User'
+import User from './User';
+import Graphs from './Graphs';
 
 const useStyles = makeStyles((theme) => ({
     ProfileDiv: {
@@ -99,6 +100,7 @@ const MainPage = () => {
             <Route path='/SignUp' component={SignUp} />
             <Route path='/UploadContent' component={UploadContent} />
             <Route path='/User' component={User} />
+            <Route path='/Graphs/:UserName' component={Graphs}/>
             </Switch>
 
         </div>
