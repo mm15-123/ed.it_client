@@ -34,6 +34,7 @@ const settings = {
     slidesToScroll: 1
 };
 
+let update=false;//מונע עדכון לייק בעת עליית מסך 
 
 const Content = (props) => {
     const [ContentToShow, setContentToShow] = useState('')
@@ -41,15 +42,18 @@ const Content = (props) => {
     const [GlobalUser, setGlobalUser, UrlPath, UrlPathFiles, Server_Url, GlobalContent, setGlobalContent, RememberMe, setRememberMe] = useContext(GlobalContext);
     const [Tagslist,setTagslist]=useState('')
     const [URLserver,setURLserver]=useState(`http://proj.ruppin.ac.il/igroup20/prod/api/`)
-    const [Like, setLike] = useState(true)
+    const [Like, setLike] = useState('')
+    const [Download,setDownload]=useState(false)
+  
 
     useEffect(() => {
+        update=false;
         console.log('content Server_Url ',Server_Url)
-        const ContentApiUrl=`${Server_Url}Content/GetContent/${props.match.params.ContentID}`
+        const ContentApiUrl=`${Server_Url}Content/GetContent/${props.match.params.ContentID}/${GlobalUser.Email.split("@", 1)}`
         //const ContentApiUrl = `http://localhost:55263/api/Content/GetContent/${props.match.params.ContentID}`//go to DB and brings the specific presentation with her likes
         //const SContentApiUrl=`http://proj.ruppin.ac.il/igroup20/prod/api/Content/GetContent/${props.match.params.ContentID}`
         console.log('ContentApiUrl',ContentApiUrl)
-        axios.get(ContentApiUrl)
+        axios.get(ContentApiUrl)//משיכת פרטי התוכן בעת עליית הקומפוננטה
             .then(res => {
                 console.log(res.data)
                 setContentToShow(res.data)
@@ -78,25 +82,58 @@ const Content = (props) => {
                     })
                 )
                }) 
-
+               setLike(res.data.LikedByUserWhoWatch) 
         
             })
 
+            //עדכון ניקוד עבור המשתמש
+            axios.put(`${Server_Url}User/UpdateScore/${props.match.params.ContentID}/${GlobalUser.Email.split("@", 1)}/watch`)
+            .then(res=>console.log('hey'))
+
     }, [])
 
-    //לייק
-    // useEffect(() => {
-    //     if(Like)
-    //     {
-    //         console.log("like ",Like)
-    //         colorLikee.color='red'
-    //     }
-    //     else
-    //     {
-    //         console.log("like ",Like)
-    //         colorLikee.color='black'
-    //     }
-    //   }, [Like])
+   //משתמש עשה לייק/הוריד את הלייק
+   useEffect(() => {
+        let mode=''
+        if(Like)
+        {
+            console.log("like ",Like)
+            mode='like'
+        }
+        else
+        {
+            console.log("like ",Like)
+            mode='unlike'
+        }
+        //עדכון ניקוד עבור המשתמש
+        if(update){
+            axios.put(`${Server_Url}User/UpdateScore/${props.match.params.ContentID}/${GlobalUser.Email.split("@", 1)}/${mode}`)
+            .then(res=>console.log('hey'))
+        }
+    
+      }, [Like])
+      //נלחץ כפתור לייק
+      const LikedClicked=()=>{
+        console.log("like ",Like)
+        setLike(!Like)
+        update=true;//שחרור עדכון לייק בדטהבייס
+      }
+
+    //נלחץ על כפתור הורדת מצגת
+    const ButtonDownloadClicked = () => {
+        console.log('Download clicked',Download)
+        setDownload(true)          
+      }
+      useEffect(() => {     
+        console.log('Download',Download)
+        if(Download){
+            axios.put(`${Server_Url}User/UpdateScore/${props.match.params.ContentID}/${GlobalUser.Email.split("@", 1)}/downloaded`)
+            .then(res=>console.log('hey')) 
+        }
+        setTimeout(() => {
+            setDownload(false);
+          }, 3000);
+      }, [Download])
 
 
     console.log(props)
@@ -160,14 +197,16 @@ const Content = (props) => {
                         </div>
                             <div>
                                 <div className='buttonDownload'>
-                                <Button><SystemUpdateAltOutlinedIcon style={{fontSize: '2.5rem' }}/>
+                                <Button onClick={ButtonDownloadClicked }><SystemUpdateAltOutlinedIcon style={{fontSize: '2.5rem' }}/>
                                 </Button>
                                 <span>  הורדת המצגת</span>
                                 </div>
                                 <div className='likeDiv'> 
-                                <FavoriteOutlinedIcon className='like' onClick={(e) => setLike(!Like)} style={{ color: Like ? 'red' : 'black', fontSize: '2.5rem' }}></FavoriteOutlinedIcon>
+                                <FavoriteOutlinedIcon className='like' onClick={LikedClicked} style={{ color: Like ? 'red' : 'black', fontSize: '2.5rem' }}></FavoriteOutlinedIcon>
                                 <span>אהבתי</span>      
                                 </div> 
+                                {Download && <iframe src={UrlPathFiles+ContentToShow.PathFile}  allowfullscreen frameborder="0" scrolling="no" > </iframe>}
+
                             </div>
                         </div>
 
