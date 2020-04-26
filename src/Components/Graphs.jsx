@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useContext } from 'react';
-import ZingChart from 'zingchart-react';
+// import ZingChart from 'zingchart-react';
 import { GlobalContext } from '../Context/GlobalContext';
 
 const Graphs = (props) => {
@@ -461,7 +461,7 @@ const Graphs = (props) => {
 
     return (
         <div>
-            <ZingChart data={Data} />
+            {/* <ZingChart data={Data} /> */}
             {console.log('data',Data)}
         </div>
     );

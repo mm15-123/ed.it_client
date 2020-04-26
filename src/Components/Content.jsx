@@ -13,6 +13,7 @@ import FavoriteOutlinedIcon from '@material-ui/icons/FavoriteOutlined';
 import SystemUpdateAltOutlinedIcon from '@material-ui/icons/SystemUpdateAltOutlined';
 import TextareaAutosize from '@material-ui/core/TextareaAutosize';
 import { Route, Link, NavLink,Switch } from 'react-router-dom';
+import ThumbUpAltIcon from '@material-ui/icons/ThumbUpAlt';
 
 const Local = true;
 
@@ -47,7 +48,10 @@ const Content = (props) => {
     const [URLserver, setURLserver] = useState(`http://proj.ruppin.ac.il/igroup20/prod/api/`)
     const [Like, setLike] = useState('')
     const [Download, setDownload] = useState(false)
-
+    const [NewComment,setNewComment]=useState('')
+    const [Animation,setAnimation]=useState('')
+    const [Disable,setDisable]=useState('')
+    const [LikeCount,setLikeCount]=useState(0)
 
     useEffect(() => {
         update = false;
@@ -87,7 +91,7 @@ const Content = (props) => {
                     )
                 })
                 setLike(res.data.LikedByUserWhoWatch)
-
+                setLikeCount(res.data.Likes)
             })
 
         //עדכון ניקוד עבור המשתמש
@@ -102,10 +106,12 @@ const Content = (props) => {
         if (Like) {
             console.log("like ", Like)
             mode = 'like'
+            setLikeCount(LikeCount+1)
         }
         else {
             console.log("like ", Like)
             mode = 'unlike'
+            setLikeCount(LikeCount-1)
         }
         //עדכון ניקוד עבור המשתמש
         if (update) {
@@ -137,6 +143,27 @@ const Content = (props) => {
         }, 3000);
     }, [Download])
 
+    let NewCommentInput = React.createRef();
+    const AddComment=()=>{
+        // setAnimation('newcomment')
+        // setDisable('disabled')
+        setComments(null)
+        console.log(GlobalUser.Email.split("@", 1)[0]) 
+        axios.post(`${Server_Url}/Content/AddComment`,{
+            ContentID:props.match.params.ContentID,
+            NameWhoCommented:GlobalUser.Email.split("@", 1)[0],
+            Comment:NewComment
+        }).
+        then(res=>{
+            console.log(res.data)
+            setComments(res.data)
+            // console.log(NewCommentInput.current.value);
+        })
+        setTimeout(() => {
+            // setAnimation('')
+        }, 3000);
+        
+    }
 
     console.log(props)
     let path = ""
@@ -179,7 +206,8 @@ const Content = (props) => {
 
                             <h1 style={{ fontSize: '4.0rem' ,fontWeight: 'bolder'}}>{ContentToShow.ContentName}</h1>
                             <h4>{ContentToShow.Description}</h4>
-                            <h6>{ContentToShow.Likes} משתמשים אהבו את המצגת</h6>
+                            <ThumbUpAltIcon></ThumbUpAltIcon>
+                            <span style={{ fontSize: '1.0rem' ,fontWeight: 'bolder'}}>  {LikeCount} משתמשים אהבו את המצגת</span><br></br>
                             {/* <span>#{ContentToShow.TagsContent[0]}</span><span>#{ContentToShow.TagsContent[1]} </span><span>#{ContentToShow.TagsContent[2]} </span> */}
                             {Tagslist}
                             <div>
@@ -205,19 +233,19 @@ const Content = (props) => {
                                 </div>
                                 <div className='likeDiv'>
                                     <FavoriteOutlinedIcon className='like' onClick={LikedClicked} style={{ color: Like ? 'red' : 'black', fontSize: '2.5rem' }}></FavoriteOutlinedIcon>
-                                    <span>אהבתי</span>
+                                    <span style={{ fontSize: '1.0rem' ,fontWeight: 'bolder'}}>אהבתי</span>
                                 </div>
                                 {Download && <iframe src={UrlPathFiles + ContentToShow.PathFile} allowfullscreen frameborder="0" scrolling="no" > </iframe>}
                             </div>
                         <div className='commentDiv'>
                             <div>
                                 <br></br>
-                                <TextareaAutosize className='commentbox' aria-label=" maximum height" rowsMin={3} rowsMax={4} placeholder="כתוב תגובה" />
-                                <input type='button' className='btnComment' value='הוסף תגובה'></input>
+                                <TextareaAutosize className={`commentbox  ${Animation}`} aria-label=" maximum height" rowsMin={3} rowsMax={4} placeholder="כתוב תגובה" {...Disable} onChange={(e) => setNewComment(e.target.value)} ref={NewCommentInput}/>
+                                <input type='button' className='btnComment ' value='הוסף תגובה' onClick={AddComment}  ></input>
     
                             </div>
 
-                            <div className='comment'>
+                            <div className={`comment ${Animation}`}>
 
                                 { Comments!=null &&
 
