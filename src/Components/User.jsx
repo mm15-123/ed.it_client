@@ -13,7 +13,7 @@ import FaceSharpIcon from '@material-ui/icons/FaceSharp';
 import CardContentt from './CardContent';
 import Slider from 'react-slick';
 import './MainPage.css';
-import { Route, Link, NavLink,Switch } from 'react-router-dom';
+import { Route, Link, NavLink, Switch } from 'react-router-dom';
 
 
 const useStyles = makeStyles((theme) => ({
@@ -76,6 +76,8 @@ const User = () => {
     const [formDataPic, setformDataPic] = useState('')
     const [UserContent, setUserContent] = useState('')
     const [UserLikedContent, setUserLikedContent] = useState('')
+    const [ContentNames, setContentNames] = useState('')
+    const [Likes, setLikes] = useState('')
 
     const togglePopup = () => {
         const boolshow = !ShowPopUp
@@ -162,8 +164,20 @@ const User = () => {
             setUserLikedContent(result)
             console.log(result)
         }
+
+        //async function fetchTOPUserLikedContent() {
+          //  const response = await fetch(`${Server_Url}User/TOPUserLikedContent/${GlobalUser.Email.split('@')[0]}`)
+            //const result = await response.json()
+            //console.log('TOPUserLikedContent', result)
+            //const ContentNames2 = result.map(content => '"'+content.ContentName+'"')
+            //const Likes2 = result.map(content => parseInt(content.Likes))
+            //setContentNames(ContentNames2)
+            //setLikes(Likes2)
+        //}
         fetcUserContent()
         fetcUserLikedContent()
+        //fetchTOPUserLikedContent()
+
     }, [GlobalUser, UrlPicture])
 
     const changestate = () => {
@@ -255,10 +269,10 @@ const User = () => {
                                         onClick={changestate}>ערוך פרטים</Button>}
                                     {<Link to={'/Graphs/'+GlobalUser.Email.split('@')[0]}>
                                         <Button
-                                        variant="contained"
-                                        style={{ backgroundColor: '#173f5f8a' }}
+                                            variant="contained"
+                                            style={{ backgroundColor: '#173f5f8a' }}
                                         >הצג גרפים</Button>
-                                        </Link>}
+                                    </Link>}
                                 </Grid>
                             </Grid>
                             <Grid container item sm={7}>

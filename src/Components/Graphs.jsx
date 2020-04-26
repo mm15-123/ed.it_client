@@ -54,7 +54,7 @@ const Graphs = (props) => {
                         margin: '45px 20px 38px 45px'
                     },
                     scaleX: {
-                        values: ['Apparel', 'Drug', 'Footwear', 'Gift Card', 'Home', 'Jewelry', 'Garden', 'Other'],
+                        values:['Apparel', 'Drug', 'Footwear', 'Gift Card', 'Home', 'Jewelry', 'Garden', 'Other'],
                         guide: {
                             visible: false
                         },
