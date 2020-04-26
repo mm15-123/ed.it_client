@@ -155,6 +155,47 @@
     top:-2%
 }
 
+.comment{
+    height: auto;
+    background-color: rgb(247, 247, 248);
+    /* border:4px solid; */
+    /* top: 10%; */
+    position: relative;
+    left: 9%;
+}
+.commentbox{
+    width: 80%;
+    
+}
+
+.newcomment{
+    animation: mymove 3s ;
+    position: relative;
+    top: 85px;
+}
+
+@keyframes mymove {
+    from {top: 0px;}
+    to {top: 85px;}
+  } 
+
+.btnComment{
+    border: 2px solid;
+    margin-top: 3%;
+    margin-left: 3%;
+    position: relative;
+    float: left;
+    font-weight: bold;
+}
+
+.commentDesc{
+    width: 40%;
+}
+
+.commentDiv{
+    position: relative;
+    top: 5%;
+}
 .slick-list{
     width: 100%;
 }

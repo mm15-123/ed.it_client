@@ -78,7 +78,7 @@ const CardContentt = (props) => {
         <CardMedia
           className={classes.media}
           image={UrlPathFiles + props.PathFile}
-          title="Paella dish"
+          title="למעבר למצגת לחץ כאן"
         />
         {/* <CardContent>
                     <Typography variant="body2" color="textSecondary" component="p">
