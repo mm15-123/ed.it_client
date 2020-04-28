@@ -164,20 +164,8 @@ const User = () => {
             setUserLikedContent(result)
             console.log(result)
         }
-
-        //async function fetchTOPUserLikedContent() {
-          //  const response = await fetch(`${Server_Url}User/TOPUserLikedContent/${GlobalUser.Email.split('@')[0]}`)
-            //const result = await response.json()
-            //console.log('TOPUserLikedContent', result)
-            //const ContentNames2 = result.map(content => '"'+content.ContentName+'"')
-            //const Likes2 = result.map(content => parseInt(content.Likes))
-            //setContentNames(ContentNames2)
-            //setLikes(Likes2)
-        //}
         fetcUserContent()
         fetcUserLikedContent()
-        //fetchTOPUserLikedContent()
-
     }, [GlobalUser, UrlPicture])
 
     const changestate = () => {

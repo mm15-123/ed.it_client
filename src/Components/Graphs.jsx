@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useContext } from 'react';
-// import ZingChart from 'zingchart-react';
+import ZingChart from 'zingchart-react';
 import { GlobalContext } from '../Context/GlobalContext';
 
 const Graphs = (props) => {
@@ -54,7 +54,7 @@ const Graphs = (props) => {
                         margin: '45px 20px 38px 45px'
                     },
                     scaleX: {
-                        values:['Apparel', 'Drug', 'Footwear', 'Gift Card', 'Home', 'Jewelry', 'Garden', 'Other'],
+                        values: ['Apparel', 'Drug', 'Footwear', 'Gift Card', 'Home', 'Jewelry', 'Garden', 'Other'],
                         guide: {
                             visible: false
                         },
@@ -461,8 +461,8 @@ const Graphs = (props) => {
 
     return (
         <div>
-            {/* <ZingChart data={Data} /> */}
-            {console.log('data',Data)}
+            { <ZingChart data={Data} /> }
+            {console.log('data', Data)}
         </div>
     );
 

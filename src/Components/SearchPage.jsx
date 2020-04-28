@@ -66,7 +66,7 @@ const SearchPage = () => {
            // }
         
         //שליפת תכנים פופולריים גם לאורח וגם למשתמש מחובר
-        let apiUrl2 = `${Server_Url}Content/SuggestContentForGuest`
+         apiUrl = `${Server_Url}Content/SuggestContentForGuest`
         //apiUrl = `http://localhost:55263/api/Content/SuggestContentForGuest`
         //SapiUrl=`http://proj.ruppin.ac.il/igroup20/prod/api/Content/SuggestContentForGuest`
         //function GestANDUserFetch() {
@@ -88,15 +88,7 @@ const SearchPage = () => {
                 .catch((error) => {
                     console.error('Error:', error);
                 });
-        //}
-
-        //UserFetch()
-        //setTimeout(() => {
-        //    GestANDUserFetch()
-        //}, 3000);
-        //setTimeout(() => {
-        //    requestTags()
-       // }, 5000);
+        
         requestTags();//מושך רשימת תגים עבור מנוע חיפוש
     }, [])
 

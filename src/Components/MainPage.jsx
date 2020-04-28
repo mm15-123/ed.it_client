@@ -3,7 +3,7 @@ import SignIn from './SignIn';
 import SignUp from './SignUp';
 import Content from './Content';
 import UploadContent from './UploadContent';
-import { Route, Link, NavLink,Switch } from 'react-router-dom';
+import { Route, Link, NavLink, Switch } from 'react-router-dom';
 import './MainPage.css';
 import TextField from '@material-ui/core/TextField';
 import { Container, Grid } from '@material-ui/core';
@@ -23,17 +23,17 @@ const useStyles = makeStyles((theme) => ({
             margin: theme.spacing(1),
             width: theme.spacing(7),
             height: theme.spacing(7),
-        
+
         },
         // display: 'inline-block',
         margin: '5px',
-        fontWeight:'bold',
-        
+        fontWeight: 'bold',
+
     },
     ProfilePic: {
         width: '-webkit-fill-available',
         height: '-webkit-fill-available',
-        
+
     },
 
 
@@ -58,20 +58,20 @@ const MainPage = () => {
 
     return (
         <div>
-            <nav className="navbar" style={{direction:'rtl'}}>
+            <nav className="navbar" style={{ direction: 'rtl' }}>
 
                 <ul >
                     <li >
                         <div> <NavLink to='/' exact>בית</NavLink></div>
                     </li>
                     <li >
-                        <NavLink to='/SignIn'>התחבר</NavLink>
+                        {GlobalUser == null && <NavLink to='/SignIn'>התחבר</NavLink>}
                     </li>
                     <li >
-                        <NavLink to='/SignUp'>הרשם</NavLink>
+                        {GlobalUser == null && <NavLink to='/SignUp'>הרשם</NavLink>}
                     </li>
                     <li >
-                        <NavLink to='/UploadContent'>העלאת תוכן</NavLink>
+                        {GlobalUser !== null && <NavLink to='/UploadContent'>העלאת תוכן</NavLink>}
                     </li>
                     {/* <li className="logout">
                         {GlobalUser !== null && <NavLink to='/' onClick={LogOut}>התנתק</NavLink>}
@@ -80,27 +80,27 @@ const MainPage = () => {
 
                         {GlobalUser !== null && <NavLink to='/User' >{ GlobalUser.Name}</NavLink>}
                     </li> */}
-                 
+
                 </ul>
                 <div className={classes.ProfileDiv} >
-                    <div className='userNav' style={{width:'auto'}}>
-                {GlobalUser !== null && <NavLink to='/User' >{ GlobalUser.Name}</NavLink>} <span> | </span>
-                {GlobalUser !== null && <NavLink to='/' onClick={LogOut}>התנתק</NavLink>}
-                   </div>
-                    <Link to='/User'>
-                        {GlobalUser !== null && <Avatar alt="Remy Sharp" src={ UrlPath + GlobalUser.UrlPicture} className={classes.ProfilePic} />}
-                    </Link>
-                </div>          
+                    <div className='userNav' style={{ width: 'auto' }}>
+                        {GlobalUser !== null && <NavLink to='/User' >{GlobalUser.Name}</NavLink>} <span> | </span>
+                        {GlobalUser !== null && <NavLink to='/' onClick={LogOut}>התנתק</NavLink>}
+                    </div>
+                    {GlobalUser !== null && <Link to='/User'>
+                        <Avatar alt="Remy Sharp" src={UrlPath + GlobalUser.UrlPicture} className={classes.ProfilePic} />
+                    </Link>}
+                </div>
             </nav>
 
-             <Switch>
-            <Route path='/' exact component={SearchPage} />
-            <Route path='/Content/:ContentID' component={Content} />
-            <Route path='/SignIn' component={SignIn} />
-            <Route path='/SignUp' component={SignUp} />
-            <Route path='/UploadContent' component={UploadContent} />
-            <Route path='/User' component={User} />
-            <Route path='/Graphs/:UserName' component={Graphs}/>
+            <Switch>
+                <Route path='/' exact component={SearchPage} />
+                <Route path='/Content/:ContentID' component={Content} />
+                <Route path='/SignIn' component={SignIn} />
+                <Route path='/SignUp' component={SignUp} />
+                <Route path='/UploadContent' component={UploadContent} />
+                <Route path='/User' component={User} />
+                <Route path='/Graphs/:UserName' component={Graphs} />
             </Switch>
 
         </div>

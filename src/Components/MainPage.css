@@ -164,7 +164,7 @@
     left: 9%;
 }
 .commentbox{
-    width: 80%;
+    width: 70%;
     
 }
 
@@ -181,10 +181,10 @@
 
 .btnComment{
     border: 2px solid;
-    margin-top: 3%;
-    margin-left: 3%;
+    /*margin-top: 3%;*/
+    margin-right: 3%;
     position: relative;
-    float: left;
+    /*float: left;*/
     font-weight: bold;
 }
 
@@ -227,11 +227,11 @@
 
 
 .TitlesContent{
-     width: 50%;
+     /*width: 50%;
       margin: auto;
       margin-right: 10%;
       display: flex; 
-      justify-content: space-between; 
+      justify-content: space-between; */
       direction: rtl ;
       /* text-shadow: 1px 1px #204a6d; */
       color: #173f5f;
