@@ -15,6 +15,8 @@ import Avatar from '@material-ui/core/Avatar';
 // import ProfilePicture2 from '../uploadedFiles/almog_levi.jpeg'
 import User from './User';
 import Graphs from './Graphs';
+import UserProfile from './UserProfile';
+import AdminPage from './AdminPage';
 
 const useStyles = makeStyles((theme) => ({
     ProfileDiv: {
@@ -39,6 +41,7 @@ const useStyles = makeStyles((theme) => ({
 
 }));
 
+
 const MainPage = () => {
     const classes = useStyles();
     const [GlobalUser, setGlobalUser, UrlPath, UrlPathFiles, Server_Url, GlobalContent, setGlobalContent, RememberMe, setRememberMe] = useContext(GlobalContext);//מושך פרטי משתמש גלובליים ואת הנתיב לקבצים
@@ -46,7 +49,6 @@ const MainPage = () => {
     console.log("From main page", GlobalUser)
     //const [RememberMe,setRememberMe]=useContext(GlobalContext);
     //console.log( localStorage.getItem('rememberMe')!==null ?localStorage.getItem('rememberMe') : 'somyhing wrong' )
-
 
     //יציאה מהמשתמש,אתחול לוקל_סטורג' אתחול גלובל_יוזר וגלובל_רממברמי
     const LogOut = () => {
@@ -62,16 +64,19 @@ const MainPage = () => {
 
                 <ul >
                     <li >
-                        <div> <NavLink to='/' exact>בית</NavLink></div>
+                        <div> <NavLink to='/' exact >בית</NavLink></div>
                     </li>
                     <li >
-                        {GlobalUser == null && <NavLink to='/SignIn'>התחבר</NavLink>}
+                        {//GlobalUser == null &&
+                            <NavLink to='/SignIn' style={{pointerEvents: GlobalUser == null ?"auto": "none"}} >התחבר</NavLink>}
                     </li>
                     <li >
-                        {GlobalUser == null && <NavLink to='/SignUp'>הרשם</NavLink>}
+                        {//GlobalUser == null &&
+                            <NavLink to='/SignUp' style={{pointerEvents: GlobalUser == null ?"auto": "none"}} >הרשם</NavLink>}
                     </li>
                     <li >
-                        {GlobalUser !== null && <NavLink to='/UploadContent'>העלאת תוכן</NavLink>}
+                        {//GlobalUser !== null && 
+                            <NavLink to='/UploadContent' style={{pointerEvents: GlobalUser !== null ?"auto": "none"}} >העלאת תוכן</NavLink>}
                     </li>
                     {/* <li className="logout">
                         {GlobalUser !== null && <NavLink to='/' onClick={LogOut}>התנתק</NavLink>}
@@ -101,6 +106,8 @@ const MainPage = () => {
                 <Route path='/UploadContent' component={UploadContent} />
                 <Route path='/User' component={User} />
                 <Route path='/Graphs/:UserName' component={Graphs} />
+                <Route path='/UserProfile/:UserName' component={UserProfile}/>
+                <Route path='/AdminPage' component={AdminPage}/>
             </Switch>
 
         </div>

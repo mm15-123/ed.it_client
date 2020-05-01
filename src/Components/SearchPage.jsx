@@ -61,7 +61,7 @@ const SearchPage = () => {
         settitleSuggest(function () {
             return (
                 <div>
-                    <p className="headerContents">...תכנים אלה עלולים לעניין אותך</p>
+                    <p className="headerContents">...תכנים אלה עשויים לעניין אותך</p>
                     <br></br></div>
             )
         });
@@ -261,7 +261,8 @@ const SearchPage = () => {
                         slidesToShow={4}
                         slidesToScrol={1}
                         infinite={false}
-                        dots={false}
+                        dots={true}
+                        arrows={true}
                         rtl={false}
 
                     >
@@ -281,7 +282,8 @@ const SearchPage = () => {
                             slidesToShow={4}
                             slidesToScrol={1}
                             infinite={false}
-                            dots={false}
+                            dots={true}
+                            arrows={true}
                             rtl={false}
 
                         >
@@ -303,7 +305,8 @@ const SearchPage = () => {
                         slidesToShow={4}
                         slidesToScrol={1}
                         infinite={false}
-                        dots={false}
+                        dots={true}
+                        arrows={true}
                         rtl={false}
 
                     >
