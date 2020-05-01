@@ -11,6 +11,23 @@ import axios from 'axios';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import Slider from 'react-slick';
 import CardContentt from './CardContent'
+import Radio from '@material-ui/core/Radio';
+import { withStyles } from '@material-ui/core/styles';
+import { green } from '@material-ui/core/colors';
+import RadioGroup from '@material-ui/core/RadioGroup';
+import FormControlLabel from '@material-ui/core/FormControlLabel';
+import FormControl from '@material-ui/core/FormControl';
+import FormLabel from '@material-ui/core/FormLabel';
+
+const GreenRadio = withStyles({
+    root: {
+        color: green[400],
+        '&$checked': {
+            color: green[600],
+        },
+    },
+    checked: {},
+})((props) => <Radio color="default" {...props} />);
 
 const SearchPage = () => {
     const [Contents, setContents] = useState(['first', 'second', 'third', 'forth', 'fifth', 'sixth', 'seventh', 'eight', 'nine', 'ten'])
@@ -19,11 +36,16 @@ const SearchPage = () => {
     const [SuggestionContents, setSuggestionContents] = useState([])
     const [PopularContents, setPopularContents] = useState([])
     const [ResultsSearchContents, setResultsSearchContents] = useState([])
-    const [autoTags, setautoTags] = useState('');
+    const [autoComplete, setautoComplete] = useState('');
     const [titleSuggest, settitleSuggest] = useState('');
     const [titleResultsSearch, settitleResultsSearch] = useState('');
     const [tagToSearch, settagToSearch] = useState('');
-
+    const [selectedValueToSearch, setselectedValueToSearch] = useState('תגיות');//חיפוש דיפולטיבי לפי תגיות
+    //רשימות של חיפושים
+    const [TagsArray,setTagsArray]=useState([])
+    const [UserArray,setUserArray]=useState([])
+    const [ContentArray,setContentArray]=useState([])
+ 
     //משיכת נתונים מהסרבר לגבי תכנים מוצעים 
 
     useEffect(() => {
@@ -34,83 +56,113 @@ const SearchPage = () => {
 
         if (GlobalUser != null) //אם משתמש מחובר יציע לו תכנים לפי הפרופיל שלו
             apiUrl = `${Server_Url}Content/SuggestContent/${GlobalUser.Email.split("@", 1)}`
-            //apiUrl = `http://localhost:55263/api/Content/SuggestContent/${GlobalUser.Email.split("@", 1)}`
-            //SapiUrl=`http://proj.ruppin.ac.il/igroup20/prod/api/Content/SuggestContent/${GlobalUser.Email.split("@", 1)}`
-            settitleSuggest(function () {
-                return (
-                    <div>
-                        <p className="headerContents">...תכנים אלה עלולים לעניין אותך</p>
-                        <br></br></div>
-                )
-            });
-            console.log('SuggestContent URL', apiUrl)
-            //function UserFetch() {
-                fetch(apiUrl, {
-                    method: 'GET',
-                    //mode: 'no-cors',
-                    headers: new Headers({
-                        'Content-Type': 'application/json; charset=UTF-8',
-                    })
-                })
-                    .then((result) => {
-                        console.log('Success:', result);
-                        result.json().then(data => {
-                            console.log(data)
-                            setSuggestionContents(data);
-                        });
+        //apiUrl = `http://localhost:55263/api/Content/SuggestContent/${GlobalUser.Email.split("@", 1)}`
+        //SapiUrl=`http://proj.ruppin.ac.il/igroup20/prod/api/Content/SuggestContent/${GlobalUser.Email.split("@", 1)}`
+        settitleSuggest(function () {
+            return (
+                <div>
+                    <p className="headerContents">...תכנים אלה עלולים לעניין אותך</p>
+                    <br></br></div>
+            )
+        });
+        console.log('SuggestContent URL', apiUrl)
+        //function UserFetch() {
+        fetch(apiUrl, {
+            method: 'GET',
+            //mode: 'no-cors',
+            headers: new Headers({
+                'Content-Type': 'application/json; charset=UTF-8',
+            })
+        })
+            .then((result) => {
+                console.log('Success:', result);
+                result.json().then(data => {
+                    console.log(data)
+                    setSuggestionContents(data);
+                });
 
-                    })
-                    .catch((error) => {
-                        console.error('Error:', error);
-                    });
-           // }
-        
+            })
+            .catch((error) => {
+                console.error('Error:', error);
+            });
+        // }
+
         //שליפת תכנים פופולריים גם לאורח וגם למשתמש מחובר
-         apiUrl = `${Server_Url}Content/SuggestContentForGuest`
+        apiUrl = `${Server_Url}Content/SuggestContentForGuest`
         //apiUrl = `http://localhost:55263/api/Content/SuggestContentForGuest`
         //SapiUrl=`http://proj.ruppin.ac.il/igroup20/prod/api/Content/SuggestContentForGuest`
         //function GestANDUserFetch() {
-            fetch(apiUrl, {
-                method: 'GET',
-                //mode: 'no-cors',
-                headers: new Headers({
-                    'Content-Type': 'application/json; charset=UTF-8',
-                })
+        fetch(apiUrl, {
+            method: 'GET',
+            //mode: 'no-cors',
+            headers: new Headers({
+                'Content-Type': 'application/json; charset=UTF-8',
             })
-                .then((result) => {
-                    console.log('Success:', result);
-                    result.json().then(data => {
-                        console.log(data)
-                        setPopularContents(data);
-                    });
-
-                })
-                .catch((error) => {
-                    console.error('Error:', error);
+        })
+            .then((result) => {
+                console.log('Success:', result);
+                result.json().then(data => {
+                    console.log(data)
+                    setPopularContents(data);
                 });
-        
+
+            })
+            .catch((error) => {
+                console.error('Error:', error);
+            });
+
         requestTags();//מושך רשימת תגים עבור מנוע חיפוש
     }, [])
 
     const requestTags = async () => {
-        const GetUrl = `${Server_Url}User/GetTags`
+        let GetUrl = `${Server_Url}User/GetTags`
         //const GetUrl = `http://localhost:55263/api/User/GetTags`
         //const SGetUrl=`http://proj.ruppin.ac.il/igroup20/prod/api/User/GetTags`
         console.log('get tags url ', GetUrl)
         const response = await fetch(GetUrl)
         const result = await response.json()
         console.log(result)
-        const auto = [];
+        const TagsArr = [];
         for (let i = 0; i < result.length; i++) {
             const obj = {
                 'title': result[i],
                 'id': i
             }
-            auto.push(obj)
+            TagsArr.push(obj)
         }
-        console.log(auto)
-        setautoTags(auto)
+        console.log(TagsArr)
+        setTagsArray(TagsArr)
+        setautoComplete(TagsArr)//השלמה אוטומטית דיפולטיבית של תגיות
 
+        //משיכת רשימת משתמשים 
+        GetUrl=`${Server_Url}User/GetUsers`
+        const response1 = await fetch(GetUrl)
+        const result1 = await response1.json()
+        const UserArr=[];
+        for (let i = 0; i < result1.length; i++) {
+            const obj1 = {
+                'title': result1[i],
+                'id': i
+            }
+            UserArr.push(obj1)
+        }
+        console.log(UserArr)
+        setUserArray(UserArr)
+
+        //משיכת רשימת מצגות
+        GetUrl=`${Server_Url}Content/GetContents`
+        const response2 = await fetch(GetUrl)
+        const result2 = await response2.json()
+        const ContentsArr=[];
+        for (let i = 0; i < result2.length; i++) {
+            const obj2 = {
+                'title': result2[i],
+                'id': i
+            }
+            ContentsArr.push(obj2)
+        }
+        console.log(ContentsArr)
+        setContentArray(ContentsArr)
     }
 
     const KeepTag = (event, NewValue) => {
@@ -118,13 +170,16 @@ const SearchPage = () => {
             console.log(NewValue)
             settagToSearch(NewValue)
         }
-
     }
 
     //מביא תוצאות חיפוש
     const SearchFunc = (e) => {
         if (e.key === 'Enter') {
-            const SearchApiUrl = `${Server_Url}Content/Search/${tagToSearch.title}`
+            if(selectedValueToSearch=="Users"){
+                //יעביר למשתמש
+            }
+           //חיפוש לפי שמות מצגות או לפי תגיות
+            const SearchApiUrl = `${Server_Url}Content/Search/${selectedValueToSearch}/${tagToSearch.title}`
             console.log("enter", tagToSearch.title, SearchApiUrl)
             axios.get(SearchApiUrl)
                 .then(res => {
@@ -144,6 +199,27 @@ const SearchPage = () => {
         }
     }
 
+    //שינוי של מה מחפשים
+    const handleChange = (event) => {
+        setselectedValueToSearch(event.target.value);
+        console.log(event.target.value)
+        switch (event.target.value) {
+            case 'Tags':
+                setautoComplete(TagsArray)
+                break;
+
+            case 'Users':
+                setautoComplete(UserArray)
+                break;
+
+            case 'Contents':
+                setautoComplete(ContentArray)
+                break;
+
+        }
+        
+    };
+
     return (
         <div>
 
@@ -159,15 +235,20 @@ const SearchPage = () => {
                             <Grid item xs={10}  >
                                 <Autocomplete
                                     id="combo-box-demo"
-                                    options={autoTags}
+                                    options={autoComplete}
                                     fullWidth
                                     getOptionLabel={(option) => option.title}
                                     //style={{ width: 300 }}
-                                    renderInput={(params) => <TextField {...params} label="חפש לפי תגית" variant="outlined" />}
+                                    renderInput={(params) => <TextField {...params} label={` חפש לפי ${selectedValueToSearch} `} variant="outlined" />}
                                     onChange={(event, NewValue) => KeepTag(event, NewValue)}
                                     onKeyDown={(e) => SearchFunc(e)}
                                 />
-
+                                    <RadioGroup row aria-label="position" name="position" defaultValue="top">
+                                        <FormControlLabel  control={<FormLabel />} label="חיפוש לפי"  checked={selectedValueToSearch === 'תגיות'} onChange={handleChange}/>
+                                        <FormControlLabel  value="Tags" control={<Radio color="primary" />} label="תגיות"  checked={selectedValueToSearch === 'תגיות'} onChange={handleChange}/>
+                                        <FormControlLabel  value="Users" control={<Radio color="primary" />} label="משתמשים"  checked={selectedValueToSearch === 'משתמשים'} onChange={handleChange} />
+                                        <FormControlLabel  value="Contents" control={<Radio color="primary" />} label="מצגות"  checked={selectedValueToSearch === 'מצגות'} onChange={handleChange}/>                         
+                                    </RadioGroup>                     
                             </Grid>
                         </Grid>
                     </div>
