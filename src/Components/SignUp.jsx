@@ -292,7 +292,7 @@ const SignUp = () => {
                 <Typography component="h1" variant="h5">
                     הרשמה
         </Typography>
-                <form className={classes.form} onSubmit={prevent}>
+                <form  className={classes.form} onSubmit={prevent}>
                     <Grid container spacing={2}>
                         <Grid item xs={12}>
                             <TextField

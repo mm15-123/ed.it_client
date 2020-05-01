@@ -402,13 +402,14 @@ const User = () => {
                 </div>}
             <p className="headerContents">תכנים שלי ...</p>
             <br></br>
-            <Grid item lg={12} xs={12}>
+            <Grid item xs={12}>
                 <Slider
                     speed={500}
                     slidesToShow={4}
                     slidesToScrol={1}
-                    infinite={true}
-                    dots={false}
+                    infinite={false}
+                    dots={true}
+                    arrows={true}
                     rtl={false}
                 >
                     {UserContent !== '' &&
@@ -422,13 +423,14 @@ const User = () => {
             </Grid>
             <p className="headerContents">תכנים שאהבתי...</p>
             <br></br>
-            <Grid item lg={12} xs={12}>
+            <Grid item xs={12}>
                 <Slider
                     speed={500}
                     slidesToShow={4}
                     slidesToScrol={1}
-                    infinite={true}
-                    dots={false}
+                    infinite={false}
+                    dots={true}
+                    arrows={true}
                     rtl={false}
                 >
                     {UserLikedContent !== '' &&

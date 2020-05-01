@@ -240,7 +240,10 @@ const Content = (props) => {
                                                     {console.log('img path ', process.env.PUBLIC_URL + '/uploadedPicturesPub/Shiftan92.jpg')}
                                                     {console.log('avatar Path ', UrlPath + `${ContentToShow.UserPic}`)}
                                                 </td>
-                                                <td><h5>{ContentToShow.ByUser}  </h5>
+                                                <td>
+                                                    <Link to={"/UserProfile/"+ContentToShow.ByUser}>
+                                                    <h5>{ContentToShow.ByUser}</h5>
+                                                        </Link>
                                                 </td>
                                             </tr>
 

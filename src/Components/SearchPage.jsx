@@ -34,61 +34,61 @@ const SearchPage = () => {
 
         if (GlobalUser != null) //אם משתמש מחובר יציע לו תכנים לפי הפרופיל שלו
             apiUrl = `${Server_Url}Content/SuggestContent/${GlobalUser.Email.split("@", 1)}`
-            //apiUrl = `http://localhost:55263/api/Content/SuggestContent/${GlobalUser.Email.split("@", 1)}`
-            //SapiUrl=`http://proj.ruppin.ac.il/igroup20/prod/api/Content/SuggestContent/${GlobalUser.Email.split("@", 1)}`
-            settitleSuggest(function () {
-                return (
-                    <div>
-                        <p className="headerContents">...תכנים אלה עלולים לעניין אותך</p>
-                        <br></br></div>
-                )
-            });
-            console.log('SuggestContent URL', apiUrl)
-            //function UserFetch() {
-                fetch(apiUrl, {
-                    method: 'GET',
-                    //mode: 'no-cors',
-                    headers: new Headers({
-                        'Content-Type': 'application/json; charset=UTF-8',
-                    })
-                })
-                    .then((result) => {
-                        console.log('Success:', result);
-                        result.json().then(data => {
-                            console.log(data)
-                            setSuggestionContents(data);
-                        });
+        //apiUrl = `http://localhost:55263/api/Content/SuggestContent/${GlobalUser.Email.split("@", 1)}`
+        //SapiUrl=`http://proj.ruppin.ac.il/igroup20/prod/api/Content/SuggestContent/${GlobalUser.Email.split("@", 1)}`
+        settitleSuggest(function () {
+            return (
+                <div>
+                    <p className="headerContents">...תכנים אלה עשויים לעניין אותך</p>
+                    <br></br></div>
+            )
+        });
+        console.log('SuggestContent URL', apiUrl)
+        //function UserFetch() {
+        fetch(apiUrl, {
+            method: 'GET',
+            //mode: 'no-cors',
+            headers: new Headers({
+                'Content-Type': 'application/json; charset=UTF-8',
+            })
+        })
+            .then((result) => {
+                console.log('Success:', result);
+                result.json().then(data => {
+                    console.log(data)
+                    setSuggestionContents(data);
+                });
 
-                    })
-                    .catch((error) => {
-                        console.error('Error:', error);
-                    });
-           // }
-        
+            })
+            .catch((error) => {
+                console.error('Error:', error);
+            });
+        // }
+
         //שליפת תכנים פופולריים גם לאורח וגם למשתמש מחובר
-         apiUrl = `${Server_Url}Content/SuggestContentForGuest`
+        apiUrl = `${Server_Url}Content/SuggestContentForGuest`
         //apiUrl = `http://localhost:55263/api/Content/SuggestContentForGuest`
         //SapiUrl=`http://proj.ruppin.ac.il/igroup20/prod/api/Content/SuggestContentForGuest`
         //function GestANDUserFetch() {
-            fetch(apiUrl, {
-                method: 'GET',
-                //mode: 'no-cors',
-                headers: new Headers({
-                    'Content-Type': 'application/json; charset=UTF-8',
-                })
+        fetch(apiUrl, {
+            method: 'GET',
+            //mode: 'no-cors',
+            headers: new Headers({
+                'Content-Type': 'application/json; charset=UTF-8',
             })
-                .then((result) => {
-                    console.log('Success:', result);
-                    result.json().then(data => {
-                        console.log(data)
-                        setPopularContents(data);
-                    });
-
-                })
-                .catch((error) => {
-                    console.error('Error:', error);
+        })
+            .then((result) => {
+                console.log('Success:', result);
+                result.json().then(data => {
+                    console.log(data)
+                    setPopularContents(data);
                 });
-        
+
+            })
+            .catch((error) => {
+                console.error('Error:', error);
+            });
+
         requestTags();//מושך רשימת תגים עבור מנוע חיפוש
     }, [])
 
@@ -180,7 +180,8 @@ const SearchPage = () => {
                         slidesToShow={4}
                         slidesToScrol={1}
                         infinite={false}
-                        dots={false}
+                        dots={true}
+                        arrows={true}
                         rtl={false}
 
                     >
@@ -200,7 +201,8 @@ const SearchPage = () => {
                             slidesToShow={4}
                             slidesToScrol={1}
                             infinite={false}
-                            dots={false}
+                            dots={true}
+                            arrows={true}
                             rtl={false}
 
                         >
@@ -222,7 +224,8 @@ const SearchPage = () => {
                         slidesToShow={4}
                         slidesToScrol={1}
                         infinite={false}
-                        dots={false}
+                        dots={true}
+                        arrows={true}
                         rtl={false}
 
                     >
