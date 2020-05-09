@@ -1,5 +1,5 @@
-import React, { useState, useEffect, useContext } from 'react'
-import { Route, Link, NavLink } from 'react-router-dom';
+import React, { useState, useEffect, useContext,useRef } from 'react'
+import { Route, Link, NavLink, Redirect} from 'react-router-dom';
 import TextField from '@material-ui/core/TextField';
 import { Container, Grid, Button } from '@material-ui/core';
 import Content from './Content';
@@ -29,6 +29,7 @@ const GreenRadio = withStyles({
     checked: {},
 })((props) => <Radio color="default" {...props} />);
 
+var searchUser='';
 const SearchPage = () => {
     const [Contents, setContents] = useState(['first', 'second', 'third', 'forth', 'fifth', 'sixth', 'seventh', 'eight', 'nine', 'ten'])
     const [ShowPic, setShowPic] = useState(true)
@@ -40,12 +41,13 @@ const SearchPage = () => {
     const [titleSuggest, settitleSuggest] = useState('');
     const [titleResultsSearch, settitleResultsSearch] = useState('');
     const [tagToSearch, settagToSearch] = useState('');
-    const [selectedValueToSearch, setselectedValueToSearch] = useState('תגיות');//חיפוש דיפולטיבי לפי תגיות
+    const [selectedValueToSearch, setselectedValueToSearch] = useState('Tags');//חיפוש דיפולטיבי לפי תגיות
     //רשימות של חיפושים
     const [TagsArray,setTagsArray]=useState([])
     const [UserArray,setUserArray]=useState([])
     const [ContentArray,setContentArray]=useState([])
- 
+    const [MoveToUserProfile,setMoveToUserProfile]=useState(false)
+   
     //משיכת נתונים מהסרבר לגבי תכנים מוצעים 
 
     useEffect(() => {
@@ -110,7 +112,6 @@ const SearchPage = () => {
             .catch((error) => {
                 console.error('Error:', error);
             });
-
         requestTags();//מושך רשימת תגים עבור מנוע חיפוש
     }, [])
 
@@ -171,12 +172,14 @@ const SearchPage = () => {
             settagToSearch(NewValue)
         }
     }
-
+    
     //מביא תוצאות חיפוש
     const SearchFunc = (e) => {
         if (e.key === 'Enter') {
-            if(selectedValueToSearch=="Users"){
-                //יעביר למשתמש
+            if(selectedValueToSearch=="Users"){//יעבור לעמוד של המשתמש
+                searchUser=tagToSearch.title.split("-", 2);
+                setMoveToUserProfile(true)
+                return;
             }
            //חיפוש לפי שמות מצגות או לפי תגיות
             const SearchApiUrl = `${Server_Url}Content/Search/${selectedValueToSearch}/${tagToSearch.title}`
@@ -219,6 +222,13 @@ const SearchPage = () => {
         }
         
     };
+  
+    if(MoveToUserProfile!=false){
+        return(
+        <div>
+            <Redirect to={"/UserProfile/"+searchUser[1].trim()} />
+      </div>
+    )}
 
     return (
         <div>
@@ -239,15 +249,17 @@ const SearchPage = () => {
                                     fullWidth
                                     getOptionLabel={(option) => option.title}
                                     //style={{ width: 300 }}
-                                    renderInput={(params) => <TextField {...params} label={` חפש לפי ${selectedValueToSearch} `} variant="outlined" />}
+                                    renderInput={(params) => <TextField {...params} label={` חפש לפי ${selectedValueToSearch} `} variant="outlined"  />}
                                     onChange={(event, NewValue) => KeepTag(event, NewValue)}
                                     onKeyDown={(e) => SearchFunc(e)}
+                                   
                                 />
+                          
                                     <RadioGroup row aria-label="position" name="position" defaultValue="top">
                                         <FormControlLabel  control={<FormLabel />} label="חיפוש לפי"  checked={selectedValueToSearch === 'תגיות'} onChange={handleChange}/>
-                                        <FormControlLabel  value="Tags" control={<Radio color="primary" />} label="תגיות"  checked={selectedValueToSearch === 'תגיות'} onChange={handleChange}/>
-                                        <FormControlLabel  value="Users" control={<Radio color="primary" />} label="משתמשים"  checked={selectedValueToSearch === 'משתמשים'} onChange={handleChange} />
-                                        <FormControlLabel  value="Contents" control={<Radio color="primary" />} label="מצגות"  checked={selectedValueToSearch === 'מצגות'} onChange={handleChange}/>                         
+                                        <FormControlLabel  value="Tags" control={<Radio color="primary" />} label="תגיות"  checked={selectedValueToSearch === 'Tags'} onChange={handleChange}/>
+                                        <FormControlLabel  value="Users" control={<Radio color="primary" />} label="משתמשים"  checked={selectedValueToSearch === 'Users'} onChange={handleChange} />
+                                        <FormControlLabel  value="Contents" control={<Radio color="primary" />} label="מצגות"  checked={selectedValueToSearch === 'Contents'} onChange={handleChange}/>                         
                                     </RadioGroup>                     
                             </Grid>
                         </Grid>
@@ -322,8 +334,9 @@ const SearchPage = () => {
                     {console.log(PopularContents)}
                 </div>
 
-
+                    
             </Container>
+            {MoveToUserProfile}
         </div>
     )
 }

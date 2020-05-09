@@ -44,9 +44,10 @@ const UserProfile = (props) => {
     const [UserDetails, setUserDetails] = useState('')
     const [UserContent,setUserContent]=useState('')
 
-    useEffect(() => {
+    useEffect(() => {       
         async function GetUserProfile() {
             const response = await fetch(`${Server_Url}User/GetUserProfile/${UserName}`)
+            console.log(`${Server_Url}User/GetUserProfile/${UserName}`)
             const result = await response.json()
             console.log('USer Profile', result)
             setUserDetails(result)
