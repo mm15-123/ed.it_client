@@ -13,6 +13,8 @@ import Checkbox from '@material-ui/core/Checkbox';
 import Link from '@material-ui/core/Link';
 import Grid from '@material-ui/core/Grid';
 import Box from '@material-ui/core/Box';
+import Slider from 'react-slick';
+import styled from 'styled-components';
 import Select from '@material-ui/core/Select';
 import MenuItem from '@material-ui/core/MenuItem';
 import AssignmentIcon from '@material-ui/icons/Assignment';
@@ -82,6 +84,20 @@ const MenuProps = {
         },
     },
 };
+const settings = {
+    dots: false,
+    fade: true,
+    infinite: false,
+    speed: 500,
+    slidesToShow: 1,
+    slidesToScroll: 1
+};
+const Page = styled.div`
+width:100%;
+font-weight:bold;
+font-size:50px;
+margin-top:20%;
+`;
 
 const UploadContent = () => {//העלאת תוכן
     const classes = useStyles();
@@ -97,6 +113,7 @@ const UploadContent = () => {//העלאת תוכן
     const [ChosenTag, setChosenTag] = useState('');
     const [ChoosenTagsList, setChoosenTagsList] = useState([])
     const [autoTags, setautoTags] = useState('');
+    const [ContentResult,setContentResult]=useState([])//מצגת הועלתה
 
     //משיכת רשימת תגיות בהעלאה של הקומפוננטה
     useEffect(() => {
@@ -161,6 +178,7 @@ const UploadContent = () => {//העלאת תוכן
     }
     //צירוף קובץ 
     const UploadPpt = (e) => {
+        console.log("מעלה קובץ")
         var parts = e.target.files[0].name.split('.');
         console.log(parts[parts.length - 1])
         if(parts[parts.length - 1]=='ppt' || parts[parts.length - 1]=='pptx'){
@@ -190,6 +208,7 @@ const UploadContent = () => {//העלאת תוכן
                 text: 'choose 3 tags a least pls.',
                 icon: 'error'
             })
+            return;
         }
         var today = new Date();
         var dd = String(today.getDate()).padStart(2, '0');
@@ -228,7 +247,7 @@ const UploadContent = () => {//העלאת תוכן
                         alert(data);
                     });
                 }
-                else {
+                else {//שלב 2 העלאת התוכן עצמו
                     console.log(ContentName)
                     console.log(`${Server_Url}Content/UploadContent/${GlobalUser.Email.split("@", 1)}/${ContentName}`)
                     const UPapiUrl=`${Server_Url}Content/UploadContent/${GlobalUser.Email.split("@", 1)}/${ContentName}`
@@ -236,22 +255,32 @@ const UploadContent = () => {//העלאת תוכן
                     fetch(UPapiUrl, {
                         method: 'post',
                         body: formData,
+                        mode: 'no-cors',
                         contentType: false,
                         processData: false,
-                        mode: 'no-cors',
                         headers: new Headers({
                             'Content-Type': 'application/json; charset=UTF-8',
                         })
 
-                    })
+                    }).then((result)=>{
+                        return result.json()        
+                    }).then(data => {
+                        console.log('data',data);
+                        const PagesSourceNewList = []
+                        for (var i = 1; i <= data.PagesNumber; i++) { // fill list with the presentasion slides as pictures
+                            PagesSourceNewList.push(UrlPathFiles + `${data.PathFile.split('.', 1)}_${i}.jpg`)
+                            console.log(UrlPathFiles + `${data.PathFile.split('.', 1)}_${i}.jpg`)
+                        }
+                        setContentResult(PagesSourceNewList)
+                    }).then((result) => {
+                        console.log('Success:', result);
+                        swal({
+                            title: "Content successfully Uploaded!",
+                            icon: "success",
+                        });
+                    });              
                 }
 
-            }).then((result) => {
-                console.log('Success:', result);
-                swal({
-                    title: "Content successfully Uploaded!",
-                    icon: "success",
-                });
             }).catch((error) => {
                 console.error('Error:', error);
             });
@@ -259,39 +288,41 @@ const UploadContent = () => {//העלאת תוכן
 
     return (
         <div>
-            <Container component="main" maxWidth="xs">
+            <Container component="main" maxWidth="xl">
                 <CssBaseline />
-                <div className={classes.paper}>
+                <Grid  item sm={4} className='uploadContent' >
+                <div className= {classes.paper}>
                     <Avatar className={classes.avatar}>
                         <AssignmentIcon />
                     </Avatar>
                     <Typography component="h1" variant="h5">
-                        Upload Content
+                        העלאת תוכן
         </Typography>
                     <form className={classes.form} onSubmit={prevent} >
-                        <Grid container spacing={2}>
+                        <Grid container spacing={2} >
                             <Grid item xs={12}>
                                 <TextField
-                                    autoComplete="Content Name"
+                                    autoComplete="שם התוכן"
                                     name="ContentName"
                                     variant="outlined"
                                     required
                                     fullWidth
+                                    dir="rtl"
                                     id="ContentName"
-                                    label="Content Name"
+                                    label="שם התוכן"
                                     autoFocus
                                     onChange={(e) => setContentName(e.target.value)}
                                 />
                             </Grid>
                             <Grid item xs={12}>
                                 <TextField
-                                    autoComplete="Content Description"
+                                    autoComplete="תיאור התוכן"
                                     name="ContentDescription"
                                     variant="outlined"
                                     required
                                     fullWidth
                                     id="ContentDescription"
-                                    label="Content Description"
+                                    label="תיאור התוכן"
                                     autoFocus
                                     onChange={(e) => setDescription(e.target.value)}
                                 />
@@ -325,7 +356,7 @@ const UploadContent = () => {//העלאת תוכן
                                 </Select>
                                 </Grid>*/}
                             <Grid item xs={12} sm={6}>
-                                <label style={{ fontWeight: 'bold', fontSize: '1.1rem' }}>tags</label>
+                                <label style={{ fontWeight: 'bold', fontSize: '1.1rem' }}>תגיות</label>
                                 <h3
                                     labelId="ChoosenTagsList"
                                     id="ChoosenTagsList"
@@ -344,7 +375,7 @@ const UploadContent = () => {//העלאת תוכן
                                 </h3>
                             </Grid>
                             <Grid item xs={12} sm={8}>
-                                <label style={{ fontWeight: 'bold', fontSize: '1.3rem' }}>upload File</label>
+                                <label style={{ fontWeight: 'bold', fontSize: '1.3rem' }}>העלאת קובץ</label>
                                 <Input
                                     variant="outlined"
                                     accept="*.pptx"
@@ -371,7 +402,31 @@ const UploadContent = () => {//העלאת תוכן
                         </Grid>
                     </form>
                 </div>
-            </Container>
+                </Grid>
+                </Container>
+                <Grid  item sm={6} ><br></br><br></br><br></br><br></br><br></br>
+                 <div className='picContent2 border-button'>
+                <Slider
+                        {...settings}
+                        className="sliderContent "
+                    >
+                        {
+
+                            ContentResult.map((page, index) =>
+                                <div>
+                                    <Page key={index}>
+                                        <img /*className="picContent border-button"*/ src={page} alt='loading' />
+                                        {console.log(page)}
+                                    </Page>
+
+                                </div>)
+                        }
+
+
+                    </Slider>
+                    </div>
+                 </Grid>
+            
         </div>
     );
 

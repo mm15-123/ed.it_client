@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useContext } from 'react'
+import React, { useState, useEffect, useContext,useRef } from 'react'
 import { Container, Avatar, Button, Grid } from '@material-ui/core';
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
@@ -52,6 +52,7 @@ const Content = (props) => {
     const [Animation, setAnimation] = useState('')
     const [Disable, setDisable] = useState('')
     const [LikeCount, setLikeCount] = useState(0)
+    const commentInput = useRef(null);
 
     useEffect(() => {
         update = false;
@@ -158,6 +159,8 @@ const Content = (props) => {
                 console.log(res.data)
                 setComments(res.data)
                 // console.log(NewCommentInput.current.value);
+                console.log(commentInput.current.value)
+                commentInput.current.value = '';//ניקוי התגובה
             })
         setTimeout(() => {
             // setAnimation('')
@@ -283,10 +286,10 @@ const Content = (props) => {
                                                         justify="center"
                                                         alignItems="center" >
 
-                                                        <TextareaAutosize className={`commentbox  ${Animation}`} aria-label=" maximum height" rowsMin={3} rowsMax={4} placeholder="כתוב תגובה" {...Disable} onChange={(e) => setNewComment(e.target.value)} ref={NewCommentInput} />
+                                                        <TextareaAutosize className={`commentbox  ${Animation}`} aria-label=" maximum height" rowsMin={3} rowsMax={4} placeholder="כתוב תגובה" {...Disable} onChange={(e) => setNewComment(e.target.value)} ref={commentInput} />
                                                         <input type='button'
                                                             className='btnComment '
-                                                            value='הוסף תגובה' onClick={AddComment}  ></input>
+                                                            value='הוסף תגובה' onClick={AddComment}   ></input>
                                                     </Grid>
                                                 </div>
 

@@ -143,6 +143,18 @@
     /* margin-top: -20%;    */
 }
 
+
+.picContent2{
+    width: 80%;
+    height: 307px;
+    position: relative;
+    border: 1px solid;
+    margin-left: 9%;
+
+    
+    
+}
+
  .slick-prev:before, .slick-next::before {
     color: black;
 }
@@ -178,6 +190,12 @@
     from {top: 0px;}
     to {top: 85px;}
   } 
+
+.uploadContent{
+    float: right;
+    position: relative;
+    right: 7%;
+}
 
 .btnComment{
     border: 2px solid;
