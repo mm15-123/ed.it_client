@@ -1,7 +1,7 @@
 import React, { useState, createContext } from "react";
  // 
 //הגדרת ניתוב לתיקייה 
-const local = true;//לשנות בהתאם לסוג העבודה שלנו
+const local = false;//לשנות בהתאם לסוג העבודה שלנו
 // add to package.json when deploy -- "homepage":"/igroup20/prod/Client/",
 let UrlPictures = ''
 let UrlFiles = ''
@@ -14,7 +14,7 @@ if (local) {
 else {
   UrlPictures = `http://proj.ruppin.ac.il/igroup20/prod/uploadedPictures/`;//לשים את הכתובת של השרת
   UrlFiles = `http://proj.ruppin.ac.il/igroup20/prod/uploadedContents/`
-  UrlServer = `http://proj.ruppin.ac.il/igroup20/prod/api/`
+  UrlServer = `https://proj.ruppin.ac.il/igroup20/prod/api/`
 }
 // UrlPictures = `http://proj.ruppin.ac.il/igroup20/prod/uploadedPictures/`;//לשים את הכתובת של השרת
 // UrlFiles = `http://proj.ruppin.ac.il/igroup20/prod/uploadedContents/`

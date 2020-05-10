@@ -32,6 +32,7 @@ createTheme('solarized', {
     },
 });
 
+
 const data = [{ id: 1, title: 'Conan the Barbarian', year: '1982' }];
 const columns = [
     {
@@ -145,30 +146,12 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const UserTable = (props) => {
+  
     const [Days, setDays] = useState('')
     const classes = useStyles();
     const [GlobalUser, setGlobalUser, UrlPath, UrlPathFiles, Server_Url, GlobalContent, setGlobalContent, RememberMe, setRememberMe] = useContext(GlobalContext);
     const [ShowContentsTB, setShowContentsTB] = useState(false)
-    const [ContentRows, setContentRows] = useState([
-        {
-            ContentId: 1,
-            ContentName: 'hey',
-            Content: 'hey2',
-            ContentDate: 'hey3',
-            ByUser: 'hey4',
-            UserPic: 'hey5',
-            action: 'hey'
-        },
-        {
-            ContentId: 2,
-            ContentName: 'hey',
-            Content: 'hey2',
-            ContentDate: 'hey3',
-            ByUser: 'hey4',
-            UserPic: 'hey5',
-            action: 'hey'
-        }
-    ])
+    const [ContentRows, setContentRows] = useState([])
 
     useEffect(() => {
         console.log('days', Days)
@@ -177,71 +160,68 @@ const UserTable = (props) => {
     const Edit = (ContentId) => {
         console.log('content id', ContentId)
         console.log('rows', ContentRows)
-        ContentRows.forEach(content => 
-            console.log(content.ContentId))
+        ContentRows.forEach(content => console.log(content.ContentId))
     }
 
     const ShowTBL = () => {
-       // e.preventDefault()
         showTable();
-        async function showTable() {
-            const response = await fetch(`${Server_Url}Content/GetLatestContent/${Days}`)
-            const result = await response.json()
-            console.log("contents", result)
-            const contentsROWS = []
-            for (let i = 0; i < result.length; i++) {
-                const obj = {
-                    ContentId: result[i].ContentID,
-                    ContentName: result[i].ContentName,
-                    Content: <div>
-                        <img style={{ width: '100px', height: '100px' }}
-                            src={UrlPathFiles + result[i].PathFile} alt='img proccesing' />
-                    </div>,
-                    ContentDate: result[i].UploadedDate,
-                    ByUser: result[i].ByUser,
-                    UserPic: <div>
-                        <img style={{ width: '100px', height: '100px', borderRadius: '80%' }}
-                            src={UrlPath + result[i].UserPic} />
-                    </div>,
-                    action: <div style={{display:'column'}}>
-                        <Button
-                            variant="contained"
-                            //color="primary"
-                            style={{backgroundColor:'#dab136'}}
-                            className={classes.button}
-                            startIcon={<EditIcon />}
-                            onClick={() => Edit(result[i].ContentID)}
-                        />                        
-                        <Button
-                            variant="contained"
-                            //color="primary"
-                            style={{backgroundColor:'#6198d2'}}
-                            className={classes.button}
-                            startIcon={<VisibilityIcon />}
-                            onClick={() => Edit(result[i].ContentID)}
-                        />                        
-                        </div>
-                }
-                contentsROWS.push(obj)
-                console.log('content path', UrlPathFiles + result[i].PathFile)
-                console.log('user pic', UrlPath + result[i].UserPic)
+    }
+    const showTable = async () => {
+        const response = await fetch(`${Server_Url}Content/GetLatestContent/${Days}`)
+        const result = await response.json()
+        console.log("contents", result)
+        const contentsROWS = []
+        for (let i = 0; i < result.length; i++) {
+            const obj = {
+                ContentId: result[i].ContentID,
+                ContentName: result[i].ContentName,
+                Content: <div>
+                    <img style={{ width: '100px', height: '100px' }}
+                        src={UrlPathFiles + result[i].PathFile} alt='img proccesing' />
+                </div>,
+                ContentDate: result[i].UploadedDate,
+                ByUser: result[i].ByUser,
+                UserPic: <div>
+                    <img style={{ width: '100px', height: '100px', borderRadius: '80%' }}
+                        src={UrlPath + result[i].UserPic} />
+                </div>,
+                action: <div style={{display:'column'}}>
+                    <Button
+                        variant="contained"
+                        //color="primary"
+                        style={{backgroundColor:'#dab136'}}
+                        className={classes.button}
+                        startIcon={<EditIcon />}
+                        onClick={() => Edit(result[i].ContentID)}
+                    />                        
+                    <Button
+                        variant="contained"
+                        //color="primary"
+                        style={{backgroundColor:'#6198d2'}}
+                        className={classes.button}
+                        startIcon={<VisibilityIcon />}
+                        onClick={() => Edit(result[i].ContentID)}
+                    />                        
+                    </div>
             }
-            console.log('new rows',contentsROWS)
-            setContentRows([...contentsROWS])
-            setShowContentsTB(true)
+            contentsROWS.push({...obj})
+            console.log('content path', UrlPathFiles + result[i].PathFile)
+            console.log('user pic', UrlPath + result[i].UserPic)
         }
-
+        console.log('new rows',contentsROWS)
+        setContentRows([...contentsROWS])
+        setShowContentsTB(true)
     }
     return (
         <div>
             <p className="prefix">הי {"אלמוג"} כאן תוכל לראות ולשנות פרטים אודות מצגות שהעלת</p>
-            <form className="buttons" //onSubmit={submit}
+            <div className="buttons" //onSubmit={submit}
              style={{ direction: 'rtl', }}>
                 <label>מצגות שהועלו לפני</label>
                 <input type='number' onChange={(e) => setDays(e.target.value)} />
                 <label>ימים</label>
                 <input type="button" onClick={ShowTBL} value="הצג" className="button" />
-            </form>
+            </div>
             {/*<div>
                 {ShowContentsTB &&
                     <MDBDataTable
@@ -274,11 +254,254 @@ const UserTable = (props) => {
                 pagination
                 
             />
-            {console.log(ContentRows)}
         </div>
 
 
     )
 }
 
-export default UserTable
+//export default UserTable;
+
+export default class UserTable2 extends React.Component{
+    constructor(props){
+        super(props);
+        this.state={
+            ContentRows:[],
+            ShowContentsTB:false,
+            Days:''
+        }
+        //this.classes = useStyles();
+        this.rows = [
+            {
+                ContentId: 1,
+                ContentName: 'hey',
+                Content: 'hey2',
+                ContentDate: 'hey3',
+                ByUser: 'hey4',
+                UserPic: 'hey5',
+                action:  <div style={{display:'column'}}>
+                            <Button
+                                variant="contained"
+                                //color="primary"
+                                style={{backgroundColor:'#dab136'}}
+                                startIcon={<EditIcon />}
+                                onClick={() => this.Edit(1)}
+                            />                        
+                            <Button
+                                variant="contained"
+                                //color="primary"
+                                style={{backgroundColor:'#6198d2'}}
+                                startIcon={<VisibilityIcon />}
+                                onClick={() => this.Edit(1)}
+                            />                        
+                            </div>
+            },
+            {
+                ContentId: 2,
+                ContentName: 'hey',
+                Content: 'hey2',
+                ContentDate: 'hey3',
+                ByUser: 'hey4',
+                UserPic: 'hey5',
+                action:  <div style={{display:'column'}}>
+                            <Button
+                                variant="contained"
+                                style={{backgroundColor:'#dab136'}}
+                                startIcon={<EditIcon />}
+                                onClick={() => this.Edit(2)}
+                            />                        
+                            <Button
+                                variant="contained"
+                                //color="primary"
+                                style={{backgroundColor:'#6198d2'}}
+                                startIcon={<VisibilityIcon />}
+                                onClick={() => this.Edit(2)}
+                            />                        
+                            </div>
+                    
+            },
+            {
+                ContentId: 3,
+                ContentName: 'hey',
+                Content: 'hey2',
+                ContentDate: 'hey3',
+                ByUser: 'hey4',
+                UserPic: 'hey5',
+                action:  <div style={{display:'column'}}>
+                            <Button
+                                variant="contained"
+                                //color="primary"
+                                style={{backgroundColor:'#dab136'}}
+                                startIcon={<EditIcon />}
+                                onClick={() => this.Edit(3)}
+                            />                        
+                            <Button
+                                variant="contained"
+                                //color="primary"
+                                style={{backgroundColor:'#6198d2'}}
+                                startIcon={<VisibilityIcon />}
+                                onClick={() => this.Edit(3)}
+                            />                        
+                            </div>
+            },
+            {
+                ContentId: 4,
+                ContentName: 'hey',
+                Content: 'hey2',
+                ContentDate: 'hey3',
+                ByUser: 'hey4',
+                UserPic: 'hey5',
+                action:  <div style={{display:'column'}}>
+                            <Button
+                                variant="contained"
+                                //color="primary"
+                                style={{backgroundColor:'#dab136'}}
+                                startIcon={<EditIcon />}
+                                onClick={() => this.Edit(4)}
+                            />                        
+                            <Button
+                                variant="contained"
+                                //color="primary"
+                                style={{backgroundColor:'#6198d2'}}
+                                startIcon={<VisibilityIcon />}
+                                onClick={() => this.Edit(4)}
+                            />                        
+                            </div>
+            },
+            {
+                ContentId: 5,
+                ContentName: 'hey',
+                Content: 'hey2',
+                ContentDate: 'hey3',
+                ByUser: 'hey4',
+                UserPic: 'hey5',
+                action:  <div style={{display:'column'}}>
+                            <Button
+                                variant="contained"
+                                //color="primary"
+                                style={{backgroundColor:'#dab136'}}
+                                startIcon={<EditIcon />}
+                                onClick={() => this.Edit(5)}
+                            />                        
+                            <Button
+                                variant="contained"
+                                //color="primary"
+                                style={{backgroundColor:'#6198d2'}}
+                                startIcon={<VisibilityIcon />}
+                                onClick={() => this.Edit(5)}
+                            />                        
+                            </div>
+            },
+            {
+                ContentId: 6,
+                ContentName: 'hey',
+                Content: 'hey2',
+                ContentDate: 'hey3',
+                ByUser: 'hey4',
+                UserPic: 'hey5',
+                action:  <div style={{display:'column'}}>
+                            <Button
+                                variant="contained"
+                                //color="primary"
+                                style={{backgroundColor:'#dab136'}}
+                                startIcon={<EditIcon />}
+                                onClick={() => this.Edit(6)}
+                            />                        
+                            <Button
+                                variant="contained"
+                                //color="primary"
+                                style={{backgroundColor:'#6198d2'}}
+                                startIcon={<VisibilityIcon />}
+                                onClick={() => this.Edit(6)}
+                            />                        
+                            </div>
+            }
+        ]  
+    }
+    Edit=(ContentId)=>{
+        console.log('content id', ContentId)
+        console.log('rows', this.state.ContentRows)
+        // ContentRows.forEach(content => 
+        //     console.log(content.ContentId))
+    }
+    ShowTBL = () => {
+        this.showTable();
+    }
+    showTable = async () => {
+        // const response = await fetch(`${Server_Url}Content/GetLatestContent/${Days}`)
+        // const result = await response.json()
+        // console.log("contents", result)
+        // const contentsROWS = []
+        // for (let i = 0; i < result.length; i++) {
+        //     const obj = {
+        //         ContentId: result[i].ContentID,
+        //         ContentName: result[i].ContentName,
+        //         Content: <div>
+        //             <img style={{ width: '100px', height: '100px' }}
+        //                 src={UrlPathFiles + result[i].PathFile} alt='img proccesing' />
+        //         </div>,
+        //         ContentDate: result[i].UploadedDate,
+        //         ByUser: result[i].ByUser,
+        //         UserPic: <div>
+        //             <img style={{ width: '100px', height: '100px', borderRadius: '80%' }}
+        //                 src={UrlPath + result[i].UserPic} />
+        //         </div>,
+        //         action: <div style={{display:'column'}}>
+        //             <Button
+        //                 variant="contained"
+        //                 //color="primary"
+        //                 style={{backgroundColor:'#dab136'}}
+        //                 className={classes.button}
+        //                 startIcon={<EditIcon />}
+        //                 onClick={() => Edit(result[i].ContentID)}
+        //             />                        
+        //             <Button
+        //                 variant="contained"
+        //                 //color="primary"
+        //                 style={{backgroundColor:'#6198d2'}}
+        //                 className={classes.button}
+        //                 startIcon={<VisibilityIcon />}
+        //                 onClick={() => Edit(result[i].ContentID)}
+        //             />                        
+        //             </div>
+        //     }
+        //     contentsROWS.push({...obj})
+        //     console.log('content path', UrlPathFiles + result[i].PathFile)
+        //     console.log('user pic', UrlPath + result[i].UserPic)
+        // }
+        // console.log('new rows',contentsROWS)
+        // setContentRows([...contentsROWS])
+        // setShowContentsTB(true)
+        this.setState({
+            ContentRows:this.rows,
+            ShowContentsTB:false
+        })
+    }
+    render(){
+        return(
+            <div>
+            <p className="prefix">הי {"אלמוג"} כאן תוכל לראות ולשנות פרטים אודות מצגות שהעלת</p>
+            <div className="buttons" //onSubmit={submit}
+             style={{ direction: 'rtl', }}>
+                <label>מצגות שהועלו לפני</label>
+                <input type='number' onChange={(e) => this.setState({Days:e.target.value})} />
+                <label>ימים</label>
+                <input type="button" onClick={this.ShowTBL} value="הצג" className="button" />
+            </div>
+            <DataTable style={{ direction: 'rtl', width:'95%',margin:'auto' }}
+                title="My Table"
+                //theme="solarized"
+                columns={columns2}
+                data={this.state.ContentRows}
+                striped
+                highlightOnHover
+                selectableRows
+                selectableRowsHighlight
+                pagination
+                
+            />
+        </div>
+
+        );
+    }
+}
