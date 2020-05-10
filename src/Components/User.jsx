@@ -255,12 +255,20 @@ const User = () => {
                                         variant="contained"
                                         style={{ backgroundColor: '#173f5f8a' }}
                                         onClick={changestate}>ערוך פרטים</Button>}
-                                    {<Link to={'/Graphs/'+GlobalUser.Email.split('@')[0]}>
-                                        <Button
-                                            variant="contained"
-                                            style={{ backgroundColor: '#173f5f8a' }}
-                                        >הצג גרפים</Button>
-                                    </Link>}
+                                    {<div className='DetailsButtons' >
+                                        <Link to={'/Graphs/' + GlobalUser.Email.split('@')[0]}>
+                                            <Button
+                                                variant="contained"
+                                                style={{ backgroundColor: '#173f5f8a' }}
+                                            >הצג גרפים</Button>
+                                        </Link>
+                                        <Link to={'/UserTable/' + GlobalUser.Email.split('@')[0]}>
+                                            <Button
+                                                variant="contained"
+                                                style={{ backgroundColor: '#173f5f8a' }}
+                                            >הצג טבלאות</Button>
+                                        </Link>
+                                    </div>}
                                 </Grid>
                             </Grid>
                             <Grid container item sm={7}>

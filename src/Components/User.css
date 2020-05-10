@@ -3,7 +3,6 @@ direction: rtl;
 width: 95%;
 }
 
-
 td {
     direction: rtl;
     height: 100%;
@@ -31,4 +30,10 @@ td {
     border: 5px solid #ccc;
     border-radius: 4%;
     background: white;
+  }
+  .DetailsButtons{
+    /*style={{display:'flex',justifyContent:'space-around', marginTop:'4px'}}*/
+    display:flex;
+    justify-content: space-around;
+    margin-top: 4px;
   }

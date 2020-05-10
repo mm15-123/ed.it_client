@@ -171,7 +171,6 @@ const SearchPage = () => {
                             </Grid>
                         </Grid>
                     </div>
-
                 </div>
                 <div className='ListContents' >
                     {titleResultsSearch}
