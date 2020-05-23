@@ -65,21 +65,16 @@ const CardContentt = (props) => {
               <img src={UrlPath + props.UserPic} style={{ width: '100%', height: '100%' }}></img>
             </Avatar>
           }
-          action={
-            <IconButton aria-label="settings">
-              <MoreVertIcon />
-            </IconButton>
-          }
           className='headerCard'
           title={props.content}
-        // subheader="September 14, 2016"
         />
-
-        <CardMedia
-          className={classes.media}
-          image={UrlPathFiles + props.PathFile}
-          title="למעבר למצגת לחץ כאן"
-        />
+        <div className="hoverImg">
+          <CardMedia
+            className={classes.media}
+            image={UrlPathFiles + props.PathFile}
+            title="למעבר למצגת לחץ כאן"
+          />
+        </div>
         {/* <CardContent>
                     <Typography variant="body2" color="textSecondary" component="p">
                         {props.Description}

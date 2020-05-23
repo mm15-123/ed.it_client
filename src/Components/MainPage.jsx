@@ -17,6 +17,7 @@ import User from './User';
 import Graphs from './Graphs';
 import UserProfile from './UserProfile';
 import AdminPage from './AdminPage';
+import axios from 'axios';
 
 const useStyles = makeStyles((theme) => ({
     ProfileDiv: {
@@ -49,6 +50,16 @@ const MainPage = () => {
     console.log("From main page", GlobalUser)
     //const [RememberMe,setRememberMe]=useContext(GlobalContext);
     //console.log( localStorage.getItem('rememberMe')!==null ?localStorage.getItem('rememberMe') : 'somyhing wrong' )
+
+    // useEffect(async () => {
+    //     const result = await axios(
+    //       `https://holidayapi.com/v1/holidays?pretty&key=2f3e33d8-d3f1-4c7d-b62d-d3f33ee96651&country=IL&year=2019`,
+    //     );
+     
+    //     // setData(result.data);
+    //     console.log(result.data["holidays"].name)
+    //     console.log(result.data.holidays.name)
+    //   });
 
     //יציאה מהמשתמש,אתחול לוקל_סטורג' אתחול גלובל_יוזר וגלובל_רממברמי
     const LogOut = () => {
