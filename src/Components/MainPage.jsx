@@ -18,6 +18,7 @@ import Graphs from './Graphs';
 import UserProfile from './UserProfile';
 import AdminPage from './AdminPage';
 import axios from 'axios';
+import UserTable from './UserTable';
 
 const useStyles = makeStyles((theme) => ({
     ProfileDiv: {
@@ -119,6 +120,7 @@ const MainPage = () => {
                 <Route path='/Graphs/:UserName' component={Graphs} />
                 <Route path='/UserProfile/:UserName' component={UserProfile}/>
                 <Route path='/AdminPage' component={AdminPage}/>
+                <Route path='/UserTable/:UserName' component={UserTable}/>
             </Switch>
 
         </div>
