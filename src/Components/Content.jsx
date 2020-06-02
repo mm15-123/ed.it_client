@@ -88,7 +88,7 @@ const Content = (props) => {
                     return (
                         res.data.TagsContent.map((page, index) => {
                             return (
-                                <span>#{page}</span>
+                                <span style={{ fontSize: '1.0rem',color:'#004085' }}>#{page}</span>
                             )
                         })
                     )
@@ -238,17 +238,16 @@ const Content = (props) => {
                                         justify="center"
                                         alignItems="center">
                                         <ThumbUpAltIcon></ThumbUpAltIcon>
-                                        <span style={{ fontSize: '1.0rem', fontWeight: 'bolder' }}>  {LikeCount} משתמשים אהבו את המצגת</span><br></br>
+                                        <span style={{ fontSize: '1.0rem', fontWeight: 'bolder',color:'#004085' }}>  {LikeCount} משתמשים אהבו את המצגת</span><br></br>
                                     </Grid>
                                     {/* <span>#{ContentToShow.TagsContent[0]}</span><span>#{ContentToShow.TagsContent[1]} </span><span>#{ContentToShow.TagsContent[2]} </span> */}
                                     {Tagslist}
                                     <div>
                                         <hr />
 
-                                        <table>
-                                            <tr className="tr-border">
-                                                <td>
-                                                    <Avatar alt="Remy Sharp" src={UrlPath + `${ContentToShow.UserPic}`} className='inline' />
+                                        <table style={{ position: 'relative',right:'38%' }}>
+                                            <tr>
+                                                <td>              <Avatar alt="Remy Sharp" src={UrlPath + `${ContentToShow.UserPic}`} className='inline' />
                                                     {console.log('img path ', process.env.PUBLIC_URL + '/uploadedPicturesPub/Shiftan92.jpg')}
                                                     {console.log('avatar Path ', UrlPath + `${ContentToShow.UserPic}`)}
                                                 </td>

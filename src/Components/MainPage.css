@@ -22,12 +22,16 @@
 .navbar a  {
     text-decoration: none;
         color: white;
+        font-size: 20px;
 }
 .navbar a:hover{
     padding-top: 20px;
     padding-bottom: 20px;
     font-size: larger;
-    background-color: #569dd6;
+    opacity: 0.5;
+    color: black;
+    /* background-color: #569dd6; */
+    
 
 }
 .userNav a,.userNav span
@@ -45,7 +49,7 @@
 .navbar a.active
  {
     /*text-decoration: underline;*/
-    background-color: rgb(7, 28, 122);
+    /* background-color: rgb(7, 28, 122); */
     color: white;
     font-weight: bold;
     border-radius: 20%;
@@ -66,9 +70,9 @@
 
 .logo{
     position: relative;
-    height: 105px;
+    /* height: 105px; */
     float: left;
-    width: 17%;
+    width: 13%;
 }
 
 .MuiGrid-grid-xs-true{
@@ -86,8 +90,8 @@
     float: right;
     font-size: 24px;
     font-weight: 700;
-    text-shadow: 1px 1px #204a6d;
-    color:#173f5f;
+    text-shadow: 1px 1px #0068ff;
+    color:#3f51b5;
     margin-top:2%;
     width: 100%;
 }
@@ -224,9 +228,64 @@
 
 .contentStyle{
     margin: 10px;
-    padding: 10px;    
+    padding: 5px;    
+}
+/* .imgCard{
+    border: 3px solid #ccc;
+    opacity: 1;
+    display: block;
+    width: 100%;
+    height: auto;
+    transition: .5s ease;
+    /* backface-visibility: hidden; 
+}
+.imgCard:hover {
+    opacity: 0.5;
+    
+}
+.middle:hover {
+    opacity: 1;
+}
+.middle {
+    transition: .5s ease;
+    opacity: 0;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    -ms-transform: translate(-50%, -50%);
+    text-align: center;
+  }
+
+.headerCard{   
+    top: 50%;
+    left: 50%;
+    color: black;
+    font-size: 18px;
+    padding: 16px 32px;
+    background-color: rgba(84, 84, 97, 0.418);
+    border: 1px solid;
+    z-index: 5;
+}
+.headerCard h1{
+    font-size: 12px;
+    font-weight: bold;
+    text-align: center;
+    width: 70%;
+    float: right;
+}
+.containerCard {
+    position: relative;
+    width: 100%;
 }
 
+.containerCard:hover .image {
+    opacity: 0.5;
+  }
+  
+  .containerCard:hover .middle {
+    opacity: 1;
+  } */
 .contentDescription{
     height: 120px;
 
@@ -248,11 +307,11 @@
       display: flex; 
       justify-content: space-between; */
       direction: rtl ;
-      /* text-shadow: 1px 1px #204a6d; */
-      color: #173f5f;
+      /* text-shadow: 1px 1px #0068ff; */
+      color: #0050c9;
 }
 .TitlesContent h1,.TitlesContent h2{
-    text-shadow: 1px 1px #204a6d; 
+    text-shadow: 2px 1px #111213; 
 
 }
 
@@ -271,9 +330,14 @@
 }
 
 .headerCard span{
-    font-size: 16px;
+    font-size: 20px;
+    font-weight: bold;
+    text-align: center;
+    color: #173f5f;
 }
-
+.hoverImg :hover{
+    opacity: 0.7;
+}
 
 .SearchFirstDiv{
   height: 100px;;
@@ -296,13 +360,9 @@ td{
 }
 
 table td{
-    width: 70%;
-    direction: rtl;
-    height: 100%;       
-}
-
-td h5{
-    color: white !important;
+    width: 60%;
+   
+   
 }
 
 .buttonDownload{
@@ -336,7 +396,7 @@ td h5{
 }
 
 .navbar{
-    background-color:#173f5f
+    background-color:#0068ff
 }
 
 .border-button {
