@@ -11,9 +11,9 @@ td {
 }
 
 .popup {
-    position: fixed;
+    position: relative;
     width: 50%;
-    height: 70%;
+    height: 70vh;
     top: 0;
     left: 0;
     right: 0;
@@ -25,15 +25,51 @@ td {
     position: relative;
     width: 90%;
     height: 80%;
+    overflow-y: scroll;
     top: 10%;
     margin: auto;
     border: 5px solid #ccc;
     border-radius: 4%;
     background: white;
   }
-  .DetailsButtons{
+  .DetailsButtons Button{
     /*style={{display:'flex',justifyContent:'space-around', marginTop:'4px'}}*/
     display:flex;
     justify-content: space-around;
     margin-top: 4px;
   }
+
+  .comment-detail{
+    display:flex;
+    justify-content: space-around;
+    font-size: medium;
+    background-color:#adb9c375; 
+  }
+  .comment{
+    display:flex;
+    justify-content: space-between;
+    font-size: medium;
+    left:0 !important;
+    margin-bottom: 10px; 
+  }
+  .comment input{
+    width:20vh;
+    height: 5vh;
+  }
+  .content-header{
+    font-size: medium;
+    font-weight: 700;
+    text-shadow: 2px 2px 5px rgb(99, 96, 129);
+  }
+  .content-description{
+    font-size: medium;
+    font-weight: 500;
+    border-radius: 25px;
+    /*background-color: rgba(61, 52, 52, 0.349);*/
+    position: relative;
+    width:50%;
+    margin:auto;
+    margin-bottom: 10px;
+    box-shadow: 10px 10px 20px rgba(36, 30, 30, 0.349) ;
+  }
+  

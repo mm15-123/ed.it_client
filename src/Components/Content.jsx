@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useContext,useRef } from 'react'
+import React, { useState, useEffect, useContext, useRef } from 'react'
 import { Container, Avatar, Button, Grid } from '@material-ui/core';
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
@@ -57,7 +57,9 @@ const Content = (props) => {
     useEffect(() => {
         update = false;
         console.log('content Server_Url ', Server_Url)
-        const ContentApiUrl = `${Server_Url}Content/GetContent/${props.match.params.ContentID}/${GlobalUser.Email.split("@", 1)}`
+        const ContentApiUrl = GlobalUser !== null ?
+            `${Server_Url}Content/GetContent/${props.match.params.ContentID}/${GlobalUser.Email.split("@", 1)}`
+            : `${Server_Url}Content/GetContent/${props.match.params.ContentID}/Guest`
         //const ContentApiUrl = `http://localhost:55263/api/Content/GetContent/${props.match.params.ContentID}`//go to DB and brings the specific presentation with her likes
         //const SContentApiUrl=`http://proj.ruppin.ac.il/igroup20/prod/api/Content/GetContent/${props.match.params.ContentID}`
         console.log('ContentApiUrl', ContentApiUrl)
@@ -91,13 +93,19 @@ const Content = (props) => {
                         })
                     )
                 })
-                setLike(res.data.LikedByUserWhoWatch)
+                if (GlobalUser != null) {
+                    setLike(res.data.LikedByUserWhoWatch)
+                }
                 setLikeCount(res.data.Likes)
+
             })
 
         //עדכון ניקוד עבור המשתמש
-        axios.put(`${Server_Url}User/UpdateScore/${props.match.params.ContentID}/${GlobalUser.Email.split("@", 1)}/watch`)
-            .then(res => console.log('hey'))
+        if (GlobalUser != null) {
+            axios.put(`${Server_Url}User/UpdateScore/${props.match.params.ContentID}/${GlobalUser.Email.split("@", 1)}/watch`)
+                .then(res => console.log('hey'))
+        }
+
 
     }, [])
 
@@ -238,15 +246,16 @@ const Content = (props) => {
                                         <hr />
 
                                         <table>
-                                            <tr>
-                                                <td>              <Avatar alt="Remy Sharp" src={UrlPath + `${ContentToShow.UserPic}`} className='inline' />
+                                            <tr className="tr-border">
+                                                <td>
+                                                    <Avatar alt="Remy Sharp" src={UrlPath + `${ContentToShow.UserPic}`} className='inline' />
                                                     {console.log('img path ', process.env.PUBLIC_URL + '/uploadedPicturesPub/Shiftan92.jpg')}
                                                     {console.log('avatar Path ', UrlPath + `${ContentToShow.UserPic}`)}
                                                 </td>
                                                 <td>
-                                                    <Link to={"/UserProfile/"+ContentToShow.ByUser}>
-                                                    <h5>{ContentToShow.ByUser}</h5>
-                                                        </Link>
+                                                    <Link to={"/UserProfile/" + ContentToShow.ByUser}>
+                                                        <h5>{ContentToShow.ByUser}</h5>
+                                                    </Link>
                                                 </td>
                                             </tr>
 
@@ -272,7 +281,7 @@ const Content = (props) => {
                                         //className='commentDiv'
                                         >
                                             <Grid
-                                                
+
                                                 direction="column"
                                                 justify="flex-start"
                                                 alignItems="flex-start"
