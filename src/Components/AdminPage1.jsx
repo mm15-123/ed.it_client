@@ -4,6 +4,7 @@ import { Button, Container, CssBaseline, Typography, Grid, TextField, Select, Me
 import './User.css';
 import axios from 'axios'
 import Switch from '@material-ui/core/Switch';
+import swal from 'sweetalert';
 //הגדרת העמודות מראש
 const Userscolumns = [
     {
@@ -246,12 +247,77 @@ class AdminPage1 extends Component {
                 }],
             ContentId: '',
             ShowPopUp: false,
-            type: ''
+            type: '',
+            Days: 0,
         }
     }
 
     componentDidMount() {
-        const GetUsers = async () => { //fetch all users in system
+        // const GetUsers = async () => { //fetch all users in system
+        //     const response = await fetch(`${this.state.Server_Url}User/GetUsers2`)
+        //     const result = await response.json()
+        //     console.log('from admin page', result)
+        //     const NewRows = []
+        //     for (let i = 0; i < result.length; i++) {
+        //         const NewObj = {
+        //             index: i + 1,
+        //             name: result[i].Name,
+        //             password: result[i].Password,
+        //             Email: result[i].Email,
+        //             SchoolType: result[i].SchoolType,
+        //             TeacherType: result[i].TeacherType,
+        //             Birthday: result[i].BDate.split(' ', 1),
+        //             ProfilePic: result[i].UrlPicture,
+        //             actions: <div style={{ textAlign: 'center', display: 'flex', flexDirection: 'row' }}>
+        //                 {/*<MDBBtn style={{ width: '48%', height: '90%', margin: 'auto' }} onClick={() => this.editUser(result[i].Name)} color="warning">ערוך משתמש</MDBBtn>*/}
+        //                 {/*<MDBBtn style={{ width: '95%', height: '90%', margin: 'auto' }} onClick={() => this.Block(parseInt(i + 1), result[i].Email.split('@', 1), result[i].Blocked)} color={result[i].Blocked == 'False' ? "danger" : "warning"}>{result[i].Blocked == 'False' ? 'חסום' : 'שחרר'}</MDBBtn>*/}
+        //                 <Switch
+        //                     checked={result[i].Blocked == 'False' ? true : false}
+        //                     onChange={(event) => this.Block(event, parseInt(i + 1), result[i].Email.split('@', 1), result[i].Blocked)}
+        //                     color="primary"
+        //                     name="checkedB"
+        //                     className={`switch${i + 1}`}
+        //                     inputProps={{ 'aria-label': 'primary checkbox' }}
+        //                 />
+        //             </div>
+        //         }
+        //         NewRows.push(NewObj)
+        //     }
+        //     this.updateState("users", NewRows)// there is a problem to set states in componentDidMount or in async function
+        // }
+
+        // const GetLatestContent = async () => { //fetch all contents that uploaded 30 days ago
+        //     const response = await fetch(`${this.state.Server_Url}Content/GetLatestContent/${this.state.Days}/Admin`)
+        //     const result = await response.json()
+        //     console.log('latest content', result)
+        //     const contentsROWS = []
+        //     for (let i = 0; i < result.length; i++) {
+        //         const obj = {
+        //             ContentId: result[i].ContentID,
+        //             ContentName: result[i].ContentName,
+        //             Content: <div><img style={{ width: '100px', height: '100px' }}
+        //                 src={this.state.UrlPathFiles + result[i].PathFile} alt='img proccesing' /> </div>,
+        //             ContentDate: result[i].UploadedDate,
+        //             ByUser: result[i].ByUser,
+        //             UserPic: <div><img style={{ width: '100px', height: '100px', borderRadius: '80%' }}
+        //                 src={this.state.UrlPath + result[i].UserPic} /></div>,
+        //             actions: <div style={{ textAlign: 'center', display: 'flex', flexDirection: 'row' }}>
+        //                 <MDBBtn style={{ width: '48%', height: '90%', margin: 'auto' }} onClick={() => this.Edit(result[i].ContentID, 'content')} color="warning">פרטי מצגת</MDBBtn>
+        //                 <MDBBtn style={{ width: '48%', height: '90%', margin: 'auto' }} onClick={() => this.Edit(result[i].ContentID, 'comment')} color="danger">תגובות</MDBBtn>
+        //             </div>
+        //         }
+        //         contentsROWS.push(obj)
+        //         console.log('content path', this.state.UrlPathFiles + result[i].PathFile)
+        //         console.log('user pic', this.state.UrlPath + result[i].UserPic)
+        //     }
+        //     this.updateState("contents", contentsROWS) // there is a problem to set states in componentDidMount or in async function
+        // }
+
+        // GetUsers()
+        // GetLatestContent()
+    }
+
+      GetUsers = async () => { //fetch all users in system
             const response = await fetch(`${this.state.Server_Url}User/GetUsers2`)
             const result = await response.json()
             console.log('from admin page', result)
@@ -282,12 +348,29 @@ class AdminPage1 extends Component {
                 NewRows.push(NewObj)
             }
             this.updateState("users", NewRows)// there is a problem to set states in componentDidMount or in async function
+            this.setState({ ShowUsersTB: !this.state.ShowUsersTB })
         }
 
-        const GetLatestContent = async () => { //fetch all contents that uploaded 30 days ago
-            const response = await fetch(`${this.state.Server_Url}Content/GetLatestContent/${70}`)
+         GetLatestContent = async () => { //fetch all contents that uploaded X days ago
+            if(this.state.Days==0){ 
+                swal({
+                    title: "Sorry, out of range",
+                    text: `insert number bigger than 0`,
+                    icon: "error",
+                })
+                return
+            }
+            const response = await fetch(`${this.state.Server_Url}Content/GetLatestContent/${this.state.Days}/Admin`)
             const result = await response.json()
             console.log('latest content', result)
+            if(result.length==0){ 
+                swal({
+                    title: "No Result",
+                    text: `Search is too short`,
+                    icon: "error",
+                })
+                return
+            }
             const contentsROWS = []
             for (let i = 0; i < result.length; i++) {
                 const obj = {
@@ -309,11 +392,8 @@ class AdminPage1 extends Component {
                 console.log('user pic', this.state.UrlPath + result[i].UserPic)
             }
             this.updateState("contents", contentsROWS) // there is a problem to set states in componentDidMount or in async function
+            this.setState({ ShowContentsTB: !this.state.ShowContentsTB })
         }
-
-        GetUsers()
-        GetLatestContent()
-    }
 
     updateState = (type, array) => { // there is a problem to set states in componentDidMount or in async function 
         type == "users" ?
@@ -335,7 +415,7 @@ class AdminPage1 extends Component {
                         <Switch
                             //checked={this.state.UsersRows[index].Blocked == 'False' ? false : true}
                             checked={event.target.checked}
-                            onChange={(event) => this.Block(event,parseInt(index), this.state.UsersRows[index].Email.split('@', 1), this.state.UsersRows[index].Blocked)}
+                            onChange={(event) => this.Block(event, parseInt(index), this.state.UsersRows[index].Email.split('@', 1), this.state.UsersRows[index].Blocked)}
                             color="primary"
                             name="checkedB"
                             inputProps={{ 'aria-label': 'primary checkbox' }}
@@ -385,13 +465,23 @@ class AdminPage1 extends Component {
         console.log('show content', this.state.ShowContentsTB)
     }
 
+    handleDays = (e) => {
+        if (e.target.value >= 0)
+            this.setState({ Days: e.target.value })
+        console.log(this.state.Days)
+    }
+
+
     render() {
         return (
             <div style={{ padding: '2%' }}>
                 <div style={{ width: '100%', display: 'flex', justifyContent: 'space-around' }}>
                     {/*<MDBBtn onClick={() => addNewUser('Ashton Cox')} color="success">Add new user</MDBBtn>*/}
-                    <MDBBtn style={{ width: '40%', height: '90%', margin: 'auto', backgroundColor: this.state.ShowUsersTB ? 'red' : 'green' }} onClick={() => this.setState({ ShowUsersTB: !this.state.ShowUsersTB })} color="success">{this.state.ShowUsersTB ? 'close' : 'show'} Users Details</MDBBtn>
-                    <MDBBtn style={{ width: '40%', height: '90%', margin: 'auto', backgroundColor: this.state.ShowContentsTB ? 'red' : 'green' }} onClick={() => this.setState({ ShowContentsTB: !this.state.ShowContentsTB })} color="success">{this.state.ShowContentsTB ? 'close' : 'show'} latest slides</MDBBtn>
+                    {/* <MDBBtn style={{ width: '40%', height: '90%', margin: 'auto', backgroundColor: this.state.ShowUsersTB ? 'red' : 'green' }} onClick={() => this.setState({ ShowUsersTB: !this.state.ShowUsersTB })} color="success">{this.state.ShowUsersTB ? 'close' : 'show'} Users Details</MDBBtn>
+                    <MDBBtn style={{ width: '40%', height: '90%', margin: 'auto', backgroundColor: this.state.ShowContentsTB ? 'red' : 'green' }} onClick={() => this.setState({ ShowContentsTB: !this.state.ShowContentsTB })} color="success">{this.state.ShowContentsTB ? 'close' : 'show'} latest slides</MDBBtn> */}
+                    <MDBBtn style={{ width: '40%', height: '90%', margin: 'auto', backgroundColor: this.state.ShowUsersTB ? 'red' : 'green' }} onClick={this.GetUsers } color="success">{this.state.ShowUsersTB ? 'close' : 'show'} Users Details</MDBBtn>
+                    <MDBBtn style={{ width: '40%', height: '90%', margin: 'auto', backgroundColor: this.state.ShowContentsTB ? 'red' : 'green' }} onClick={this.GetLatestContent } color="success">{this.state.ShowContentsTB ? 'close' : 'show'} latest slides</MDBBtn>
+                    <TextField style={{ width: '5%' }} variant="outlined" type="number" label={'Days'} min={1} onChange={this.handleDays} />
                 </div>
                 {this.state.ShowPopUp &&
                     <Popup
@@ -403,7 +493,7 @@ class AdminPage1 extends Component {
                     />}
                 {this.state.ShowUsersTB &&
                     <MDBDataTable
-                        theadColor="#b3d7ff"
+                        //theadColor="#b3d7ff"
                         paging={true}
                         //className='dataTable'
                         sortable
@@ -421,7 +511,7 @@ class AdminPage1 extends Component {
                     />}
                 {this.state.ShowContentsTB &&
                     <MDBDataTable
-                        theadColor="#b3d7ff"
+                        //theadColor="#b3d7ff"
                         paging={true}
                         //className='dataTable'
                         sortable

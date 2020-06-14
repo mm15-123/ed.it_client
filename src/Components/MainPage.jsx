@@ -126,7 +126,7 @@ const MainPage = () => {
                 <Route path='/Graphs/:UserName' component={Graphs} />
                 <Route path='/UserProfile/:UserName' component={UserProfile}/>
                 <Route path='/AdminPage1' component={AdminPage1}/>
-                <Route path='/UserTable/:UserName' component={UserTable}/>
+                <Route path='/UserTable/:UserName/:Name' component={UserTable}/>
             </Switch>
 
         </div>

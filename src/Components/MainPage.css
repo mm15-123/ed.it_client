@@ -355,14 +355,12 @@
 }
 td{
     position: relative;
-    background-color: #173f5f !important;
+    /*background-color: #173f5f !important;
    /*border-radius: 25px !important;*/
 }
 
 table td{
-    width: 60%;
-   
-   
+    width: 60%;  
 }
 
 .buttonDownload{

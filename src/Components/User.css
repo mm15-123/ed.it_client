@@ -6,8 +6,7 @@ width: 95%;
 td {
     direction: rtl;
     height: 100%;
-    width:100%;
-    /* background-color:#80421e6c; */
+    width:100%; 
 }
 
 .popup {
@@ -32,12 +31,15 @@ td {
     border-radius: 4%;
     background: white;
   }
-  .DetailsButtons Button{
+ .DetailsButtons Button{
     /*style={{display:'flex',justifyContent:'space-around', marginTop:'4px'}}*/
+    width: 100%;
     display:flex;
     justify-content: space-around;
     margin-top: 4px;
-  }
+   
+  } 
+  
 
   .comment-detail{
     display:flex;

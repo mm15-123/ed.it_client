@@ -223,9 +223,8 @@ const User = () => {
                     direction="row"
                     justify="flex-start"
                     alignItems="center" >
-                    <FaceSharpIcon />
-                    <Typography variant="h4" >דף פרופיל אישי</Typography>
-
+                    <FaceSharpIcon style={{ color: '#173f5f' }} />
+                    <Typography variant="h4" style={{ color: '#173f5f' }} >דף פרופיל אישי</Typography>
                 </Grid>
 
                 <Grid container item sm={12} >
@@ -234,47 +233,43 @@ const User = () => {
                             <Grid container item sm={5} name='Picture'>
                                 <Grid container direction='column' justify="flex-start" >
                                     <Paper className={classes.paper}>
-                                        <Typography component="h3" variant="h5" >{GlobalUser.Name}</Typography>
+                                        <Typography component="h3" variant="h5" style={{ color: '#173f5f', fontWeight: 'bold' }} >{GlobalUser.Name}</Typography>
                                         {/*<Typography component="h3" variant="h5" >החלף תמונה</Typography>*/}
 
                                         <Grid container direction="row">
-                                            <AddAPhotoIcon onClick={togglePopup} />
-                                            {ShowPopUp &&
-                                                <Popup
-                                                    text='תמונה חדשה '
-                                                    closePopup={togglePopup}
-                                                    ChangePic={ChangePic}
-                                                    KeepPath={KeepPath}
-                                                />}
+                                            <AddAPhotoIcon style={{ color: '#173f5f' }} onClick={togglePopup} />
                                             {<Avatar
                                                 className={classes.large}
                                                 src={UrlPath + GlobalUser.UrlPicture} />}
                                         </Grid>
                                     </Paper>
-                                    {<Button
-                                        variant="contained"
-                                        style={{ backgroundColor: '#173f5f8a' }}
-                                        onClick={changestate}>ערוך פרטים</Button>}
-                                    {<div className='DetailsButtons' >
-                                        <Link to={'/Graphs/' + GlobalUser.Email.split('@')[0]}>
-                                            <Button
-                                                variant="contained"
-                                                style={{ backgroundColor: '#173f5f8a' }}
-                                            >הצג גרפים</Button>
-                                        </Link>
-                                        <Link to={'/UserTable/' + GlobalUser.Email.split('@')[0]}>
+                                    {<div className='DetailsButtons'>
+                                        <Button
+                                            variant="contained"
+                                            style={{ backgroundColor: '#173f5f8a' }}
+                                            onClick={changestate}>ערוך פרטים</Button>
+                                        <Link to={`/UserTable/${GlobalUser.Email.split('@')[0]}/${GlobalUser.Name}`}>
                                             <Button
                                                 variant="contained"
                                                 style={{ backgroundColor: '#173f5f8a' }}
                                             >הצג טבלאות</Button>
                                         </Link>
-                                    </div>}
+                                    </div>
+                                    }
                                 </Grid>
                             </Grid>
+                            {ShowPopUp &&
+                                <Popup
+                                    text='תמונה חדשה '
+                                    closePopup={togglePopup}
+                                    ChangePic={ChangePic}
+                                    KeepPath={KeepPath}
+                                />}
                             <Grid container item sm={7}>
                                 <Grid container direction="column" justify="flex-start" item sm={12}>
-                                    <Typography variant="h5" >פרטים אישיים : </Typography>
+
                                     <Paper className={classes.paper}>
+                                        <Typography variant="h5" style={{ color: '#173f5f', fontWeight: 'bold', textDecoration: 'underline' }} >פרטים אישיים : </Typography>
                                         <Typography variant="h5" >מייל {GlobalUser.Email}</Typography>
                                         <Typography variant="h5" >מלמד ב{GlobalUser.SchoolType}</Typography>
                                         <Typography variant="h5" >מלמד מקצועות {GlobalUser.TeacherType}</Typography>
@@ -288,8 +283,9 @@ const User = () => {
 
                     <Grid container item sm={4} direction='column' name='AboutMe'>
 
-                        <Typography variant="h5" >קצת על עצמי :</Typography>
+
                         <Paper className={classes.paper}>
+                            <Typography variant="h5" style={{ color: '#173f5f', fontWeight: 'bold', textDecoration: 'underline' }} >קצת על עצמי :</Typography>
                             <Typography variant="h5" >{GlobalUser.AboutMe}</Typography>
                         </Paper>
                     </Grid>
