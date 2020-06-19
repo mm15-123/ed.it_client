@@ -113,7 +113,7 @@ const UploadContent = () => {//העלאת תוכן
     const [ChosenTag, setChosenTag] = useState('');
     const [ChoosenTagsList, setChoosenTagsList] = useState([])
     const [autoTags, setautoTags] = useState('');
-    const [ContentResult,setContentResult]=useState([])//מצגת הועלתה
+    const [ContentResult, setContentResult] = useState([])//מצגת הועלתה
 
     //משיכת רשימת תגיות בהעלאה של הקומפוננטה
     useEffect(() => {
@@ -157,7 +157,7 @@ const UploadContent = () => {//העלאת תוכן
 
     //בחירת תגיות עבור המצגת
     const PushToTagsList = (event, NewValue) => {
-        if(NewValue!=null){
+        if (NewValue != null) {
             console.log('NewValue ', NewValue)
             //if (ChoosenTagsList.length == 3) return;//אם 3 אז בסדר
             setChosenTag(NewValue.title)
@@ -166,7 +166,7 @@ const UploadContent = () => {//העלאת תוכן
             tagslist.push(chosen)
             setChoosenTagsList(tagslist)
             console.log(ChoosenTagsList)
-        }   
+        }
     }
 
     // מחיקת תגיות שנבחרו
@@ -181,13 +181,13 @@ const UploadContent = () => {//העלאת תוכן
         console.log("מעלה קובץ")
         var parts = e.target.files[0].name.split('.');
         console.log(parts[parts.length - 1])
-        if(parts[parts.length - 1]=='ppt' || parts[parts.length - 1]=='pptx'){
+        if (parts[parts.length - 1] == 'ppt' || parts[parts.length - 1] == 'pptx') {
             const fd = new FormData()
             fd.append('content', e.target.files[0])
             setPathFile(e.target.files[0])
             setFormData(fd)
         }
-        else{
+        else {
             swal({
                 title: 'שגיאת קובץ',
                 text: 'אנא העלה תוכן מסוג מצגת בלבד',
@@ -195,7 +195,7 @@ const UploadContent = () => {//העלאת תוכן
             })
             return;
         }
-        
+
     }
 
     //upload the form-העלאת התוכן לשרת
@@ -250,7 +250,7 @@ const UploadContent = () => {//העלאת תוכן
                 else {//שלב 2 העלאת התוכן עצמו
                     console.log(ContentName)
                     console.log(`${Server_Url}Content/UploadContent/${GlobalUser.Email.split("@", 1)}/${ContentName}`)
-                    const UPapiUrl=`${Server_Url}Content/UploadContent/${GlobalUser.Email.split("@", 1)}/${ContentName}`
+                    const UPapiUrl = `${Server_Url}Content/UploadContent/${GlobalUser.Email.split("@", 1)}/${ContentName}`
                     //const SUPapiUrl=`http://proj.ruppin.ac.il/igroup20/prod/api/Content/UploadContent/${GlobalUser.Email.split("@", 1)}/${ContentName}`
                     fetch(UPapiUrl, {
                         method: 'post',
@@ -262,23 +262,31 @@ const UploadContent = () => {//העלאת תוכן
                             'Content-Type': 'application/json; charset=UTF-8',
                         })
 
-                    }).then((result)=>{
-                        return result.json()        
-                    }).then(data => {
-                        console.log('data',data);
-                        const PagesSourceNewList = []
-                        for (var i = 1; i <= data.PagesNumber; i++) { // fill list with the presentasion slides as pictures
-                            PagesSourceNewList.push(UrlPathFiles + `${data.PathFile.split('.', 1)}_${i}.jpg`)
-                            console.log(UrlPathFiles + `${data.PathFile.split('.', 1)}_${i}.jpg`)
-                        }
-                        setContentResult(PagesSourceNewList)
                     }).then((result) => {
-                        console.log('Success:', result);
-                        swal({
-                            title: "Content successfully Uploaded!",
-                            icon: "success",
+                      
+                        const contID = '-1'
+                        fetch(`${Server_Url}/Content/GetContent/${contID}/${GlobalUser.Email.split("@", 1)}`, {
+                            method: 'get',
+                            headers: new Headers({
+                                'Content-Type': 'application/json; charset=UTF-8',
+                            })
+
+                        }) }).then(data => {
+                            console.log('data', data);
+                            const PagesSourceNewList = []
+                            for (var i = 1; i <= data.PagesNumber; i++) { // fill list with the presentasion slides as pictures
+                                PagesSourceNewList.push(UrlPathFiles + `${data.PathFile.split('.', 1)}_${i}.jpg`)
+                                console.log(UrlPathFiles + `${data.PathFile.split('.', 1)}_${i}.jpg`)
+                            }
+                            setContentResult(PagesSourceNewList)
+                        }).then((result) => {
+                            console.log('Success:', result);
+                            swal({
+                                title: "Content successfully Uploaded!",
+                                icon: "success",
+                            });
                         });
-                    });              
+                   
                 }
 
             }).catch((error) => {
@@ -290,59 +298,59 @@ const UploadContent = () => {//העלאת תוכן
         <div>
             <Container component="main" maxWidth="xl">
                 <CssBaseline />
-                <Grid  item sm={4} className='uploadContent' dir="rtl" >
-                <div className= {classes.paper}>
-                    <Avatar className={classes.avatar}>
-                        <AssignmentIcon />
-                    </Avatar>
-                    <Typography component="h1" variant="h5">
-                        העלאת תוכן
+                <Grid item sm={4} className='uploadContent' dir="rtl" >
+                    <div className={classes.paper}>
+                        <Avatar className={classes.avatar}>
+                            <AssignmentIcon />
+                        </Avatar>
+                        <Typography component="h1" variant="h5">
+                            העלאת תוכן
         </Typography>
-                    <form className={classes.form} onSubmit={prevent} >
-                        <Grid container spacing={2} >
-                            <Grid item xs={12} dir="rtl">
-                                <TextField
-                                    autoComplete="שם התוכן"
-                                    name="ContentName"
-                                    variant="outlined"
-                                    required
-                                    fullWidth
-                                    dir="rtl"
-                                    id="ContentName"
-                                    label="שם התוכן"
-                                    autoFocus                                   
-                                    onChange={(e) => setContentName(e.target.value)}
-                                />
-                            </Grid>
-                            <Grid item xs={12}>
-                                <TextField
-                                    autoComplete="תיאור התוכן"
-                                    name="ContentDescription"
-                                    variant="outlined"
-                                    required
-                                    fullWidth
-                                    id="ContentDescription"
-                                    label="תיאור התוכן"
-                                    autoFocus
-                                    dir="rtl"
-                                    onChange={(e) => setDescription(e.target.value)}
-                                />
-                            </Grid>
+                        <form className={classes.form} onSubmit={prevent} >
+                            <Grid container spacing={2} >
+                                <Grid item xs={12} dir="rtl">
+                                    <TextField
+                                        autoComplete="שם התוכן"
+                                        name="ContentName"
+                                        variant="outlined"
+                                        required
+                                        fullWidth
+                                        dir="rtl"
+                                        id="ContentName"
+                                        label="שם התוכן"
+                                        autoFocus
+                                        onChange={(e) => setContentName(e.target.value)}
+                                    />
+                                </Grid>
+                                <Grid item xs={12}>
+                                    <TextField
+                                        autoComplete="תיאור התוכן"
+                                        name="ContentDescription"
+                                        variant="outlined"
+                                        required
+                                        fullWidth
+                                        id="ContentDescription"
+                                        label="תיאור התוכן"
+                                        autoFocus
+                                        dir="rtl"
+                                        onChange={(e) => setDescription(e.target.value)}
+                                    />
+                                </Grid>
 
-                            {<Grid item xs={12} sm={6}>
-                                <Autocomplete
-                                    id="combo-box-demo"
-                                    options={autoTags}
-                                    fullWidth
-                                    getOptionLabel={(option) => option.title}
-                                    //style={{ width: 300 }}
-                                    dir="rtl"
-                                    renderInput={(params) => <TextField {...params} label="בחר תגיות" variant="outlined" />}
-                                    onChange={(event, NewValue) => PushToTagsList(event, NewValue)}
-                                />
-                            </Grid>}
+                                {<Grid item xs={12} sm={6}>
+                                    <Autocomplete
+                                        id="combo-box-demo"
+                                        options={autoTags}
+                                        fullWidth
+                                        getOptionLabel={(option) => option.title}
+                                        //style={{ width: 300 }}
+                                        dir="rtl"
+                                        renderInput={(params) => <TextField {...params} label="בחר תגיות" variant="outlined" />}
+                                        onChange={(event, NewValue) => PushToTagsList(event, NewValue)}
+                                    />
+                                </Grid>}
 
-                            {/*<Grid item xs={12} sm={6}>
+                                {/*<Grid item xs={12} sm={6}>
                                 <label style={{ fontWeight: 'bold', fontSize: '1.1rem' }}>Choose tags</label>
                                 <Select
                                     labelId="Tags"
@@ -357,58 +365,58 @@ const UploadContent = () => {//העלאת תוכן
                                     }
                                 </Select>
                                 </Grid>*/}
-                            <Grid item xs={12} sm={6}>
-                                <label style={{ fontWeight: 'bold', fontSize: '1.1rem' }}>תגיות</label>
-                                <h3
-                                    labelId="ChoosenTagsList"
-                                    id="ChoosenTagsList"
+                                <Grid item xs={12} sm={6}>
+                                    <label style={{ fontWeight: 'bold', fontSize: '1.1rem' }}>תגיות</label>
+                                    <h3
+                                        labelId="ChoosenTagsList"
+                                        id="ChoosenTagsList"
+                                        fullWidth
+                                        value={ChosenTag}
+                                        required
+                                        dir="rtl"
+                                    >
+                                        {
+                                            ChoosenTagsList.map((tag, index) =>
+                                                <div key={index} style={{ display: 'flex', justifyContent: 'space-between', direction: 'rtl', width: '100%' }} >
+                                                    {index + 1}.<MenuItem key={index} value={tag}>{tag}</MenuItem>
+                                                    <button style={{ backgroundColor: 'none', border: 'none' }} onClick={() => RemoveTag(tag)}>X</button>
+                                                </div>)
+                                        }
+                                    </h3>
+                                </Grid>
+                                <Grid item xs={12} sm={8}>
+                                    <label style={{ fontWeight: 'bold', fontSize: '1.3rem' }}>העלאת קובץ</label>
+                                    <Input
+                                        variant="outlined"
+                                        accept="*.pptx"
+                                        type='file'
+                                        required
+                                        fullWidth
+                                        id="ppt"
+                                        autoComplete="ppt"
+                                        onChange={UploadPpt}
+                                    />
+                                </Grid>
+
+
+
+                                <Button
+                                    type="submit"
                                     fullWidth
-                                    value={ChosenTag}
-                                    required
-                                    dir="rtl"
+                                    variant="contained"
+                                    color="primary"
+                                    className={classes.submit}
                                 >
-                                    {
-                                        ChoosenTagsList.map((tag, index) =>
-                                            <div key={index} style={{ display: 'flex', justifyContent: 'space-between', direction: 'rtl', width: '100%' }} >
-                                                {index + 1}.<MenuItem key={index} value={tag}>{tag}</MenuItem>
-                                                <button style={{ backgroundColor: 'none', border: 'none' }} onClick={() => RemoveTag(tag)}>X</button>
-                                            </div>)
-                                    }
-                                </h3>
-                            </Grid>
-                            <Grid item xs={12} sm={8}>
-                                <label style={{ fontWeight: 'bold', fontSize: '1.3rem' }}>העלאת קובץ</label>
-                                <Input
-                                    variant="outlined"
-                                    accept="*.pptx"
-                                    type='file'
-                                    required
-                                    fullWidth
-                                    id="ppt"
-                                    autoComplete="ppt"
-                                    onChange={UploadPpt}
-                                />
-                            </Grid>
-
-
-
-                            <Button
-                                type="submit"
-                                fullWidth
-                                variant="contained"
-                                color="primary"
-                                className={classes.submit}
-                            >
-                                העלה מצגת
+                                    העלה מצגת
           </Button>
-                        </Grid>
-                    </form>
-                </div>
+                            </Grid>
+                        </form>
+                    </div>
                 </Grid>
-                </Container>
-                <Grid  item sm={6} ><br></br><br></br><br></br><br></br><br></br>
-                 <div className='picContent2 border-button'>
-                <Slider
+            </Container>
+            <Grid item sm={6} ><br></br><br></br><br></br><br></br><br></br>
+                <div className='picContent2 border-button'>
+                    <Slider
                         {...settings}
                         className="sliderContent "
                     >
@@ -426,9 +434,9 @@ const UploadContent = () => {//העלאת תוכן
 
 
                     </Slider>
-                    </div>
-                 </Grid>
-            
+                </div>
+            </Grid>
+
         </div>
     );
 
