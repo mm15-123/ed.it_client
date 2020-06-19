@@ -161,7 +161,7 @@ const AdminPage = () => {
 
   useEffect(() => {
     async function GetUsers() {
-      const response = await fetch(`${Server_Url}User/GetUsers`)
+      const response = await fetch(`${Server_Url}User/GetUsers2`)
       const result = await response.json()
       console.log('from admin page', result)
       const NewRows = []
@@ -214,13 +214,15 @@ const AdminPage = () => {
   }, [])
 
   const deleteUser = (index) => {
-    console.log('hey1', UsersRows)
-    console.log('hey', index)
+    console.log('UsersRows - delete f', UsersRows)
+    console.log('index - delete f', index)
     //const index2 = UsersRows.findIndex((user) => user.index === index);
     //console.log(index2);
-    const newRows = UsersRows.filter((person) => person.index !== index);
-    console.log(newRows)
-    setUsersRows(newRows);
+    let newRows=[...UsersRows]
+    console.log('newRows - delete f befor',newRows)
+    newRows = newRows.filter((person) => person.index !== index);
+    console.log('newRows - delete f after',newRows)
+    //setUsersRows(newRows);
   }
   const editUser = (userName) => {
     alert(`edit user ${userName}`);
@@ -299,6 +301,7 @@ const AdminPage = () => {
           }}
         />
       }
+      {console.log('UsersRows',UsersRows)}
     </div>
   )
 

@@ -101,7 +101,7 @@ const SignIn = () => {
 
   const ConfirmUser = () => {
     // const apiUrl = `api/User/GetUserDetails/${UserName}/${Password}`
-    console.log('Server_Url',Server_Url)
+    console.log('Server_Url', Server_Url)
     const apiUrl = `${Server_Url}User/GetUserDetails`
     //const SapiUrl=`http://proj.ruppin.ac.il/igroup20/prod/api/User/GetUserDetails`
     const user = {
@@ -129,6 +129,13 @@ const SignIn = () => {
               שם משתמש ואו סיסמה לא נכונים
             </Alert></div>)
             console.log(Message)
+          }
+          else if (result.Blocked == 'True') {
+            setMessage(<div className={classes.root}>    <Alert variant="filled" severity="error">
+              משתמש חסום, פנה להנהלת האתר
+            </Alert></div>)
+            setRememberMe(false)
+            localStorage.setItem('rememberMe', false)
           }
           else {
             console.log("result is ", result)

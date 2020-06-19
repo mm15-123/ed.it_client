@@ -16,10 +16,10 @@ import Avatar from '@material-ui/core/Avatar';
 import User from './User';
 import Graphs from './Graphs';
 import UserProfile from './UserProfile';
-import AdminPage from './AdminPage';
-import axios from 'axios';
+import AdminPage1 from './AdminPage1';
 import UserTable from './UserTable';
 import Holiday from './Holiday'
+import SupervisorAccountIcon from '@material-ui/icons/SupervisorAccount';
 
 const useStyles = makeStyles((theme) => ({
     ProfileDiv: {
@@ -93,6 +93,12 @@ const MainPage = () => {
                 </ul>
                 <div className={classes.ProfileDiv} >
                     <div className='userNav' style={{ width: 'auto' }}>
+                        {GlobalUser !== null && (GlobalUser.Email=='hagay@gmail.com'||GlobalUser.Email=='shiftan92@gmail.com'||GlobalUser.Email=='almoglevi.levi5@gmail.com') &&
+                        <NavLink style={{marginLeft:'10px'}} to='/AdminPage1' > 
+                        <label>דף מנהל</label>
+                        <SupervisorAccountIcon/>
+                        </NavLink> 
+                        }
                         {GlobalUser !== null && <NavLink to='/User' >{GlobalUser.Name}</NavLink>} <span> | </span>
                         {GlobalUser !== null && <NavLink to='/' onClick={LogOut}>התנתק</NavLink>}
                     </div>
@@ -111,8 +117,8 @@ const MainPage = () => {
                 <Route path='/User' component={User} />
                 <Route path='/Graphs/:UserName' component={Graphs} />
                 <Route path='/UserProfile/:UserName' component={UserProfile}/>
-                <Route path='/AdminPage' component={AdminPage}/>
-                <Route path='/UserTable/:UserName' component={UserTable}/>
+                <Route path='/AdminPage1' component={AdminPage1}/>
+                <Route path='/UserTable/:UserName/:Name' component={UserTable}/>
                 <Route path='/Holiday' component={Holiday}/>
             </Switch>
 

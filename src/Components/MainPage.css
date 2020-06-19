@@ -348,15 +348,25 @@
     height: 110px;
 }
 
+
+.tr-border{
+    background-color: #173f5f !important ;
+    border-radius: 25px !important;
+    
+}
+td{
+    position: relative;
+    /*background-color: #173f5f !important;
+   /*border-radius: 25px !important;*/
+}
+
 table td{
-    width: 60%;
-   
-   
+    width: 60%;  
 }
 
 .buttonDownload{
-    /* background-color: #0068ff;
-    border-radius: 5%; */
+    background-color: #173f5f;
+    border-radius: 5%;
     width: 36%;
     margin-top: -8px;
     float: right;
