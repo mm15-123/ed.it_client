@@ -481,7 +481,7 @@ class AdminPage1 extends Component {
                     <MDBBtn style={{ width: '40%', height: '90%', margin: 'auto', backgroundColor: this.state.ShowContentsTB ? 'red' : 'green' }} onClick={() => this.setState({ ShowContentsTB: !this.state.ShowContentsTB })} color="success">{this.state.ShowContentsTB ? 'close' : 'show'} latest slides</MDBBtn> */}
                     <MDBBtn style={{ width: '40%', height: '90%', margin: 'auto', backgroundColor: this.state.ShowUsersTB ? 'red' : 'green' }} onClick={this.GetUsers } color="success">{this.state.ShowUsersTB ? 'close' : 'show'} Users Details</MDBBtn>
                     <MDBBtn style={{ width: '40%', height: '90%', margin: 'auto', backgroundColor: this.state.ShowContentsTB ? 'red' : 'green' }} onClick={this.GetLatestContent } color="success">{this.state.ShowContentsTB ? 'close' : 'show'} latest slides</MDBBtn>
-                    <TextField style={{ width: '5%' }} variant="outlined" type="number" label={'Days'} min={1} onChange={this.handleDays} />
+                    <TextField style={{ width: '10%' }} variant="outlined" type="number" label={'Days'} min={1} onChange={this.handleDays} />
                 </div>
                 {this.state.ShowPopUp &&
                     <Popup
