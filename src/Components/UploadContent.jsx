@@ -263,7 +263,7 @@ const UploadContent = () => {//העלאת תוכן
                         })
 
                     }).then((result) => {
-                      
+
                         const contID = '-1'
                         fetch(`${Server_Url}/Content/GetContent/${contID}/${GlobalUser.Email.split("@", 1)}`, {
                             method: 'get',
@@ -271,22 +271,31 @@ const UploadContent = () => {//העלאת תוכן
                                 'Content-Type': 'application/json; charset=UTF-8',
                             })
 
-                        }) }).then(data => {
-                            console.log('data', data);
-                            const PagesSourceNewList = []
-                            for (var i = 1; i <= data.PagesNumber; i++) { // fill list with the presentasion slides as pictures
-                                PagesSourceNewList.push(UrlPathFiles + `${data.PathFile.split('.', 1)}_${i}.jpg`)
-                                console.log(UrlPathFiles + `${data.PathFile.split('.', 1)}_${i}.jpg`)
-                            }
-                            setContentResult(PagesSourceNewList)
-                        }).then((result) => {
-                            console.log('Success:', result);
-                            swal({
-                                title: "Content successfully Uploaded!",
-                                icon: "success",
+                        })
+                            .then(res => {
+                                console.log('res=', res);
+                                console.log('res.status', res.status);
+                                console.log('res.ok', res.ok);
+                                return res.json()
+
+                            })
+                            .then(data => {
+                                console.log('data', data);
+                                //console.log('data json', data.json())
+                                const PagesSourceNewList = []
+                                for (var i = 1; i <= data.PagesNumber; i++) { // fill list with the presentasion slides as pictures
+                                    PagesSourceNewList.push(UrlPathFiles + `${data.PathFile.split('.', 1)}_${i}.jpg`)
+                                    console.log(UrlPathFiles + `${data.PathFile.split('.', 1)}_${i}.jpg`)
+                                }
+                                setContentResult(PagesSourceNewList)
+                            }).then((result) => {
+                                console.log('Success:', result);
+                                swal({
+                                    title: "Content successfully Uploaded!",
+                                    icon: "success",
+                                });
                             });
-                        });
-                   
+                    })
                 }
 
             }).catch((error) => {
