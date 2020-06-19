@@ -62,7 +62,7 @@ const useStyles = makeStyles(theme => ({
 
 const SignIn = () => {
   //const [GlobalUser, setGlobalUser,Server_Url]=useContext(GlobalContent)
-  const [GlobalUser, setGlobalUser, UrlPath, UrlPathFiles, Server_Url, GlobalContent, setGlobalContent, RememberMe, setRememberMe] = useContext(GlobalContext);  
+  const [GlobalUser, setGlobalUser, UrlPath, UrlPathFiles, Server_Url, GlobalContentHoliday, setGlobalContentHoliday, RememberMe, setRememberMe] = useContext(GlobalContext);  
   const classes = useStyles();
   const [Email, setEmail] = useState('')
   const [Password, setPassword] = useState('')

@@ -61,7 +61,7 @@ class Popup extends React.Component {
 
 const User = () => {
     const classes = useStyles();
-    const [GlobalUser, setGlobalUser, UrlPath, UrlPathFiles, Server_Url, GlobalContent, setGlobalContent, RememberMe, setRememberMe] = useContext(GlobalContext);
+    const [GlobalUser, setGlobalUser, UrlPath, UrlPathFiles, Server_Url, GlobalContentHoliday, setGlobalContentHoliday, RememberMe, setRememberMe] = useContext(GlobalContext);
     const [Edit, setEdit] = useState(false)
 
     const [Name, setName] = useState(GlobalUser.Name)
@@ -143,6 +143,7 @@ const User = () => {
 
 
     useEffect(() => {
+        console.log("Userrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrr")
         const BirthDate = GlobalUser.BDate.split(' ')[0].split('/')
         let DateFromat = ``
         if (Server_Url === `http://localhost:55263/api/`)

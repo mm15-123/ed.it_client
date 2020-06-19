@@ -147,7 +147,7 @@ const useStyles = makeStyles((theme) => ({
 const UserTable = (props) => {
     const [Days, setDays] = useState('')
     const classes = useStyles();
-    const [GlobalUser, setGlobalUser, UrlPath, UrlPathFiles, Server_Url, GlobalContent, setGlobalContent, RememberMe, setRememberMe] = useContext(GlobalContext);
+    const [GlobalUser, setGlobalUser, UrlPath, UrlPathFiles, Server_Url, GlobalContentHoliday, setGlobalContentHoliday, RememberMe, setRememberMe] = useContext(GlobalContext);
     const [ShowContentsTB, setShowContentsTB] = useState(false)
     const [ContentRows, setContentRows] = useState([
         {

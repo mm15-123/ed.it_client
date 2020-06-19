@@ -101,7 +101,7 @@ const Contentscolumns = [
 
 const AdminPage = () => {
   //את השורות תקבלו ממסד הנתונים
-  const [GlobalUser, setGlobalUser, UrlPath, UrlPathFiles, Server_Url, GlobalContent, setGlobalContent, RememberMe, setRememberMe] = useContext(GlobalContext);
+  const [GlobalUser, setGlobalUser, UrlPath, UrlPathFiles, Server_Url, GlobalContentHoliday, setGlobalContentHoliday, RememberMe, setRememberMe] = useContext(GlobalContext);
   const [ShowUsersTB, setShowUsersTB] = useState(false)
   const [ShowContentsTB, setShowContentsTB] = useState(false)
   const [ContentRows, setContentRows] = useState([

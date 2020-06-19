@@ -40,7 +40,7 @@ const UserProfile = (props) => {
     console.log(props)
     const classes = useStyles();
     const [UserName, setUserName] = useState(props.match.params.UserName)
-    const [GlobalUser, setGlobalUser, UrlPath, UrlPathFiles, Server_Url, GlobalContent, setGlobalContent, RememberMe, setRememberMe] = useContext(GlobalContext);
+    const [GlobalUser, setGlobalUser, UrlPath, UrlPathFiles, Server_Url, GlobalContentHoliday, setGlobalContentHoliday, RememberMe, setRememberMe] = useContext(GlobalContext);
     const [UserDetails, setUserDetails] = useState('')
     const [UserContent,setUserContent]=useState('')
 

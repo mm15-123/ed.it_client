@@ -98,7 +98,7 @@ const MenuProps = {
 const SignUp = () => {
     const classes = useStyles();
     //const [UserName, setUserName] = useState('')
-    const [GlobalUser, setGlobalUser, UrlPath, UrlPathFiles, Server_Url, GlobalContent, setGlobalContent, RememberMe, setRememberMe] = useContext(GlobalContext);
+    const [GlobalUser, setGlobalUser, UrlPath, UrlPathFiles, Server_Url, GlobalContentHoliday, setGlobalContentHoliday, RememberMe, setRememberMe] = useContext(GlobalContext);
     const [Name, setName] = useState('')
     const [Password, setPassword] = useState('')
     const [Email, setEmail] = useState('')

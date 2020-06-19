@@ -5,7 +5,7 @@ import { GlobalContext } from '../Context/GlobalContext';
 const Graphs = (props) => {
 
     console.log(props)
-    const [GlobalUser, setGlobalUser, UrlPath, UrlPathFiles, Server_Url, GlobalContent, setGlobalContent, RememberMe, setRememberMe] = useContext(GlobalContext);
+    const [GlobalUser, setGlobalUser, UrlPath, UrlPathFiles, Server_Url, GlobalContentHoliday, setGlobalContentHoliday, RememberMe, setRememberMe] = useContext(GlobalContext);
     const [Data, setData] = useState(
         {
             backgroundColor: '#ecf2f6',

@@ -101,7 +101,7 @@ margin-top:20%;
 
 const UploadContent = () => {//העלאת תוכן
     const classes = useStyles();
-    const [GlobalUser, setGlobalUser, UrlPath, UrlPathFiles, Server_Url, GlobalContent, setGlobalContent, RememberMe, setRememberMe] = useContext(GlobalContext);
+    const [GlobalUser, setGlobalUser, UrlPath, UrlPathFiles, Server_Url, GlobalContentHoliday, setGlobalContentHoliday, RememberMe, setRememberMe] = useContext(GlobalContext);
     const [ContentID, setContentID] = useState('')
     const [ContentName, setContentName] = useState('')
     const [PathFile, setPathFile] = useState('')
@@ -205,7 +205,7 @@ const UploadContent = () => {//העלאת תוכן
         if (ChoosenTagsList.length < 3) {
             swal({
                 title: 'missing details',
-                text: 'choose 3 tags a least pls.',
+                text: 'אנא בחר 3 תגיות לפחות',
                 icon: 'error'
             })
             return;
@@ -290,7 +290,7 @@ const UploadContent = () => {//העלאת תוכן
         <div>
             <Container component="main" maxWidth="xl">
                 <CssBaseline />
-                <Grid  item sm={4} className='uploadContent' >
+                <Grid  item sm={4} className='uploadContent' dir="rtl" >
                 <div className= {classes.paper}>
                     <Avatar className={classes.avatar}>
                         <AssignmentIcon />
@@ -300,7 +300,7 @@ const UploadContent = () => {//העלאת תוכן
         </Typography>
                     <form className={classes.form} onSubmit={prevent} >
                         <Grid container spacing={2} >
-                            <Grid item xs={12}>
+                            <Grid item xs={12} dir="rtl">
                                 <TextField
                                     autoComplete="שם התוכן"
                                     name="ContentName"
@@ -310,7 +310,7 @@ const UploadContent = () => {//העלאת תוכן
                                     dir="rtl"
                                     id="ContentName"
                                     label="שם התוכן"
-                                    autoFocus
+                                    autoFocus                                   
                                     onChange={(e) => setContentName(e.target.value)}
                                 />
                             </Grid>
@@ -324,6 +324,7 @@ const UploadContent = () => {//העלאת תוכן
                                     id="ContentDescription"
                                     label="תיאור התוכן"
                                     autoFocus
+                                    dir="rtl"
                                     onChange={(e) => setDescription(e.target.value)}
                                 />
                             </Grid>
@@ -335,6 +336,7 @@ const UploadContent = () => {//העלאת תוכן
                                     fullWidth
                                     getOptionLabel={(option) => option.title}
                                     //style={{ width: 300 }}
+                                    dir="rtl"
                                     renderInput={(params) => <TextField {...params} label="בחר תגיות" variant="outlined" />}
                                     onChange={(event, NewValue) => PushToTagsList(event, NewValue)}
                                 />
@@ -363,7 +365,7 @@ const UploadContent = () => {//העלאת תוכן
                                     fullWidth
                                     value={ChosenTag}
                                     required
-
+                                    dir="rtl"
                                 >
                                     {
                                         ChoosenTagsList.map((tag, index) =>
@@ -397,7 +399,7 @@ const UploadContent = () => {//העלאת תוכן
                                 color="primary"
                                 className={classes.submit}
                             >
-                                Upload
+                                העלה מצגת
           </Button>
                         </Grid>
                     </form>

@@ -45,7 +45,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const CardContentt = (props) => {
-  const [GlobalUser, setGlobalUser, UrlPath, UrlPathFiles, Server_Url, GlobalContent, setGlobalContent, RememberMe, setRememberMe] = useContext(GlobalContext);
+  const [GlobalUser, setGlobalUser, UrlPath, UrlPathFiles, Server_Url, GlobalContentHoliday, setGlobalContentHoliday, RememberMe, setRememberMe] = useContext(GlobalContext);
   const classes = useStyles();
   const [expanded, setExpanded] = React.useState(false);
   console.log('content props',props)
