@@ -43,7 +43,7 @@ const Content = (props) => {
     const [ContentToShow, setContentToShow] = useState('')
     const [PagesSourceList, setPagesSourceList] = useState([])
     const [Comments, setComments] = useState([])
-    const [GlobalUser, setGlobalUser, UrlPath, UrlPathFiles, Server_Url, GlobalContent, setGlobalContent, RememberMe, setRememberMe] = useContext(GlobalContext);
+    const [GlobalUser, setGlobalUser, UrlPath, UrlPathFiles, Server_Url, GlobalContentHoliday, setGlobalContentHoliday, RememberMe, setRememberMe] = useContext(GlobalContext);
     const [Tagslist, setTagslist] = useState('')
     const [URLserver, setURLserver] = useState(`http://proj.ruppin.ac.il/igroup20/prod/api/`)
     const [Like, setLike] = useState('')
@@ -264,9 +264,9 @@ const Content = (props) => {
                                     </div>
                                     <div>
                                         <div className='buttonDownload'>
-                                            <Button onClick={ButtonDownloadClicked}><SystemUpdateAltOutlinedIcon style={{ fontSize: '2.5rem' }} />
-                                            </Button>
-                                            <span>  הורדת המצגת</span>
+                                            <Button  className='DownloadIcon' onClick={ButtonDownloadClicked}><SystemUpdateAltOutlinedIcon style={{ fontSize: '2.5rem' }} />
+                                            </Button>    
+                                            <span style={{ fontSize: '1.0rem', fontWeight: 'bolder' }}>הורדה</span>                        
                                         </div>
                                         <div className='likeDiv'>
                                             <FavoriteOutlinedIcon className='like' onClick={LikedClicked} style={{ color: Like ? 'red' : 'black', fontSize: '2.5rem' }}></FavoriteOutlinedIcon>

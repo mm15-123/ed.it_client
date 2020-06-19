@@ -7,8 +7,10 @@ let UrlPictures = ''
 let UrlFiles = ''
 let UrlServer = ''
 if (local) {
-  //UrlPictures = process.env.PUBLIC_URL + `/uploadedPicturesPub/`//uploadedFilesPub למצגות
-  //UrlFiles = process.env.PUBLIC_URL + `/uploadedFilesPub/`
+  UrlPictures = process.env.PUBLIC_URL + `/uploadedPicturesPub/`//uploadedFilesPub למצגות
+  UrlFiles = process.env.PUBLIC_URL + `/uploadedFilesPub/`
+  UrlPictures = `http://proj.ruppin.ac.il/igroup20/prod/uploadedPictures/`;//לשים את הכתובת של השרת
+  UrlFiles = `http://proj.ruppin.ac.il/igroup20/prod/uploadedContents/`
   UrlServer = `http://localhost:55263/api/`
 }
 else {
@@ -42,7 +44,7 @@ export const GlobalContextProvider = props => {
   const [UrlPath, setUrlPath] = useState(UrlPictures)
   const [UrlPathFiles, setUrlPathFiles] = useState(UrlFiles)
   const [Server_Url, setServer_Url] = useState(UrlServer)
-  const [GlobalContent, setGlobalContent] = useState('')
+  const [GlobalContentHoliday, setGlobalContentHoliday] = useState(true)
   const [RememberMe, setRememberMe] = useState(rememberMe)
   console.log('process.env.PUBLIC_URL', process.env.PUBLIC_URL)
   console.log(GlobalUser)
@@ -52,7 +54,7 @@ export const GlobalContextProvider = props => {
 
 
   return (
-    <GlobalContext.Provider value={[GlobalUser, setGlobalUser, UrlPath, UrlPathFiles, Server_Url, GlobalContent, setGlobalContent, RememberMe, setRememberMe]}>
+    <GlobalContext.Provider value={[GlobalUser, setGlobalUser, UrlPath, UrlPathFiles, Server_Url, GlobalContentHoliday, setGlobalContentHoliday, RememberMe, setRememberMe]}>
       {props.children}
     </GlobalContext.Provider>
 

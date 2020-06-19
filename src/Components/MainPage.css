@@ -199,6 +199,7 @@
     float: right;
     position: relative;
     right: 7%;
+  
 }
 
 .btnComment{
@@ -367,14 +368,14 @@ table td{
     background-color: #173f5f;
     border-radius: 5%;
     width: 36%;
-    right: 5%;
+    margin-top: -8px;
     float: right;
     position: relative;
-    color: white;
-    font-weight: bold;
+    /* color: white;
+    font-weight: bold; */
 }
 
-.buttonDownload:hover{
+.DownloadIcon:hover{
     background-color: darkgray;
     cursor: pointer;
 }  
@@ -401,4 +402,35 @@ table td{
     border-width: 10px;
     border-style: groove ridge;
     border-color: dimgrey;
+  }
+
+  @import url('https://fonts.googleapis.com/css2?family=Suez+One&display=swap');
+
+.popupHoliday {
+    position: fixed;
+    width: 40%;
+    height: 80%;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    margin: auto;
+    background-color: white;
+    border: 13px groove #4585A4;
+    border-radius: 17px;
+    font-family: 'Suez One', serif;
+  }
+
+  .popupContetnt{
+    left:15%;
+    position: relative;
+  }
+
+  .buttomHoliday{
+    left: 4%;
+    position: relative;
+  }
+
+  .soonHoliday{
+    color: #0068ff
   }

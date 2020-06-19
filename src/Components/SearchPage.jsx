@@ -11,6 +11,7 @@ import axios from 'axios';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import Slider from 'react-slick';
 import CardContentt from './CardContent'
+import Holiday from './Holiday'
 import Radio from '@material-ui/core/Radio';
 import { withStyles } from '@material-ui/core/styles';
 import { green } from '@material-ui/core/colors';
@@ -33,7 +34,7 @@ var searchUser='';
 const SearchPage = () => {
     const [Contents, setContents] = useState(['first', 'second', 'third', 'forth', 'fifth', 'sixth', 'seventh', 'eight', 'nine', 'ten'])
     const [ShowPic, setShowPic] = useState(true)
-    const [GlobalUser, setGlobalUser, UrlPath, UrlPathFiles, Server_Url, GlobalContent, setGlobalContent, RememberMe, setRememberMe] = useContext(GlobalContext);
+    const [GlobalUser, setGlobalUser, UrlPath, UrlPathFiles, Server_Url, GlobalContentHoliday, setGlobalContentHoliday, RememberMe, setRememberMe] = useContext(GlobalContext);
     const [SuggestionContents, setSuggestionContents] = useState([])
     const [PopularContents, setPopularContents] = useState([])
     const [ResultsSearchContents, setResultsSearchContents] = useState([])
@@ -42,12 +43,13 @@ const SearchPage = () => {
     const [titleResultsSearch, settitleResultsSearch] = useState('');
     const [tagToSearch, settagToSearch] = useState('');
     const [selectedValueToSearch, setselectedValueToSearch] = useState('Tags');//חיפוש דיפולטיבי לפי תגיות
+    const [HolidayPopup,setHolidayPopup]=useState(false)
     //רשימות של חיפושים
     const [TagsArray,setTagsArray]=useState([])
     const [UserArray,setUserArray]=useState([])
     const [ContentArray,setContentArray]=useState([])
     const [MoveToUserProfile,setMoveToUserProfile]=useState(false)
-   
+
     //משיכת נתונים מהסרבר לגבי תכנים מוצעים 
 
     useEffect(() => {
@@ -113,8 +115,10 @@ const SearchPage = () => {
                 console.error('Error:', error);
             });
         requestTags();//מושך רשימת תגים עבור מנוע חיפוש
+        setHolidayPopup(true)
     }, [])
 
+   
     const requestTags = async () => {
         let GetUrl = `${Server_Url}User/GetTags`
         //const GetUrl = `http://localhost:55263/api/User/GetTags`
@@ -136,7 +140,7 @@ const SearchPage = () => {
         setautoComplete(TagsArr)//השלמה אוטומטית דיפולטיבית של תגיות
 
         //משיכת רשימת משתמשים 
-        GetUrl=`${Server_Url}User/GetUsers`
+        GetUrl=`${Server_Url}User/GetUsersForSearch`
         const response1 = await fetch(GetUrl)
         const result1 = await response1.json()
         const UserArr=[];
@@ -234,6 +238,7 @@ const SearchPage = () => {
         <div>
 
             <Container component="main" maxWidth="xl">
+                   
                 <div className='SearchFirstDiv'>
                     {console.log("s", SuggestionContents)}
                     <img src={logo} className="logo"></img>
@@ -333,8 +338,9 @@ const SearchPage = () => {
                     {console.log(PopularContents)}
                 </div>
 
-                    
+               
             </Container>
+                    { HolidayPopup && <Holiday/>} 
             {MoveToUserProfile}
         </div>
     )
