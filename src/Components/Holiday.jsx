@@ -96,8 +96,9 @@ const Holiday = () => {
                     {console.log("whyyyyyyyyyyy",HolidayContent[0])}
                     <br></br>
                     <h1 className='soonHoliday'>בקרוב יחול {HolidayToAlert[0]} </h1>
+                    <p className="soonHoliday">{HolidayContent[0].ContentName}</p>
                     <div className='popupContetnt'>
-                    <Slider
+                    {/* <Slider
                             spedd={500}
                             slidesToShow={1}
                             slidesToScrol={1}
@@ -107,16 +108,20 @@ const Holiday = () => {
                             rtl={false}
                             
     
-                        >
+                        > */}
                             {
                                 
                                     <div className='contentStyle'  >
-                                        <CardContentt content={HolidayContent[0].ContentName} content={HolidayContent[0].ContentName} Description={HolidayContent[0].Description} ID={HolidayContent[0].ContentID} PathFile={HolidayContent[0].PathFile} UserPic={HolidayContent[0].UserPic}></CardContentt>
+                                        {console.log('img url',`${UrlPathFiles}${HolidayContent[0].PathFile}`)}
+                                        <Link to={'/Content/' + HolidayContent[0].ContentID}>
+                                        <img className="hoverImg" src={`${UrlPathFiles}${HolidayContent[0].PathFile}`} alt="heyyyyyyyyy"/>
+                                        </Link>
+                                        {/* <CardContentt content={HolidayContent[0].ContentName} content={HolidayContent[0].ContentName} Description={HolidayContent[0].Description} ID={HolidayContent[0].ContentID} PathFile={HolidayContent[0].PathFile} UserPic={HolidayContent[0].UserPic}></CardContentt> */}
                                     </div>
                                 
     
                             }
-                        </Slider>
+                        {/* </Slider> */}
                         </div> 
                         <div className="buttomHoliday">
                          <span>לחץ על המצגת כדי לצפות</span><br></br>

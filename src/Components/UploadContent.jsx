@@ -424,17 +424,20 @@ const UploadContent = () => {//העלאת תוכן
                 </Grid>
             </Container>
             <Grid item sm={6} ><br></br><br></br><br></br><br></br><br></br>
-                <div className='picContent2 border-button'>
+                <div className='picContent2'>
+                    {   ContentResult.length==0 &&                   
+                    <img className="img-uploaded" src={`https://images.idgesg.net/images/article/2019/02/pcw-ppt-primary-100787681-large.jpg`} />   
+                    }
                     <Slider
                         {...settings}
-                        className="sliderContent "
+                    //className="sliderContent "
                     >
                         {
 
                             ContentResult.map((page, index) =>
                                 <div>
                                     <Page key={index}>
-                                        <img /*className="picContent border-button"*/ src={page} alt='loading' />
+                                        <img className="img-uploaded" src={page} alt='loading' />
                                         {console.log(page)}
                                     </Page>
 

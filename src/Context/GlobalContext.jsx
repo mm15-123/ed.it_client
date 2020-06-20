@@ -19,7 +19,7 @@ else {
   UrlServer = `http://proj.ruppin.ac.il/igroup20/prod/api/`
 }
  UrlPictures = `http://proj.ruppin.ac.il/igroup20/prod/uploadedPictures/`;//לשים את הכתובת של השרת
-//  UrlFiles = `http://proj.ruppin.ac.il/igroup20/prod/uploadedContents/`
+ UrlFiles = `http://proj.ruppin.ac.il/igroup20/prod/uploadedContents/`
 
 //שאיבת נתונים מלוקל סטורג
 //שאיבת משתמש אם קיים בלוקל סטורג
